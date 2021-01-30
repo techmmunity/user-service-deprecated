@@ -1,6 +1,6 @@
 import { FindManyOptions } from "typeorm";
 
-import { UserEntity, UserRepository } from "api/user/entities/user.entity";
+import { UserEntity, UserRepository } from "api/user/user.entity";
 
 interface IParams {
 	UserRepository: UserRepository;

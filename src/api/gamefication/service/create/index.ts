@@ -1,7 +1,7 @@
 import { businessValidation } from "./validation/business-validation";
 import { typeValidation } from "./validation/type-validation";
 
-import { GameficationRepository } from "api/gamefication/entities/gamefication.entity";
+import { GameficationRepository } from "api/gamefication/gamefication.entity";
 
 interface CreateGameficationParams {
 	GameficationRepository: GameficationRepository;

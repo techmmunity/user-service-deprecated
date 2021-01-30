@@ -29,10 +29,10 @@
 		"@typescript-eslint/camelcase": "off",
 		"prettier/prettier": "error",
 		"class-methods-use-this": "off",
+		"@typescript-eslint/no-explicit-any": ["error"],
 		"@typescript-eslint/interface-name-prefix": "off",
 		"@typescript-eslint/explicit-function-return-type": "off",
 		"@typescript-eslint/explicit-module-boundary-types": "off",
-		"@typescript-eslint/no-explicit-any": "off",
 		"@typescript-eslint/no-use-before-define": [
 			"error",
 			{ "functions": false }

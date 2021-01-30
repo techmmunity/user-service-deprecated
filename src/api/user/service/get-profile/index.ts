@@ -8,7 +8,7 @@ import { typeValidation } from "./validation/type-validation";
 
 import { GetProfileInput } from "api/user/inputs/get-profile.input";
 
-import { UserRepository } from "api/user/entities/user.entity";
+import { UserRepository } from "api/user/user.entity";
 
 interface GetProfileParams extends GetProfileInput {
 	UserRepository: UserRepository;

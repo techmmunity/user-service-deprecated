@@ -1,8 +1,8 @@
 import { GameficationService } from "api/gamefication/gamefication.service";
 
-import { SettingRepository } from "api/user/entities/setting.entity";
-import { TutorialRepository } from "api/user/entities/tutorial.entity";
-import { UserFindOne, UserRepository } from "api/user/entities/user.entity";
+import { SettingRepository } from "api/settings/setting.entity";
+import { TutorialRepository } from "api/tutorial/tutorial.entity";
+import { UserFindOne, UserRepository } from "api/user/user.entity";
 
 interface Params {
 	TutorialRepository: TutorialRepository;

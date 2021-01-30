@@ -1,8 +1,8 @@
 import { check } from "@techmmunity/easy-check";
 import { ObjectID } from "typeorm";
 
-import { UserRepository } from "api/user/entities/user.entity";
-import { VerifyAccountRepository } from "api/user/entities/verify-account.entity";
+import { UserRepository } from "api/user/user.entity";
+import { VerifyAccountRepository } from "api/verify-account/verify-account.entity";
 
 import { ErrorUtil } from "utils/error";
 

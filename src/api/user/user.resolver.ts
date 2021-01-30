@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args } from "@nestjs/graphql";
 
 import { UserService } from "api/user/user.service";
 
-import { UserEntity } from "api/user/entities/user.entity";
+import { UserEntity } from "api/user/user.entity";
 
 import { GetProfileReturn } from "./returns/get-profile.return";
 import { VerifyAccountReturn } from "./returns/verify-account.return";

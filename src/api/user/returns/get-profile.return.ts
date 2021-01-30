@@ -1,7 +1,7 @@
 import { ObjectType } from "@nestjs/graphql";
 
-import { UserEntity } from "../entities/user.entity";
-import { GameficationEntity } from "api/gamefication/entities/gamefication.entity";
+import { UserEntity } from "../user.entity";
+import { GameficationEntity } from "api/gamefication/gamefication.entity";
 
 @ObjectType()
 export class GetProfileReturn {

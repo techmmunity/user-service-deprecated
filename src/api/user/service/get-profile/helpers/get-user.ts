@@ -1,4 +1,4 @@
-import { UserRepository } from "api/user/entities/user.entity";
+import { UserRepository } from "api/user/user.entity";
 
 import { ErrorUtil } from "utils/error";
 

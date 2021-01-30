@@ -1,4 +1,4 @@
-import { GameficationRepository } from "api/gamefication/entities/gamefication.entity";
+import { GameficationRepository } from "api/gamefication/gamefication.entity";
 
 import { ErrorUtil } from "utils/error";
 

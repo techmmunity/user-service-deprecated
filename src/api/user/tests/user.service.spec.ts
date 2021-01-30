@@ -3,10 +3,10 @@ import { getRepositoryToken } from "@nestjs/typeorm";
 
 import { UserService } from "../user.service";
 
-import { UserEntity } from "../entities/user.entity";
-import { SettingEntity } from "api/user/entities/setting.entity";
-import { TutorialEntity } from "api/user/entities/tutorial.entity";
-import { UserTokenEntity } from "api/user/entities/user-token.entity";
+import { UserEntity } from "../user.entity";
+import { SettingEntity } from "api/settings/setting.entity";
+import { TutorialEntity } from "api/tutorial/tutorial.entity";
+import { UserTokenEntity } from "api/user-token/user-token.entity";
 
 import { TestUtil } from "utils/test";
 

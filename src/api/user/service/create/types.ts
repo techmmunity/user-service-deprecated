@@ -1,4 +1,4 @@
-import { HeadlineEnum } from "core/enums/heandline";
+import { HeadlineEnum } from "core/enums/headline";
 import { LanguageEnum } from "core/enums/language";
 import { StrategyEnum } from "core/enums/strategy";
 

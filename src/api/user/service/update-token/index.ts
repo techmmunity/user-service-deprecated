@@ -1,4 +1,4 @@
-import { UserTokenRepository } from "api/user/entities/user-token.entity";
+import { UserTokenRepository } from "api/user-token/user-token.entity";
 
 import { StrategyEnum } from "core/enums/strategy";
 

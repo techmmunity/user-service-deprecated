@@ -3,7 +3,7 @@ import { uuid } from "uuidv4";
 import { businessValidation } from "./validation/business-validation";
 import { typeValidation } from "./validation/type-validation";
 
-import { VerifyAccountRepository } from "api/user/entities/verify-account.entity";
+import { VerifyAccountRepository } from "api/verify-account/verify-account.entity";
 
 interface CreateConfirmationCodeParams {
 	VerifyAccountRepository: VerifyAccountRepository;

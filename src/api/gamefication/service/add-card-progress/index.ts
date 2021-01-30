@@ -4,8 +4,8 @@ import { updateCard } from "./helpers/update-card";
 
 import { typeValidation } from "./validation/type-validation";
 
-import { CardRepository } from "api/gamefication/entities/card.entity";
-import { GameficationRepository } from "api/gamefication/entities/gamefication.entity";
+import { CardRepository } from "api/card/card.entity";
+import { GameficationRepository } from "api/gamefication/gamefication.entity";
 
 import { ErrorUtil } from "utils/error";
 

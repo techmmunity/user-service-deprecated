@@ -15,13 +15,11 @@ const notAllowedSize = (size: number) =>
 export const getAvatar = ({
 	userId,
 	avatarHash,
-	size: sizeParam,
+	size = 500,
 }: GetAvatarParams) => {
-	if (sizeParam && notAllowedSize(sizeParam)) {
+	if (notAllowedSize(size)) {
 		ErrorUtil.internal("INVALID_AVATAR_SIZE");
 	}
-
-	const size = sizeParam || 500;
 
 	return `https://cdn.discordapp.com/avatars/${userId}/${avatarHash}.png?size=${size}`;
 };

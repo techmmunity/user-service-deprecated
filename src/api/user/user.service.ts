@@ -14,28 +14,25 @@ import { getProfile } from "./service/get-profile";
 import { updateToken, UpdateTokenParams } from "./service/update-token";
 import { verifyAccount } from "./service/verify-account";
 
-import {
-	SettingEntity,
-	SettingRepository,
-} from "api/user/entities/setting.entity";
+import { SettingEntity, SettingRepository } from "api/settings/setting.entity";
 import {
 	TutorialEntity,
 	TutorialRepository,
-} from "api/user/entities/tutorial.entity";
+} from "api/tutorial/tutorial.entity";
 import {
 	UserTokenEntity,
 	UserTokenRepository,
-} from "api/user/entities/user-token.entity";
+} from "api/user-token/user-token.entity";
 import {
 	UserFindMany,
 	UserFindOne,
 	UserEntity,
 	UserRepository,
-} from "api/user/entities/user.entity";
+} from "api/user/user.entity";
 import {
 	VerifyAccountEntity,
 	VerifyAccountRepository,
-} from "api/user/entities/verify-account.entity";
+} from "api/verify-account/verify-account.entity";
 
 @Injectable()
 export class UserService {

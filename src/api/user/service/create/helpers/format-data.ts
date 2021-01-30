@@ -1,4 +1,4 @@
-import { UserType } from "api/user/entities/user.entity";
+import { UserType } from "api/user/user.entity";
 
 import { TimeUtil } from "utils/time";
 

@@ -3,7 +3,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { GameficationService } from "./gamefication.service";
 
-import { GameficationEntity } from "./entities/gamefication.entity";
+import { GameficationEntity } from "./gamefication.entity";
 
 const Repositories = TypeOrmModule.forFeature([GameficationEntity]);
 

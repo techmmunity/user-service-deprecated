@@ -2,10 +2,8 @@ import { Module } from "@nestjs/common";
 
 import { DiscordService } from "./discord.service";
 
-import { DiscordResolver } from "./discord.resolver";
-
 @Module({
-	providers: [DiscordService, DiscordResolver],
+	providers: [DiscordService],
 	exports: [DiscordService],
 })
 export class DiscordModule {

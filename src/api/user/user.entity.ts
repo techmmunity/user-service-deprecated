@@ -12,7 +12,7 @@ import {
 	FindOneOptions,
 } from "typeorm";
 
-import { HeadlineEnum } from "core/enums/heandline";
+import { HeadlineEnum } from "core/enums/headline";
 import { LanguageEnum } from "core/enums/language";
 import { PermissionsEnum } from "core/enums/permissions";
 

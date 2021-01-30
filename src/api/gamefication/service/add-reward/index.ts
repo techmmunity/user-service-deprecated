@@ -9,12 +9,12 @@ import { typeValidation } from "./validation/type-validation";
 import {
 	GameficationLogRepository,
 	GameficationLogType,
-} from "api/gamefication/entities/gamefication-log.entity";
+} from "api/gamefication-log/gamefication-log.entity";
 import {
 	GameficationEntity,
 	GameficationRepository,
 	GameficationType,
-} from "api/gamefication/entities/gamefication.entity";
+} from "api/gamefication/gamefication.entity";
 
 import { GameficationLogEnum } from "types/enums/gamefication-log";
 

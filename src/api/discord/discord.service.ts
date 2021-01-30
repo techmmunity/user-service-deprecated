@@ -1,15 +1,14 @@
 import { Injectable } from "@nestjs/common";
 
-import {
-	addMemberToGuild,
-	AddMemberToGuildParams,
-} from "./service/add-member-to-guild";
 import { getAvatar, GetAvatarParams } from "./service/get-avatar";
 import { getTokenByCode } from "./service/get-token-by-code";
 import { getUserData } from "./service/get-user-data";
 import { getUserGuilds } from "./service/get-user-guilds";
-import { modifyMember, ModifyMemberParams } from "./service/modify-member";
 import { refreshToken } from "./service/refresh-token";
+import {
+	registerMemberOnDiscord,
+	RegisterMemberOnDiscordParams,
+} from "./service/register-member-on-discord";
 
 @Injectable()
 export class DiscordService {
@@ -33,11 +32,7 @@ export class DiscordService {
 		return refreshToken(refreshTokenParam);
 	}
 
-	public addMemberToGuild(params: AddMemberToGuildParams) {
-		return addMemberToGuild(params);
-	}
-
-	public modifyMember(params: ModifyMemberParams) {
-		return modifyMember(params);
+	public registerMemberOnDiscord(params: RegisterMemberOnDiscordParams) {
+		return registerMemberOnDiscord(params);
 	}
 }

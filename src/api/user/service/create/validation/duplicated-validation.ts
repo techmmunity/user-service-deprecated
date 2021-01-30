@@ -1,6 +1,6 @@
 import { FindOneOptions } from "typeorm";
 
-import { UserEntity, UserRepository } from "api/user/entities/user.entity";
+import { UserEntity, UserRepository } from "api/user/user.entity";
 
 import { ErrorUtil } from "utils/error";
 

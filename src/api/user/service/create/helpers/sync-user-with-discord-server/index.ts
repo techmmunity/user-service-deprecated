@@ -1,8 +1,6 @@
-import { getRoles } from "./get-roles";
-
 import { DiscordService } from "api/discord/discord.service";
 
-import { UserEntity } from "api/user/entities/user.entity";
+import { UserEntity } from "api/user/user.entity";
 
 import { LanguageEnum } from "core/enums/language";
 import { StrategyEnum } from "core/enums/strategy";
@@ -25,28 +23,13 @@ export const syncUserWithDiscordServer = async ({
 	if (strategy !== StrategyEnum.DISCORD) return;
 
 	const userId = user._id.toHexString();
-	const roles = getRoles({
-		language,
-		headline: user.headline,
-	});
 
-	let response = await DiscordService.addMemberToGuild({
+	await DiscordService.registerMemberOnDiscord({
 		userId,
-		defaultNick: user.username,
+		language,
+		nick: user.username,
 		accessToken: discordAccessToken,
-		defaultRoles: roles,
+		headline: user.headline,
+		birthday: user.birthday,
 	});
-
-	if (response.status === 204) {
-		response = await DiscordService.modifyMember({
-			userId,
-			defaultNick: user.username,
-			defaultRoles: roles,
-		});
-	}
-
-	if (![201, 204].includes(response.status)) {
-		// Erro ao sincronizar usuário
-		console.error(await response.json());
-	}
 };

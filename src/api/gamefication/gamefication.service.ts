@@ -9,7 +9,7 @@ import { findByUserId } from "./service/find-by-user-id";
 import {
 	GameficationEntity,
 	GameficationRepository,
-} from "./entities/gamefication.entity";
+} from "./gamefication.entity";
 
 @Injectable()
 export class GameficationService {

@@ -1,6 +1,6 @@
-import { SettingType } from "api/user/entities/setting.entity";
-import { TutorialType } from "api/user/entities/tutorial.entity";
-import { UserTokenType } from "api/user/entities/user-token.entity";
+import { SettingType } from "api/settings/setting.entity";
+import { TutorialType } from "api/tutorial/tutorial.entity";
+import { UserTokenType } from "api/user-token/user-token.entity";
 
 import { TimeUtil } from "utils/time";
 

@@ -3,7 +3,7 @@ import { check } from "@techmmunity/easy-check";
 import { ErrorUtil } from "utils/error";
 import { TimeUtil } from "utils/time";
 
-import { HeadlineEnum } from "core/enums/heandline";
+import { HeadlineEnum } from "core/enums/headline";
 import { LanguageEnum } from "core/enums/language";
 import { StrategyEnum } from "core/enums/strategy";
 

@@ -1,7 +1,7 @@
 import {
 	CardUser,
 	GameficationRepository,
-} from "api/gamefication/entities/gamefication.entity";
+} from "api/gamefication/gamefication.entity";
 
 import { Token } from "types/token";
 

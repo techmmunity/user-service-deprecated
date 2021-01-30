@@ -9,11 +9,11 @@ import { GameficationModule } from "api/gamefication/gamefication.module";
 
 import { UserResolver } from "./user.resolver";
 
-import { SettingEntity } from "api/user/entities/setting.entity";
-import { TutorialEntity } from "api/user/entities/tutorial.entity";
-import { UserTokenEntity } from "api/user/entities/user-token.entity";
-import { UserEntity } from "api/user/entities/user.entity";
-import { VerifyAccountEntity } from "api/user/entities/verify-account.entity";
+import { SettingEntity } from "api/settings/setting.entity";
+import { TutorialEntity } from "api/tutorial/tutorial.entity";
+import { UserTokenEntity } from "api/user-token/user-token.entity";
+import { UserEntity } from "api/user/user.entity";
+import { VerifyAccountEntity } from "api/verify-account/verify-account.entity";
 
 @Module({
 	imports: [

@@ -1,11 +1,8 @@
-import {
-	CardEntity,
-	CardRepository,
-} from "api/gamefication/entities/card.entity";
+import { CardEntity, CardRepository } from "api/card/card.entity";
 import {
 	CardUser,
 	GameficationRepository,
-} from "api/gamefication/entities/gamefication.entity";
+} from "api/gamefication/gamefication.entity";
 
 import { ErrorUtil } from "utils/error";
 
