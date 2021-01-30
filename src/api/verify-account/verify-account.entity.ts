@@ -24,10 +24,13 @@ export class VerifyAccountEntity extends BaseEntity {
 	public userId: string;
 
 	@Column()
-	public confirmationCode: string;
+	public verificationCode: string;
 
 	@CreateDateColumn()
 	public createdAt: Date;
+
+	@Column()
+	public verifiedAt: Date;
 }
 
 export type VerifyAccountType = EntityType<VerifyAccountEntity>;

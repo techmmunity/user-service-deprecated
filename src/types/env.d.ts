@@ -5,14 +5,9 @@ declare global {
 		interface ProcessEnv {
 			NODE_ENV: "dev" | "production" | "homolog" | "test";
 			PORT: string;
-			FRONT_URL: string;
 			MONGO_USER: string;
 			MONGO_PASSWORD: string;
 			MONGO_DB: string;
-			DISCORD_BOT_TOKEN: string;
-			DISCORD_CLIENT_ID: string;
-			DISCORD_CLIENT_SECRET: string;
-			DISCORD_REDIRECT_URL: string;
 		}
 	}
 }

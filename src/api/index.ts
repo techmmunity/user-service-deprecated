@@ -1,11 +1,19 @@
-import { CardModule } from "api/card/card.module";
-import { GameficationLogModule } from "api/gamefication-log/gamefication-log.module";
-import { GameficationModule } from "api/gamefication/gamefication.module";
+import { HeadlineModule } from "api/headline/headline.module";
+import { InterestsModule } from "api/interests/interests.module";
+import { SettingsModule } from "api/settings/settings.module";
+import { TutorialModule } from "api/tutorial/tutorial.module";
+import { UserInterestsModule } from "api/user-interests/user-interests.module";
+import { UserTokenModule } from "api/user-token/user-token.module";
 import { UserModule } from "api/user/user.module";
+import { VerifyAccountModule } from "api/verify-account/verify-account.module";
 
 export const Api = [
-	CardModule,
-	GameficationLogModule,
-	GameficationModule,
+	HeadlineModule,
+	InterestsModule,
+	SettingsModule,
+	TutorialModule,
+	UserInterestsModule,
+	UserTokenModule,
 	UserModule,
+	VerifyAccountModule,
 ];
