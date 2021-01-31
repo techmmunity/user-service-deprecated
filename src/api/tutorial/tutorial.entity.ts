@@ -1,4 +1,3 @@
-import { Field, ID, ObjectType } from "@nestjs/graphql";
 import {
 	BaseEntity,
 	Column,
@@ -12,10 +11,8 @@ import {
 
 import { EntityType } from "types/entity";
 
-@ObjectType()
 @Entity("tutorials")
 export class TutorialEntity extends BaseEntity {
-	@Field(() => ID)
 	@ObjectIdColumn()
 	public _id: ObjectID;
 

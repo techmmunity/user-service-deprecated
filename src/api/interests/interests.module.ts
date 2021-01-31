@@ -2,10 +2,11 @@ import { Module } from "@nestjs/common";
 
 import { InterestsService } from "./interests.service";
 
-import { InterestsResolver } from "./interests.resolver";
+import { InterestsController } from "./interests.controller";
 
 @Module({
-	providers: [InterestsService, InterestsResolver],
+	providers: [InterestsService],
+	controllers: [InterestsController],
 })
 export class InterestsModule {
 	//

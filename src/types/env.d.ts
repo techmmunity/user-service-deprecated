@@ -4,6 +4,7 @@ declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
 			NODE_ENV: "dev" | "production" | "homolog" | "test";
+			HOST: string;
 			PORT: string;
 			MONGO_USER: string;
 			MONGO_PASSWORD: string;

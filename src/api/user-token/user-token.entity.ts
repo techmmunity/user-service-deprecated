@@ -1,4 +1,3 @@
-import { Field, ID, ObjectType } from "@nestjs/graphql";
 import {
 	BaseEntity,
 	Column,
@@ -18,10 +17,8 @@ interface ITokenData {
 	expirationDate: Date;
 }
 
-@ObjectType()
 @Entity("user_tokens")
 export class UserTokenEntity extends BaseEntity {
-	@Field(() => ID)
 	@ObjectIdColumn()
 	public _id: ObjectID;
 

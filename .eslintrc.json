@@ -53,15 +53,13 @@
 					"/helpers/",
 					"/validation/",
 					"/module/",
-					"/resolver/",
-					"/input/",
+					"/controller/",
 					"/\\.entity/",
 					"/utils/",
 					"/enums/",
 					"/config/",
 					"/assets/",
-					"/types/",
-					"/return/"
+					"/types/"
 				],
 				"alphabetize": { "order": "asc", "ignoreCase": true }
 			}

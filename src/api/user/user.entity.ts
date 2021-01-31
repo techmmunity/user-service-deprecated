@@ -1,4 +1,3 @@
-import { Field, HideField, ID, ObjectType } from "@nestjs/graphql";
 import {
 	BaseEntity,
 	Column,
@@ -18,10 +17,8 @@ import { PermissionsEnum } from "core/enums/permissions";
 
 import { EntityType } from "types/entity";
 
-@ObjectType()
 @Entity({ name: "users" })
 export class UserEntity extends BaseEntity {
-	@Field(() => ID)
 	@ObjectIdColumn()
 	public _id: ObjectID;
 
@@ -40,7 +37,6 @@ export class UserEntity extends BaseEntity {
 	@Column()
 	public email: string;
 
-	@HideField()
 	@Column()
 	public password: string;
 
@@ -59,15 +55,12 @@ export class UserEntity extends BaseEntity {
 	@Column()
 	public verified: boolean;
 
-	@Field(() => HeadlineEnum)
 	@Column()
 	public headline?: HeadlineEnum;
 
-	@Field(() => [PermissionsEnum])
 	@Column()
 	public permissions: Array<PermissionsEnum>;
 
-	@Field(() => [LanguageEnum])
 	@Column()
 	public languages: Array<LanguageEnum>;
 

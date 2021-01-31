@@ -1,4 +1,3 @@
-import { Field, ID, ObjectType } from "@nestjs/graphql";
 import {
 	BaseEntity,
 	Column,
@@ -13,10 +12,8 @@ import {
 
 import { EntityType } from "types/entity";
 
-@ObjectType()
 @Entity("verify_account")
 export class VerifyAccountEntity extends BaseEntity {
-	@Field(() => ID)
 	@ObjectIdColumn()
 	public _id: ObjectID;
 
@@ -26,11 +23,11 @@ export class VerifyAccountEntity extends BaseEntity {
 	@Column()
 	public verificationCode: string;
 
+	@Column()
+	public verifiedAt?: Date;
+
 	@CreateDateColumn()
 	public createdAt: Date;
-
-	@Column()
-	public verifiedAt: Date;
 }
 
 export type VerifyAccountType = EntityType<VerifyAccountEntity>;

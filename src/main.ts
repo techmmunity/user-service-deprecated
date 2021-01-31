@@ -1,13 +1,19 @@
+import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
+
+import { MicroserviceOptions } from "config/microservice";
 
 import { AppModule } from "./app.module";
 
-const { PORT } = process.env;
-
 async function server() {
-	const app = await NestFactory.create(AppModule);
+	const logger = new Logger("Main");
 
-	await app.listen(PORT);
+	const app = await NestFactory.createMicroservice(
+		AppModule,
+		MicroserviceOptions,
+	);
+
+	app.listen(() => logger.log("Server Ready"));
 }
 
 server();

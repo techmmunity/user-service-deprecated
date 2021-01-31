@@ -1,11 +1,16 @@
 import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { VerifyAccountService } from "./verify-account.service";
 
-import { VerifyAccountResolver } from "./verify-account.resolver";
+import { VerifyAccountController } from "./verify-account.controller";
+
+import { VerifyAccountEntity } from "./verify-account.entity";
 
 @Module({
-	providers: [VerifyAccountService, VerifyAccountResolver],
+	imports: [TypeOrmModule.forFeature([VerifyAccountEntity])],
+	providers: [VerifyAccountService],
+	controllers: [VerifyAccountController],
 })
 export class VerifyAccountModule {
 	//

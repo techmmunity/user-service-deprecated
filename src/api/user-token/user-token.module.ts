@@ -1,11 +1,16 @@
 import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { UserTokenService } from "./user-token.service";
 
-import { UserTokenResolver } from "./user-token.resolver";
+import { UserTokenController } from "./user-token.controller";
+
+import { UserTokenEntity } from "./user-token.entity";
 
 @Module({
-	providers: [UserTokenService, UserTokenResolver],
+	imports: [TypeOrmModule.forFeature([UserTokenEntity])],
+	providers: [UserTokenService],
+	controllers: [UserTokenController],
 })
 export class UserTokenModule {
 	//
