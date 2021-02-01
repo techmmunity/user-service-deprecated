@@ -4,9 +4,6 @@ import { getRepositoryToken } from "@nestjs/typeorm";
 import { UserService } from "../user.service";
 
 import { UserEntity } from "../user.entity";
-import { SettingEntity } from "api/settings/setting.entity";
-import { TutorialEntity } from "api/tutorial/tutorial.entity";
-import { UserTokenEntity } from "api/user-token/user-token.entity";
 
 import { TestUtil } from "utils/test";
 
@@ -14,9 +11,6 @@ describe("UserService", () => {
 	let service: UserService;
 
 	const mockUserRepository = TestUtil.createRepositoryMock();
-	const mockSettingRepository = TestUtil.createRepositoryMock();
-	const mockTutorialRepository = TestUtil.createRepositoryMock();
-	const mockUserTokenRepository = TestUtil.createRepositoryMock();
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
@@ -25,18 +19,6 @@ describe("UserService", () => {
 				{
 					provide: getRepositoryToken(UserEntity),
 					useValue: mockUserRepository,
-				},
-				{
-					provide: getRepositoryToken(SettingEntity),
-					useValue: mockSettingRepository,
-				},
-				{
-					provide: getRepositoryToken(TutorialEntity),
-					useValue: mockTutorialRepository,
-				},
-				{
-					provide: getRepositoryToken(UserTokenEntity),
-					useValue: mockUserTokenRepository,
 				},
 			],
 		}).compile();

@@ -5,12 +5,13 @@ import { SettingsService } from "./settings.service";
 
 import { SettingsController } from "./settings.controller";
 
-import { SettingEntity } from "./setting.entity";
+import { SettingsEntity } from "./settings.entity";
 
 @Module({
-	imports: [TypeOrmModule.forFeature([SettingEntity])],
+	imports: [TypeOrmModule.forFeature([SettingsEntity])],
 	providers: [SettingsService],
 	controllers: [SettingsController],
+	exports: [SettingsService],
 })
 export class SettingsModule {
 	//

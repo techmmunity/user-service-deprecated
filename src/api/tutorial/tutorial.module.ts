@@ -11,6 +11,7 @@ import { TutorialEntity } from "./tutorial.entity";
 	imports: [TypeOrmModule.forFeature([TutorialEntity])],
 	providers: [TutorialService],
 	controllers: [TutorialController],
+	exports: [TutorialService],
 })
 export class TutorialModule {
 	//

@@ -1,4 +1,4 @@
 import { invalid } from "./helpers/invalid";
 
-export const invalidArray = (value: any, optional?: boolean) =>
+export const invalidArray = (value?: any, optional?: boolean) =>
 	invalid("array", value, optional);

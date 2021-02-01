@@ -2,15 +2,9 @@ import { ValidationUtil } from "utils/validation";
 
 import { ErrorUtil } from "utils/error";
 
-import { StrategyEnum } from "core/enums/strategy";
+import { BaseCreateUser } from "../types";
 
-import {
-	BaseCreateUser,
-	CreateUser,
-	CreateUserByDiscord,
-} from "api/user/service/create/types";
-
-const typeValidationBase = (params: BaseCreateUser) => {
+export const typeValidation = (params: BaseCreateUser) => {
 	if (ValidationUtil.invalidObject(params)) {
 		ErrorUtil.badRequest("INVALID_PARAMS");
 	}
@@ -49,40 +43,5 @@ const typeValidationBase = (params: BaseCreateUser) => {
 	}
 	if (ValidationUtil.invalidString(headline, true)) {
 		ErrorUtil.badRequest("INVALID_HEADLINE");
-	}
-};
-
-const typeValidationDiscord = ({
-	discordUserId,
-	discordAccessToken,
-	discordRefreshToken,
-	discordTokenExpirationDate,
-}: CreateUserByDiscord) => {
-	if (ValidationUtil.invalidString(discordUserId)) {
-		ErrorUtil.badRequest("INVALID_DISCORD_USER_ID");
-	}
-	if (ValidationUtil.invalidString(discordAccessToken)) {
-		ErrorUtil.badRequest("INVALID_DISCORD_ACCESS_TOKEN");
-	}
-	if (ValidationUtil.invalidString(discordRefreshToken)) {
-		ErrorUtil.badRequest("INVALID_DISCORD_REFRESH_TOKEN");
-	}
-	if (ValidationUtil.invalidNumber(discordTokenExpirationDate)) {
-		ErrorUtil.badRequest("INVALID_DISCORD_TOKEN_EXPIRES_IN");
-	}
-};
-
-export const typeValidation = (createUser: CreateUser) => {
-	typeValidationBase(createUser);
-
-	switch (createUser.strategy) {
-		case StrategyEnum.DISCORD:
-			typeValidationDiscord(createUser);
-			break;
-		case StrategyEnum.LOCAL:
-			// Doesn't need
-			break;
-		default:
-			ErrorUtil.internal("UNHANDLED_STRATEGY");
 	}
 };

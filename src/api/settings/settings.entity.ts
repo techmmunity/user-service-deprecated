@@ -15,7 +15,7 @@ import { ThemeEnum } from "core/enums/theme";
 import { EntityType } from "types/entity";
 
 @Entity("settings")
-export class SettingEntity extends BaseEntity {
+export class SettingsEntity extends BaseEntity {
 	@ObjectIdColumn()
 	public _id: ObjectID;
 
@@ -29,10 +29,10 @@ export class SettingEntity extends BaseEntity {
 	public language: LanguageEnum;
 }
 
-export type SettingType = EntityType<SettingEntity>;
+export type SettingsType = EntityType<SettingsEntity>;
 
-export type SettingRepository = Repository<SettingEntity>;
+export type SettingsRepository = Repository<SettingsEntity>;
 
-export type SettingFindMany = FindManyOptions<SettingEntity>;
+export type SettingsFindMany = FindManyOptions<SettingsEntity>;
 
-export type SettingFindOne = FindOneOptions<SettingEntity>;
+export type SettingsFindOne = FindOneOptions<SettingsEntity>;

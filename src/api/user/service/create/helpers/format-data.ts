@@ -1,18 +1,55 @@
+import * as bcrypt from "bcrypt";
+
 import { UserType } from "api/user/user.entity";
 
 import { TimeUtil } from "utils/time";
 
+import { LanguageEnum } from "core/enums/language";
 import { PermissionsEnum } from "core/enums/permissions";
 
-import { CreateUser } from "api/user/service/create/types";
+import { BaseCreateUser } from "../types";
 
-export const formatData = async (params: CreateUser) => {
-	const { email, username, avatar, headline, birthday, fullName } = params;
+const getNameAndSurnames = (fullName: string) => {
+	const [name, ...surnamesArray] = fullName.split(" ");
 
-	const user: Partial<UserType> = {
+	return {
+		name,
+		surnames: surnamesArray.join(" "),
+	};
+};
+
+const getPasswordEncrypted = (password: string) =>
+	bcrypt.hashSync(password, 10);
+
+const getLanguages = (suggestedLanguage?: LanguageEnum) => {
+	if (suggestedLanguage) {
+		return [suggestedLanguage];
+	}
+
+	return [];
+};
+
+export const formatData = ({
+	email,
+	username,
+	avatar,
+	headline,
+	birthday,
+	fullName,
+	password,
+	suggestedLanguage,
+}: BaseCreateUser) => {
+	const { name, surnames } = getNameAndSurnames(fullName);
+
+	const user: UserType = {
+		name,
+		surnames,
 		email,
 		username,
 		verified: false,
+		birthday: TimeUtil.unformat(birthday),
+		password: getPasswordEncrypted(password),
+		languages: getLanguages(suggestedLanguage),
 		permissions: [
 			PermissionsEnum.ARTICLE_LIKE,
 			PermissionsEnum.ARTICLE_COMMENT_CREATE,
@@ -38,19 +75,6 @@ export const formatData = async (params: CreateUser) => {
 	}
 	if (headline) {
 		user.headline = headline;
-	}
-	if (birthday) {
-		user.birthday = TimeUtil.unformat(birthday);
-	}
-
-	switch (params.strategy) {
-		case "DISCORD":
-			const [name, ...surnames] = fullName.split(" ");
-
-			user.name = name;
-			user.surnames = surnames.join(" ");
-			user.discordUserId = params.discordUserId;
-			user.verified = true;
 	}
 
 	return user as UserType;

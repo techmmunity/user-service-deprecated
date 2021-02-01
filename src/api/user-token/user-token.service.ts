@@ -1,11 +1,16 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { create } from "api/user-token/service/create";
 import {
 	updateToken,
 	UpdateTokenParams,
 } from "api/user-token/service/update-token";
 
-import { UserTokenEntity, UserTokenRepository } from "./user-token.entity";
+import {
+	UserTokenEntity,
+	UserTokenRepository,
+	UserTokenType,
+} from "./user-token.entity";
 
 @Injectable()
 export class UserTokenService {
@@ -14,6 +19,13 @@ export class UserTokenService {
 		private readonly UserTokenRepository: UserTokenRepository,
 	) {
 		//
+	}
+
+	public create(data: UserTokenType) {
+		return create({
+			UserTokenRepository: this.UserTokenRepository,
+			...data,
+		});
 	}
 
 	public updateToken(data: Omit<UpdateTokenParams, "UserTokenRepository">) {

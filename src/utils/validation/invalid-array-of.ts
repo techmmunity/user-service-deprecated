@@ -1,8 +1,8 @@
 import { AllowedTypes, invalid } from "./helpers/invalid";
 
 export const invalidArrayOf = (
-	value: Array<any>,
 	type: AllowedTypes,
+	value?: Array<any>,
 	optional = false,
 	limit = 100, // Limit, to prevent arrays with infinite items
 ) => {
@@ -16,9 +16,13 @@ export const invalidArrayOf = (
 
 	if (!isArray) return true;
 
-	if (value.length > limit) return true;
+	const valueWithCorrectType = value as Array<any>;
 
-	const anyItemIsIncorrectValue = value.some((val) => invalid(type, val));
+	if (valueWithCorrectType.length > limit) return true;
+
+	const anyItemIsIncorrectValue = valueWithCorrectType.some(val =>
+		invalid(type, val),
+	);
 
 	if (anyItemIsIncorrectValue) return true;
 

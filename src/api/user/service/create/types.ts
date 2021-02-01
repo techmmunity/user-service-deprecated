@@ -1,9 +1,13 @@
+import { SettingsService } from "api/settings/settings.service";
+import { TutorialService } from "api/tutorial/tutorial.service";
+import { UserTokenService } from "api/user-token/user-token.service";
+
+import { UserRepository } from "api/user/user.entity";
+
 import { HeadlineEnum } from "core/enums/headline";
 import { LanguageEnum } from "core/enums/language";
-import { StrategyEnum } from "core/enums/strategy";
 
 export interface BaseCreateUser {
-	strategy: StrategyEnum;
 	email: string;
 	username: string;
 	fullName: string;
@@ -14,16 +18,9 @@ export interface BaseCreateUser {
 	avatar?: string;
 }
 
-export interface CreateUserByDiscord extends BaseCreateUser {
-	strategy: StrategyEnum.DISCORD;
-	discordUserId: string;
-	discordAccessToken: string;
-	discordRefreshToken: string;
-	discordTokenExpirationDate: number;
+export interface BaseInjectables {
+	UserRepository: UserRepository;
+	SettingsService: SettingsService;
+	TutorialService: TutorialService;
+	UserTokenService: UserTokenService;
 }
-
-export interface CreateUserByLocal extends BaseCreateUser {
-	strategy: StrategyEnum.LOCAL;
-}
-
-export type CreateUser = CreateUserByDiscord | CreateUserByLocal;

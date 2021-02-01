@@ -19,26 +19,26 @@ export class TutorialEntity extends BaseEntity {
 	@Column()
 	public userId: string;
 
-	@Column()
-	public mentoringListPage?: boolean;
+	@Column() // True = Should Show Tutorial / False = User Already See This Tutorial Before
+	public mentoringListPage: boolean;
 
-	@Column()
-	public articlesListPage?: boolean;
+	@Column() // True = Should Show Tutorial / False = User Already See This Tutorial Before
+	public articlesListPage: boolean;
 
-	@Column()
-	public coursesListPage?: boolean;
+	@Column() // True = Should Show Tutorial / False = User Already See This Tutorial Before
+	public coursesListPage: boolean;
 
-	@Column()
-	public forumListPage?: boolean;
+	@Column() // True = Should Show Tutorial / False = User Already See This Tutorial Before
+	public forumListPage: boolean;
 
-	@Column()
-	public jobsListPage?: boolean;
+	@Column() // True = Should Show Tutorial / False = User Already See This Tutorial Before
+	public jobsListPage: boolean;
 
-	@Column()
-	public projectsListPage?: boolean;
+	@Column() // True = Should Show Tutorial / False = User Already See This Tutorial Before
+	public projectsListPage: boolean;
 
-	@Column()
-	public storeListPage?: boolean;
+	@Column() // True = Should Show Tutorial / False = User Already See This Tutorial Before
+	public storeListPage: boolean;
 }
 
 export type TutorialType = EntityType<TutorialEntity>;

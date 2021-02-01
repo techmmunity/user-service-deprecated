@@ -11,7 +11,7 @@ import {
 
 import { EntityType } from "types/entity";
 
-interface ITokenData {
+export interface ITokenData {
 	accessToken: string;
 	refreshToken: string;
 	expirationDate: Date;

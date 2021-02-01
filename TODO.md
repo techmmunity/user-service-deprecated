@@ -12,3 +12,5 @@
 - [ ] Alterar tudo que usa o repositorio para usar o serviço
 - [ ] Remover tudo que for de gameficação do repo
 - [ ] Remover tudo que for do discord do repo
+- [ ] Adicionar enum de tipo interesses "Lib" | "Framework" | "Language"
+- [ ] Remover o Enum de Strategy

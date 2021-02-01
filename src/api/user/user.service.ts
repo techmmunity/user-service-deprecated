@@ -1,68 +1,47 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 
-import { create } from "./service/create";
-import { CreateUser } from "./service/create/types";
-import { findBy } from "./service/find/find-by";
-import { findOneBy } from "./service/find/find-one-by";
+import { SettingsService } from "api/settings/settings.service";
+import { TutorialService } from "api/tutorial/tutorial.service";
+import { UserTokenService } from "api/user-token/user-token.service";
 
-import { SettingEntity, SettingRepository } from "api/settings/setting.entity";
-import {
-	TutorialEntity,
-	TutorialRepository,
-} from "api/tutorial/tutorial.entity";
-import {
-	UserFindMany,
-	UserFindOne,
-	UserEntity,
-	UserRepository,
-} from "api/user/user.entity";
+import { createDiscord, CreateDiscordParams } from "./service/create/discord";
+import { createLocal, CreateLocalParams } from "./service/create/local";
+
+import { UserEntity, UserRepository } from "api/user/user.entity";
 
 @Injectable()
 export class UserService {
 	public constructor(
-		@InjectRepository(SettingEntity)
-		private readonly SettingRepository: SettingRepository,
-		@InjectRepository(TutorialEntity)
-		private readonly TutorialRepository: TutorialRepository,
+		private readonly SettingsService: SettingsService,
+		private readonly TutorialService: TutorialService,
+		private readonly UserTokenService: UserTokenService,
 		@InjectRepository(UserEntity)
 		private readonly UserRepository: UserRepository,
 	) {
 		//
 	}
 
-	private get repositories() {
+	private get repositoriesAndServices() {
 		return {
-			SettingRepository: this.SettingRepository,
-			TutorialRepository: this.TutorialRepository,
+			TutorialService: this.TutorialService,
+			SettingsService: this.SettingsService,
+			UserTokenService: this.UserTokenService,
 			UserRepository: this.UserRepository,
 		};
 	}
 
-	/**
-	 *
-	 * User
-	 *
-	 */
-
-	public create(params: CreateUser) {
-		return create({
+	public createLocal(params: CreateLocalParams) {
+		return createLocal({
+			...this.repositoriesAndServices,
 			...params,
-			...this.repositories,
 		});
 	}
 
-	public findBy(options?: UserFindMany) {
-		return findBy({
-			options,
-			...this.repositories,
-		});
-	}
-
-	public findOneBy(options?: UserFindOne) {
-		return findOneBy({
-			options,
-			...this.repositories,
+	public createDiscord(params: CreateDiscordParams) {
+		return createDiscord({
+			...this.repositoriesAndServices,
+			...params,
 		});
 	}
 }
