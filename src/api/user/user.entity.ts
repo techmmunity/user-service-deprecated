@@ -12,6 +12,7 @@ import {
 } from "typeorm";
 
 import { HeadlineEnum } from "core/enums/headline";
+import { InterestEnum } from "core/enums/interests";
 import { LanguageEnum } from "core/enums/language";
 import { PermissionsEnum } from "core/enums/permissions";
 
@@ -56,13 +57,16 @@ export class UserEntity extends BaseEntity {
 	public verified: boolean;
 
 	@Column()
-	public headline?: HeadlineEnum;
+	public headline: HeadlineEnum;
 
 	@Column()
 	public permissions: Array<PermissionsEnum>;
 
 	@Column()
 	public languages: Array<LanguageEnum>;
+
+	@Column()
+	public interests: Array<InterestEnum>;
 
 	@Column()
 	public birthday: Date;

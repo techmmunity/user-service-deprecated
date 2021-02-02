@@ -5,7 +5,8 @@ import { UserType } from "api/user/user.entity";
 import { TimeUtil } from "utils/time";
 
 import { LanguageEnum } from "core/enums/language";
-import { PermissionsEnum } from "core/enums/permissions";
+
+import { DEFAULT_USER_PERMISSIONS } from "config/default-user-permissions";
 
 import { BaseCreateUser } from "../types";
 
@@ -47,34 +48,16 @@ export const formatData = ({
 		email,
 		username,
 		verified: false,
+		headline: headline,
 		birthday: TimeUtil.unformat(birthday),
 		password: getPasswordEncrypted(password),
 		languages: getLanguages(suggestedLanguage),
-		permissions: [
-			PermissionsEnum.ARTICLE_LIKE,
-			PermissionsEnum.ARTICLE_COMMENT_CREATE,
-			PermissionsEnum.ARTICLE_COMMENT_UPDATE_OWN,
-			PermissionsEnum.ARTICLE_COMMENT_DELETE_OWN,
-			PermissionsEnum.COURSE_RATE,
-			PermissionsEnum.COURSE_COMMENT_CREATE,
-			PermissionsEnum.COURSE_COMMENT_UPDATE_OWN,
-			PermissionsEnum.COURSE_COMMENT_DELETE_OWN,
-			PermissionsEnum.FORUM_QUESTION_LIKE,
-			PermissionsEnum.FORUM_QUESTION_CREATE,
-			PermissionsEnum.FORUM_QUESTION_UPDATE_OWN,
-			PermissionsEnum.FORUM_QUESTION_DELETE_OWN,
-			PermissionsEnum.FORUM_ANSWER_LIKE,
-			PermissionsEnum.CERTIFICATION_BUY,
-			PermissionsEnum.PROJECT_APPLY,
-			PermissionsEnum.MENTOR_ADD,
-		],
+		permissions: DEFAULT_USER_PERMISSIONS,
+		interests: [],
 	};
 
 	if (avatar) {
 		user.avatar = avatar;
-	}
-	if (headline) {
-		user.headline = headline;
 	}
 
 	return user as UserType;

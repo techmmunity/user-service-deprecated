@@ -24,13 +24,13 @@ export const businessValidation = ({
 	if (birthday && !check.isDateYMD(birthday)) {
 		ErrorUtil.badRequest("INVALID_BIRTHDAY");
 	}
+	if (!HeadlineEnum[headline]) {
+		ErrorUtil.badRequest("INVALID_HEADLINE");
+	}
 	if (avatar && !check.isUrl(avatar)) {
 		ErrorUtil.badRequest("INVALID_AVATAR");
 	}
 	if (suggestedLanguage && !LanguageEnum[suggestedLanguage]) {
 		ErrorUtil.badRequest("INVALID_LANGUAGE");
-	}
-	if (headline && !HeadlineEnum[headline]) {
-		ErrorUtil.badRequest("INVALID_HEADLINE");
 	}
 };

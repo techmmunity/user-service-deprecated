@@ -35,13 +35,13 @@ export const typeValidation = (params: BaseCreateUser) => {
 	if (ValidationUtil.invalidString(fullName)) {
 		ErrorUtil.badRequest("INVALID_FULL_NAME");
 	}
+	if (ValidationUtil.invalidString(headline)) {
+		ErrorUtil.badRequest("INVALID_HEADLINE");
+	}
 	if (ValidationUtil.invalidString(avatar, true)) {
 		ErrorUtil.badRequest("INVALID_AVATAR");
 	}
 	if (ValidationUtil.invalidString(suggestedLanguage, true)) {
 		ErrorUtil.badRequest("INVALID_SEGGESTED_LANGUAGE");
-	}
-	if (ValidationUtil.invalidString(headline, true)) {
-		ErrorUtil.badRequest("INVALID_HEADLINE");
 	}
 };

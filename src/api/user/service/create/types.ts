@@ -13,8 +13,8 @@ export interface BaseCreateUser {
 	fullName: string;
 	birthday: string;
 	password: string;
+	headline: HeadlineEnum;
 	suggestedLanguage?: LanguageEnum;
-	headline?: HeadlineEnum;
 	avatar?: string;
 }
 
