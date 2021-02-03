@@ -11,6 +11,7 @@ import { VerifyAccountEntity } from "./verify-account.entity";
 	imports: [TypeOrmModule.forFeature([VerifyAccountEntity])],
 	providers: [VerifyAccountService],
 	controllers: [VerifyAccountController],
+	exports: [VerifyAccountService],
 })
 export class VerifyAccountModule {
 	//

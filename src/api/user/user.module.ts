@@ -6,6 +6,7 @@ import { UserService } from "./user.service";
 import { SettingsModule } from "api/settings/settings.module";
 import { TutorialModule } from "api/tutorial/tutorial.module";
 import { UserTokenModule } from "api/user-token/user-token.module";
+import { VerifyAccountModule } from "api/verify-account/verify-account.module";
 
 import { UserController } from "./user.controller";
 
@@ -17,8 +18,15 @@ import { UserEntity } from "api/user/user.entity";
 		SettingsModule,
 		TutorialModule,
 		UserTokenModule,
+		VerifyAccountModule,
 	],
-	providers: [UserService, SettingsModule, TutorialModule, UserTokenModule],
+	providers: [
+		UserService,
+		SettingsModule,
+		TutorialModule,
+		UserTokenModule,
+		VerifyAccountModule,
+	],
 	controllers: [UserController],
 })
 export class UserModule {
