@@ -17,8 +17,8 @@
 		"strictPropertyInitialization": false,
 		"allowSyntheticDefaultImports": true,
 		"sourceMap": true,
-		"baseUrl": "src",
-		"incremental": true
+		"incremental": true,
+		"baseUrl": "src"
 	},
 	"include": ["src/**/*.ts"]
 }

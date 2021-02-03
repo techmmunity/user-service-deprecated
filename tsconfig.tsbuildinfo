@@ -2727,13 +2727,13 @@
         "affectsGlobalScope": false
       },
       "./src/api/user-token/service/update-token/index.ts": {
-        "version": "2472ecbc960cb4b5dfa45bd1de6d3aec4cd86e942ec20f8252dd046a2fd2f06e",
-        "signature": "0c195e49430dfb7901e362178243ac6c9e73d763ad4c4314d373507bd89b0cf7",
+        "version": "1dc19033f58ce85fe2cbac5aa3cafe002f97ce5f02374cce410550c8e7143cfe",
+        "signature": "0f5ed54f0e447773d61cc41fc051b0327984fb7b2a734a11af94fb4fe138e4f1",
         "affectsGlobalScope": false
       },
       "./src/api/user-token/user-token.service.ts": {
         "version": "a93950d2b1a7ea82e85e49c9dba516dd2fd298b07c9e9f77da3b2d915934cb5b",
-        "signature": "2fe434bbf347adcdf2018be2173800645ea98b8c1d2cc87f3ad0024f987285ba",
+        "signature": "e5f6b7e5e650cea83b9486e5d6bc949ecd4dafd70f368f747328f020f429ee63",
         "affectsGlobalScope": false
       },
       "./src/api/user-token/user-token.controller.ts": {
@@ -2748,7 +2748,7 @@
       },
       "./src/api/user/service/create/helpers/create-relations.ts": {
         "version": "923d96064965f16ccedbf4b73e548de3740f33faba061c02213a5b051dc7bf79",
-        "signature": "bbddd435b1e13b124bde433265818fae3e59fb349b3caca38a5392ad8e749728",
+        "signature": "090617ad1799c6769af0eaa0fb292a0f596570ebab481f0c089dcae3246b4eeb",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/bcrypt/index.d.ts": {
@@ -2823,7 +2823,7 @@
       },
       "./src/api/user/service/create/helpers/format-data.ts": {
         "version": "60d1f7cb9d2e4a883e25f83235892a808b3eddea7bdb5b9b0444b22d170093ee",
-        "signature": "f02fbcec79e8936fc898be7c9192c4009587574e2bfcdfa61e8c3779dd0f890c",
+        "signature": "06cdba074b1e46ef0c28dfe80da396a672a90db2be4fec84954132f2392b03e9",
         "affectsGlobalScope": false
       },
       "./src/api/user/service/create/helpers/remove-sensive-data-from-user.ts": {
@@ -2863,17 +2863,17 @@
       },
       "./src/api/user/service/create/discord/index.ts": {
         "version": "cf84e15e7fc5f06725ec68e65759bac8257a78337d42f85a1c87c90b6455bcdf",
-        "signature": "baecf5dbd96ee03466931ca725623d4d5deb5bb7dcaf14f4e1eead0d44e3f65a",
+        "signature": "33baa082baf3d2319f4b17522a63409e33fa32aeeeaf5a000fd76225dbb83320",
         "affectsGlobalScope": false
       },
       "./src/api/user/service/create/local/index.ts": {
         "version": "4ebde5771990ec19729bf9b335b3a58037455e6900259781701d5e6ceacb5caf",
-        "signature": "50b949920a22de7aa57adacc5ba61110abc0719b6ea26b9727d5919431551184",
+        "signature": "1f488e6e8d9960eda028a3b6522488fa0decb65b666a12d482ee6b0237a5bd64",
         "affectsGlobalScope": false
       },
       "./src/api/user/user.service.ts": {
         "version": "919e7b0d75dda51ec24a8a67c0986110447e7651e10d6a7f614a25f8e0623bf3",
-        "signature": "abd0fa59d9e80c1129742fefb7ac6b2c2249e48afdbb99611d9b68d20868cb8c",
+        "signature": "19d3359eb76ede738093b2eb8224716179d9f2fc4ad1630d00c1eb73fcc68ebc",
         "affectsGlobalScope": false
       },
       "./src/api/user/user.controller.ts": {
@@ -7120,8 +7120,7 @@
         "./src/api/user-token/user-token.entity.ts"
       ],
       "./src/api/user-token/service/update-token/index.ts": [
-        "./src/api/user-token/user-token.entity.ts",
-        "./src/utils/error/index.ts"
+        "./src/api/user-token/user-token.entity.ts"
       ],
       "./src/api/user-token/tests/user-token.controller.spec.ts": [
         "./node_modules/@nestjs/testing/index.d.ts",
@@ -11173,19 +11172,7 @@
       "./src/api/tutorial/tutorial.module.ts",
       "./src/api/tutorial/tutorial.service.ts",
       "./src/api/user-token/service/create/index.ts",
-      [
-        "./src/api/user-token/service/update-token/index.ts",
-        [
-          {
-            "file": "./src/api/user-token/service/update-token/index.ts",
-            "start": 144,
-            "length": 21,
-            "messageText": "Cannot find module 'core/enums/strategy' or its corresponding type declarations.",
-            "category": 1,
-            "code": 2307
-          }
-        ]
-      ],
+      "./src/api/user-token/service/update-token/index.ts",
       "./src/api/user-token/tests/user-token.controller.spec.ts",
       "./src/api/user-token/tests/user-token.service.spec.ts",
       "./src/api/user-token/user-token.controller.ts",

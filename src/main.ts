@@ -1,7 +1,7 @@
 import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 
-import { MicroserviceOptions } from "config/microservice";
+import { MicroserviceOptions } from "./config/microservice";
 
 import { AppModule } from "./app.module";
 
