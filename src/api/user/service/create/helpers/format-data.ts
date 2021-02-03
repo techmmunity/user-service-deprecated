@@ -38,6 +38,7 @@ export const formatData = ({
 	birthday,
 	fullName,
 	password,
+	verified,
 	suggestedLanguage,
 }: BaseCreateUser) => {
 	const { name, surnames } = getNameAndSurnames(fullName);
@@ -47,8 +48,8 @@ export const formatData = ({
 		surnames,
 		email,
 		username,
-		verified: false,
-		headline: headline,
+		headline,
+		verified: verified ? true : false,
 		birthday: TimeUtil.unformat(birthday),
 		password: getPasswordEncrypted(password),
 		languages: getLanguages(suggestedLanguage),

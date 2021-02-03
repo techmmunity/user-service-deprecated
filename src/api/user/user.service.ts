@@ -4,6 +4,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { SettingsService } from "api/settings/settings.service";
 import { TutorialService } from "api/tutorial/tutorial.service";
 import { UserTokenService } from "api/user-token/user-token.service";
+import { VerifyAccountService } from "api/verify-account/verify-account.service";
 
 import { createDiscord, CreateDiscordParams } from "./service/create/discord";
 import { createLocal, CreateLocalParams } from "./service/create/local";
@@ -16,6 +17,7 @@ export class UserService {
 		private readonly SettingsService: SettingsService,
 		private readonly TutorialService: TutorialService,
 		private readonly UserTokenService: UserTokenService,
+		private readonly VerifyAccountService: VerifyAccountService,
 		@InjectRepository(UserEntity)
 		private readonly UserRepository: UserRepository,
 	) {
@@ -28,6 +30,7 @@ export class UserService {
 			SettingsService: this.SettingsService,
 			UserTokenService: this.UserTokenService,
 			UserRepository: this.UserRepository,
+			VerifyAccountService: this.VerifyAccountService,
 		};
 	}
 

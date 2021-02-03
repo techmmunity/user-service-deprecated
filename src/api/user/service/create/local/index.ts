@@ -1,3 +1,5 @@
+import { VerifyAccountService } from "api/verify-account/verify-account.service";
+
 import { createRelations } from "../helpers/create-relations";
 import { formatData } from "../helpers/format-data";
 import { removeSensiveDataFromUser } from "../helpers/remove-sensive-data-from-user";
@@ -10,7 +12,9 @@ import { BaseCreateUser, BaseInjectables } from "../types";
 
 export type CreateLocalParams = BaseCreateUser;
 
-type InjectablesLocal = BaseInjectables;
+interface InjectablesLocal extends BaseInjectables {
+	VerifyAccountService: VerifyAccountService;
+}
 
 export const createLocal = async (
 	params: CreateLocalParams & InjectablesLocal,
@@ -24,6 +28,7 @@ export const createLocal = async (
 		UserTokenService,
 		SettingsService,
 		TutorialService,
+		VerifyAccountService,
 		...unformattedData
 	} = params;
 
@@ -39,13 +44,16 @@ export const createLocal = async (
 
 	const userId = user._id.toHexString();
 
-	const { tutorial, settings } = await createRelations({
-		TutorialService,
-		SettingsService,
-		UserTokenService,
-		userId,
-		suggestedLanguage: unformattedData.suggestedLanguage,
-	});
+	const [{ tutorial, settings }, verificationCode] = await Promise.all([
+		createRelations({
+			TutorialService,
+			SettingsService,
+			UserTokenService,
+			userId,
+			suggestedLanguage: unformattedData.suggestedLanguage,
+		}),
+		VerifyAccountService.create(userId),
+	]);
 
 	const userWithoutSensiveData = removeSensiveDataFromUser(user);
 
@@ -53,5 +61,6 @@ export const createLocal = async (
 		user: userWithoutSensiveData,
 		tutorial,
 		settings,
+		verificationCode,
 	};
 };

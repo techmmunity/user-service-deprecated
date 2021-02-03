@@ -16,6 +16,7 @@ export interface BaseCreateUser {
 	headline: HeadlineEnum;
 	suggestedLanguage?: LanguageEnum;
 	avatar?: string;
+	verified?: boolean;
 }
 
 export interface BaseInjectables {
