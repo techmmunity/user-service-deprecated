@@ -1,16 +1,14 @@
 # Todo
 
-- [ ] Verificar o serviço de user
-- [ ] Criar entidade de headline e ajeitar serviço e o modulo
-  - headline
-  - group (developer, designer, etc)
-- [ ] Criar entidade de interesses e ajeitar serviço e o modulo
-  - interest
-  - group (developer, designer, etc)
-- [ ] Criar entidade de user-interesses e ajeitar serviço e o modulo
-- [ ] Ajeitar serviços
-- [ ] Alterar tudo que usa o repositorio para usar o serviço
-- [ ] Remover tudo que for de gameficação do repo
-- [ ] Remover tudo que for do discord do repo
-- [ ] Adicionar enum de tipo interesses "Lib" | "Framework" | "Language"
-- [ ] Remover o Enum de Strategy
+- [ ] Alterar controllers para usarem padrão de microservicos
+- [ ] Terminar rota de criação de usuário via local
+  - Adicionar a criação do esquema confirmar o email
+- [ ] Criar rota para atualizar os tokens do usuário
+- [ ] Criar rota para completar um tutorial
+- [ ] Criar rota para alterar os settings
+- [ ] Criar rota para buscar os dados do usuário
+- [ ] Criar rota para criar usuário via local
+- [ ] Criar rota para criar usuário via discord
+- [ ] Testar as paradas
+- [ ] Criar serviço de gameficação
+- [ ] Criar core-util-backend

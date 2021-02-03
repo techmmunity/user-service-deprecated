@@ -2767,8 +2767,8 @@
         "affectsGlobalScope": false
       },
       "./src/core/enums/permissions.ts": {
-        "version": "5065da7d71791a629b73cfd76423199cb1b7f85319c9bbd15fb7647d8d60aaaf",
-        "signature": "757f499b2dd4d4502c25835588e9fa3bcff343fcee627876fafaa8105336d164",
+        "version": "a6d8c2b9713f6343c4ae2f248c1a4662d1ae7f60525564904b5f8198c4b394e8",
+        "signature": "c3cf5057ef5ee3d6d70076b70241de76a603e2d61dfbe937dea73f5417d8feb1",
         "affectsGlobalScope": false
       },
       "./src/api/user/user.entity.ts": {
@@ -2812,7 +2812,7 @@
         "affectsGlobalScope": false
       },
       "./src/config/default-user-permissions.ts": {
-        "version": "2d7452ac911fe308cd917193a5cdc9ba10fa13d3c09ca6c14b4066256f9af3fd",
+        "version": "565485b2762a882595c6dc2aba8d3c9cdc0c7a617c262afa657e8a770a72e6cf",
         "signature": "86dd27db6bac0045a354af79bc269bc0c01b1848902c250dc309148f2521a124",
         "affectsGlobalScope": false
       },
@@ -2823,7 +2823,7 @@
       },
       "./src/api/user/service/create/helpers/format-data.ts": {
         "version": "60d1f7cb9d2e4a883e25f83235892a808b3eddea7bdb5b9b0444b22d170093ee",
-        "signature": "06cdba074b1e46ef0c28dfe80da396a672a90db2be4fec84954132f2392b03e9",
+        "signature": "f02fbcec79e8936fc898be7c9192c4009587574e2bfcdfa61e8c3779dd0f890c",
         "affectsGlobalScope": false
       },
       "./src/api/user/service/create/helpers/remove-sensive-data-from-user.ts": {
@@ -3732,7 +3732,7 @@
         "affectsGlobalScope": false
       },
       "./src/main.ts": {
-        "version": "b9feec141fd59428908fa6073fea20c442c3bd40f669d67ea067782f285dbedf",
+        "version": "4b143b2efc8b5a5ac331df1684f576c99ea75ca576d9180fe99a9653496f1213",
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
         "affectsGlobalScope": false
       },
@@ -4246,8 +4246,8 @@
       "strictPropertyInitialization": false,
       "allowSyntheticDefaultImports": true,
       "sourceMap": true,
-      "baseUrl": "./src",
       "incremental": true,
+      "baseUrl": "./src",
       "configFilePath": "./tsconfig.json"
     },
     "referencedMap": {
