@@ -9,7 +9,7 @@ export interface UpdateTokenParams {
 	expirationDate: Date;
 }
 
-export const updateToken = ({
+export const update = ({
 	UserTokenRepository,
 	type,
 	userId,

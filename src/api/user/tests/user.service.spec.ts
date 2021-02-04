@@ -9,23 +9,23 @@ import { VerifyAccountService } from "api/verify-account/verify-account.service"
 
 import { UserEntity } from "../user.entity";
 
-import { TestUtil } from "utils/test";
-
 describe("UserService", () => {
 	let service: UserService;
 
-	const mockUserRepository = TestUtil.createMockRepository();
+	const mockUserRepository = {
+		save: jest.fn(),
+	};
 	const mockSettingsService = {
-		create: jest.fn(),
+		save: jest.fn(),
 	};
 	const mockTutorialService = {
-		create: jest.fn(),
+		save: jest.fn(),
 	};
 	const mockUserTokenService = {
-		create: jest.fn(),
+		save: jest.fn(),
 	};
 	const mockVerifyAccountService = {
-		create: jest.fn(),
+		save: jest.fn(),
 	};
 
 	beforeEach(async () => {

@@ -10,7 +10,7 @@ interface CreateVerificationCodeParams {
 	userId: string;
 }
 
-export const createVerificationCode = async ({
+export const create = async ({
 	VerifyAccountRepository,
 	userId,
 }: CreateVerificationCodeParams) => {

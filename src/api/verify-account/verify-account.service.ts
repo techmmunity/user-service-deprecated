@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 
-import { createVerificationCode } from "./service/create-verification-code";
-import { verifyAccount } from "./service/verify-account";
+import { create } from "./service/create";
+import { verify } from "./service/verify";
 
 import {
 	VerifyAccountEntity,
@@ -19,14 +19,14 @@ export class VerifyAccountService {
 	}
 
 	public create(userId: string) {
-		return createVerificationCode({
+		return create({
 			userId,
 			VerifyAccountRepository: this.VerifyAccountRepository,
 		});
 	}
 
 	public verify(confirmationCode: string) {
-		return verifyAccount({
+		return verify({
 			confirmationCode,
 			VerifyAccountRepository: this.VerifyAccountRepository,
 		});

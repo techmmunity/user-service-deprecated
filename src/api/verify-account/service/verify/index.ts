@@ -10,7 +10,7 @@ interface verifyAccountParams {
 	confirmationCode: string;
 }
 
-export const verifyAccount = async ({
+export const verify = async ({
 	VerifyAccountRepository,
 	confirmationCode,
 }: verifyAccountParams) => {
