@@ -5,18 +5,11 @@ module.exports = {
 	transform: {
 		"^.+\\.(t|j)s$": "ts-jest",
 	},
-	coveragePathIgnorePatterns: [
-		"node_modules",
-		".module.",
-		".controller.",
-		".entity.",
-		"core/",
-		"config/",
-		"types/",
-		"main.(t|j)s",
-		"api/index.(t|j)s",
+	collectCoverageFrom: [
+		"api/**/*.service.ts",
+		"api/**/service/**/validation/*.ts",
+		"api/**/service/**/helpers/*.ts",
 	],
-	collectCoverageFrom: ["**/*.(t|j)s"],
 	coverageDirectory: "../coverage",
 	testEnvironment: "node",
 	moduleDirectories: ["node_modules", "src"],

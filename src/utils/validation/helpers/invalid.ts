@@ -13,6 +13,6 @@ export const invalid = (type: AllowedTypes, value: any, optional?: boolean) => {
 		case "array":
 			return !Array.isArray(value);
 		case "object":
-			return Object.prototype.toString.call(value) === "[object Object]";
+			return Object.prototype.toString.call(value) !== "[object Object]";
 	}
 };
