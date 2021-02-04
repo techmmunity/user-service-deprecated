@@ -1,5 +1,5 @@
-import { createRepositoryMock } from "./create-repository-mock";
+import { createMockRepository } from "./create-mock-repository";
 
 export const TestUtil = {
-	createRepositoryMock,
+	createMockRepository,
 };

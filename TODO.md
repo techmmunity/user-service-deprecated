@@ -6,4 +6,7 @@
 - [ ] Criar rota para buscar os dados do usuário
 - [ ] Testar as paradas
 - [ ] Criar serviço de gameficação
-- [ ] Criar core-util-backend
+- [ ] Criar utils-backend
+- [ ] Dockerizar o app
+  - Criar Dockerfile
+  - Criar docker-compose.yml

@@ -5,5 +5,6 @@
 	"singleQuote": false,
 	"arrowParens": "avoid",
 	"semi": true,
-	"bracketSpacing": true
+	"bracketSpacing": true,
+	"endOfLine": "lf"
 }

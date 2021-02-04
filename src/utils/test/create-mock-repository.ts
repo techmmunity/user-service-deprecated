@@ -1,4 +1,4 @@
-export const createRepositoryMock = () => ({
+export const createMockRepository = () => ({
 	find: jest.fn(),
 	findOne: jest.fn(),
 	create: jest.fn(),
