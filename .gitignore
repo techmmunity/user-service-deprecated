@@ -49,7 +49,6 @@ src/schemas.gql
 docker/
 
 # tsconfig
-
 tsconfig*
 !tsconfig.json
 !tsconfig.build.json

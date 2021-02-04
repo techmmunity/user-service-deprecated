@@ -7,6 +7,3 @@
 - [ ] Testar as paradas
 - [ ] Criar serviço de gameficação
 - [ ] Criar utils-backend
-- [ ] Dockerizar o app
-  - Criar Dockerfile
-  - Criar docker-compose.yml

@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  api:
+    build:
+      context: "."
+      dockerfile: Dockerfile.dev
+    container_name: user_api
+    command: yarn dev
+    ports:
+      - 3000:3000
+    networks:
+      - api_network
+    env_file:
+      - .env
+    volumes:
+      - ./:/app/
+      - nodemodules:/app/node_modules
+
+volumes:
+  nodemodules:
+
+networks:
+  api_network:
+    driver: bridge
