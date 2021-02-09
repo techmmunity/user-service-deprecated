@@ -1,8 +1,13 @@
 import { UserTokenRepository } from "api/user-token/user-token.entity";
 
-export interface UpdateTokenParams {
+import { IntegrationsEnum } from "core/enums/integrations";
+
+interface Injectables {
 	UserTokenRepository: UserTokenRepository;
-	type: "discord" | "google" | "linkedin" | "github";
+}
+
+export interface UpdateTokenParams {
+	type: IntegrationsEnum;
 	userId: string;
 	accessToken: string;
 	refreshToken: string;
@@ -16,17 +21,15 @@ export const update = ({
 	accessToken,
 	refreshToken,
 	expirationDate,
-}: UpdateTokenParams) => {
+}: UpdateTokenParams & Injectables) => {
 	return UserTokenRepository.save(
 		{
-			userId,
+			id: userId,
 		},
 		{
-			[type]: {
-				accessToken,
-				refreshToken,
-				expirationDate,
-			},
+			[`${type.toLowerCase()}accessToken`]: accessToken,
+			[`${type.toLowerCase()}refreshToken`]: refreshToken,
+			[`${type.toLowerCase()}expirationDate`]: expirationDate,
 		},
 	);
 };

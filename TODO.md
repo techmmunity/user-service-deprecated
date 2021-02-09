@@ -9,3 +9,4 @@
 - [ ] Adicionar testes ao serviço de user-token
 - [ ] Adicionar testes ao serviço de verify-account
 - [ ] Testar as paradas
+- [ ] Criar rota para re-gerar o PIN do usuário

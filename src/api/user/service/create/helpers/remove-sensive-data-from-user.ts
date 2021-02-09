@@ -1,15 +1,17 @@
 import { UserEntity } from "api/user/user.entity";
 
 export const removeSensiveDataFromUser = ({
-	_id,
+	id,
 	username,
 	avatar,
 	headline,
 	permissions,
+	pin,
 }: UserEntity) => ({
-	id: _id.toHexString(),
+	id,
 	username,
 	avatar,
 	headline,
 	permissions,
+	pin,
 });

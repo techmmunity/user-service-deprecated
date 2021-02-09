@@ -8,13 +8,15 @@ import { typeValidationDiscord } from "./validation/type-validation";
 
 import { TimeUtil } from "utils/time";
 
+import { IntegrationsEnum } from "core/enums/integrations";
+
 import { BaseCreateUser, BaseInjectables } from "../types";
 
 export interface CreateDiscordParams extends BaseCreateUser {
 	discordUserId: string;
 	discordAccessToken: string;
 	discordRefreshToken: string;
-	discordTokenExpirationDate: number;
+	discordTokenExpirationDate: Date;
 }
 
 type InjectablesDiscord = BaseInjectables;
@@ -47,22 +49,26 @@ export const createDiscord = async (
 
 	const user = await UserRepository.save(userData);
 
-	const userId = user._id.toHexString();
+	const userId = user.id;
+
+	const {
+		suggestedLanguage,
+		discordAccessToken,
+		discordRefreshToken,
+		discordTokenExpirationDate,
+	} = unformattedData;
 
 	const { tutorial, settings } = await createRelations({
 		TutorialService,
 		SettingsService,
 		UserTokenService,
 		userId,
-		suggestedLanguage: unformattedData.suggestedLanguage,
+		suggestedLanguage,
 		userTokenData: {
-			discord: {
-				accessToken: unformattedData.discordAccessToken,
-				refreshToken: unformattedData.discordRefreshToken,
-				expirationDate: TimeUtil.newDate(
-					unformattedData.discordTokenExpirationDate,
-				),
-			},
+			type: IntegrationsEnum.DISCORD,
+			accessToken: discordAccessToken,
+			refreshToken: discordRefreshToken,
+			expirationDate: TimeUtil.newDate(discordTokenExpirationDate),
 		},
 	});
 

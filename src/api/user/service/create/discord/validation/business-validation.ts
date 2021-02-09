@@ -6,11 +6,10 @@ import { CreateDiscordParams } from "..";
 
 import { TimeUtil } from "utils/time";
 
-const invalidExpirationDate = (discordTokenExpirationDate: number) => {
-	const expirationDate = TimeUtil.newDate(discordTokenExpirationDate);
+const invalidExpirationDate = (discordTokenExpirationDate: Date) => {
 	const now = TimeUtil.newDate();
 
-	return expirationDate.getTime() >= now.getTime();
+	return discordTokenExpirationDate.getTime() >= now.getTime();
 };
 
 export const businessValidationDiscord = ({

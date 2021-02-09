@@ -24,7 +24,7 @@ export const typeValidationDiscord = (params: CreateDiscordParams) => {
 	if (ValidationUtil.invalidString(discordRefreshToken)) {
 		ErrorUtil.badRequest("INVALID_DISCORD_REFRESH_TOKEN");
 	}
-	if (ValidationUtil.invalidNumber(discordTokenExpirationDate)) {
+	if (ValidationUtil.invalidDate(discordTokenExpirationDate)) {
 		ErrorUtil.badRequest("INVALID_DISCORD_TOKEN_EXPIRATION_DATE");
 	}
 };

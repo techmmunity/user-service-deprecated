@@ -23,7 +23,7 @@ export const create = async (params: CreateParams & Injectables) => {
 	const { SettingsRepository, userId, language } = params;
 
 	return SettingsRepository.save<SettingsType>({
-		userId,
+		id: userId,
 		theme: ThemeEnum.DARK,
 		language: language || LanguageEnum.EN,
 	});

@@ -2,31 +2,36 @@ import {
 	BaseEntity,
 	Column,
 	Entity,
-	ObjectIdColumn,
-	ObjectID,
 	Repository,
 	FindManyOptions,
 	FindOneOptions,
 	CreateDateColumn,
+	PrimaryColumn,
 } from "typeorm";
 
 import { EntityType } from "types/entity";
 
 @Entity("verify_account")
 export class VerifyAccountEntity extends BaseEntity {
-	@ObjectIdColumn()
-	public _id: ObjectID;
+	@PrimaryColumn()
+	public id: string;
 
-	@Column()
-	public userId: string;
-
-	@Column()
+	@Column({
+		name: "verification_code",
+		nullable: false,
+	})
 	public verificationCode: string;
 
-	@Column()
+	@Column({
+		name: "verified_at",
+		nullable: true,
+	})
 	public verifiedAt?: Date;
 
-	@CreateDateColumn()
+	@CreateDateColumn({
+		name: "created_at",
+		nullable: false,
+	})
 	public createdAt: Date;
 }
 

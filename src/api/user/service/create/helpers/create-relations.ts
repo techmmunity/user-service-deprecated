@@ -2,9 +2,15 @@ import { SettingsService } from "api/settings/settings.service";
 import { TutorialService } from "api/tutorial/tutorial.service";
 import { UserTokenService } from "api/user-token/user-token.service";
 
-import { UserTokenType } from "api/user-token/user-token.entity";
-
+import { IntegrationsEnum } from "core/enums/integrations";
 import { LanguageEnum } from "core/enums/language";
+
+interface UserTokenData {
+	type: IntegrationsEnum;
+	accessToken: string;
+	refreshToken: string;
+	expirationDate: Date;
+}
 
 export interface CreateRelationsParams {
 	TutorialService: TutorialService;
@@ -12,7 +18,7 @@ export interface CreateRelationsParams {
 	UserTokenService: UserTokenService;
 	userId: string;
 	suggestedLanguage?: LanguageEnum;
-	userTokenData?: Omit<UserTokenType, "userId">;
+	userTokenData?: UserTokenData;
 }
 
 export const createRelations = async ({
@@ -21,7 +27,7 @@ export const createRelations = async ({
 	UserTokenService,
 	userId,
 	suggestedLanguage,
-	userTokenData = {},
+	userTokenData = {} as UserTokenData,
 }: CreateRelationsParams) => {
 	const [tutorial, settings] = await Promise.all([
 		TutorialService.create({ userId }),

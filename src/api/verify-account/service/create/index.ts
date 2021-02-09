@@ -21,7 +21,7 @@ export const create = async ({
 	const verificationCode = uuid();
 
 	await VerifyAccountRepository.insert({
-		userId,
+		id: userId,
 		verificationCode,
 	});
 

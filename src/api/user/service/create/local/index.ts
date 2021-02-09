@@ -42,7 +42,7 @@ export const createLocal = async (
 
 	const user = await UserRepository.save(userData);
 
-	const userId = user._id.toHexString();
+	const userId = user.id;
 
 	const [{ tutorial, settings }, verificationCode] = await Promise.all([
 		createRelations({

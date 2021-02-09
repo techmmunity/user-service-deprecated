@@ -1,4 +1,7 @@
 import * as bcrypt from "bcrypt";
+import { uuid } from "uuidv4";
+
+import { generatePIN } from "./generate-pin";
 
 import { UserType } from "api/user/user.entity";
 
@@ -43,7 +46,10 @@ export const formatData = ({
 }: BaseCreateUser) => {
 	const { name, surnames } = getNameAndSurnames(fullName);
 
+	const id = uuid();
+
 	const user: UserType = {
+		id,
 		name,
 		surnames,
 		email,
@@ -53,6 +59,7 @@ export const formatData = ({
 		birthday: TimeUtil.unformat(birthday),
 		password: getPasswordEncrypted(password),
 		languages: getLanguages(suggestedLanguage),
+		pin: generatePIN(),
 		permissions: DEFAULT_USER_PERMISSIONS,
 		interests: [],
 	};

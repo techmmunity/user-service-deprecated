@@ -2,16 +2,16 @@ import {
 	BaseEntity,
 	Column,
 	Entity,
-	ObjectIdColumn,
-	ObjectID,
 	CreateDateColumn,
 	UpdateDateColumn,
 	Repository,
 	FindManyOptions,
 	FindOneOptions,
+	PrimaryColumn,
+	Index,
 } from "typeorm";
 
-import { HeadlineEnum } from "core/enums/headline";
+import { HeadlineEnum, HeadlineValues } from "core/enums/headline";
 import { InterestEnum } from "core/enums/interests";
 import { LanguageEnum } from "core/enums/language";
 import { PermissionsEnum } from "core/enums/permissions";
@@ -20,61 +20,111 @@ import { EntityType } from "types/entity";
 
 @Entity({ name: "users" })
 export class UserEntity extends BaseEntity {
-	@ObjectIdColumn()
-	public _id: ObjectID;
+	@PrimaryColumn()
+	public id: string;
 
-	@Column()
+	@Column({
+		name: "discord_user_id",
+		nullable: true,
+	})
 	public discordUserId?: string;
 
-	@Column()
+	@Column({
+		name: "google_user_id",
+		nullable: true,
+	})
 	public googleUserId?: string;
 
-	@Column()
+	@Column({
+		name: "github_user_id",
+		nullable: true,
+	})
 	public githubUserId?: string;
 
-	@Column()
+	@Column({
+		name: "linkedin_user_id",
+		nullable: true,
+	})
 	public linkedinUserId?: string;
 
-	@Column()
+	@Column({
+		nullable: false,
+	})
 	public email: string;
 
-	@Column()
+	@Column({
+		nullable: false,
+	})
 	public password: string;
 
-	@Column()
+	@Column({
+		nullable: false,
+	})
 	public username: string;
 
-	@Column()
-	public avatar?: string;
-
-	@Column()
+	@Column({
+		nullable: false,
+	})
 	public name: string;
 
-	@Column()
+	@Column({
+		nullable: false,
+	})
 	public surnames: string;
 
-	@Column()
+	@Column({
+		nullable: false,
+	})
+	public pin: string;
+
+	@Column({
+		nullable: true,
+	})
+	public avatar?: string;
+
+	@Column({
+		nullable: false,
+		default: false,
+	})
 	public verified: boolean;
 
-	@Column()
+	@Index()
+	@Column({
+		nullable: false,
+		enum: HeadlineValues(),
+	})
 	public headline: HeadlineEnum;
 
-	@Column()
+	@Column({
+		type: "jsonb",
+	})
 	public permissions: Array<PermissionsEnum>;
 
-	@Column()
+	@Column({
+		type: "jsonb",
+	})
 	public languages: Array<LanguageEnum>;
 
-	@Column()
+	@Column({
+		type: "jsonb",
+	})
 	public interests: Array<InterestEnum>;
 
-	@Column()
+	@Column({
+		nullable: false,
+	})
 	public birthday: Date;
 
-	@CreateDateColumn()
+	@CreateDateColumn({
+		name: "created_at",
+		nullable: false,
+	})
 	public createdAt: Date;
 
-	@UpdateDateColumn()
+	@UpdateDateColumn({
+		name: "updated_at",
+		nullable: false,
+	})
 	public updatedAt: Date;
 }
 

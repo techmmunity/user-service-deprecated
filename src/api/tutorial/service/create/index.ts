@@ -16,7 +16,7 @@ export const create = (params: CreateParams & Injectable) => {
 	const { TutorialRepository, userId } = params;
 
 	return TutorialRepository.save<TutorialType>({
-		userId,
+		id: userId,
 		mentoringListPage: true,
 		articlesListPage: true,
 		coursesListPage: true,

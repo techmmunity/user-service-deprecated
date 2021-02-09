@@ -2,40 +2,114 @@ import {
 	BaseEntity,
 	Column,
 	Entity,
-	ObjectIdColumn,
-	ObjectID,
 	Repository,
 	FindManyOptions,
 	FindOneOptions,
+	PrimaryColumn,
 } from "typeorm";
 
 import { EntityType } from "types/entity";
 
-export interface ITokenData {
-	accessToken: string;
-	refreshToken: string;
-	expirationDate: Date;
-}
-
 @Entity("user_tokens")
 export class UserTokenEntity extends BaseEntity {
-	@ObjectIdColumn()
-	public _id: ObjectID;
+	@PrimaryColumn()
+	public id: string;
 
-	@Column()
-	public userId: string;
+	/**
+	 *
+	 * Discord
+	 *
+	 */
 
-	@Column()
-	public discord?: ITokenData;
+	@Column({
+		name: "discord_access_token",
+		nullable: true,
+	})
+	public discordAccessToken?: string;
 
-	@Column()
-	public google?: ITokenData;
+	@Column({
+		name: "discord_refresh_token",
+		nullable: true,
+	})
+	public discordRefreshToken?: string;
 
-	@Column()
-	public github?: ITokenData;
+	@Column({
+		name: "discord_expiration_date",
+		nullable: true,
+	})
+	public discordExpirationDate?: Date;
 
-	@Column()
-	public linkedin?: ITokenData;
+	/**
+	 *
+	 * Google
+	 *
+	 */
+
+	@Column({
+		name: "google_access_token",
+		nullable: true,
+	})
+	public googleAccessToken?: string;
+
+	@Column({
+		name: "google_refresh_token",
+		nullable: true,
+	})
+	public googleRefreshToken?: string;
+
+	@Column({
+		name: "google_expiration_date",
+		nullable: true,
+	})
+	public googleExpirationDate?: Date;
+
+	/**
+	 *
+	 * GitHub
+	 *
+	 */
+
+	@Column({
+		name: "github_access_token",
+		nullable: true,
+	})
+	public githubAccessToken?: string;
+
+	@Column({
+		name: "github_refresh_token",
+		nullable: true,
+	})
+	public githubRefreshToken?: string;
+
+	@Column({
+		name: "github_expiration_date",
+		nullable: true,
+	})
+	public githubExpirationDate?: Date;
+
+	/**
+	 *
+	 * Linkedin
+	 *
+	 */
+
+	@Column({
+		name: "linkedin_access_token",
+		nullable: true,
+	})
+	public linkedinAccessToken?: string;
+
+	@Column({
+		name: "linkedin_refresh_token",
+		nullable: true,
+	})
+	public linkedinRefreshToken?: string;
+
+	@Column({
+		name: "linkedin_expiration_date",
+		nullable: true,
+	})
+	public linkedinExpirationDate?: Date;
 }
 
 export type UserTokenType = EntityType<UserTokenEntity>;

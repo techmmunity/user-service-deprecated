@@ -2,10 +2,10 @@ import { Module } from "@nestjs/common";
 
 import { Api } from "./api";
 
-import { MongoDBConnect } from "config/mongodb";
+import { PostgresConnect } from "config/postgres";
 
 @Module({
-	imports: [MongoDBConnect, ...Api],
+	imports: [PostgresConnect, ...Api],
 })
 export class AppModule {
 	//

@@ -1,4 +1,10 @@
-export type AllowedTypes = "string" | "boolean" | "number" | "array" | "object";
+export type AllowedTypes =
+	| "string"
+	| "boolean"
+	| "number"
+	| "array"
+	| "object"
+	| "date";
 
 export const invalid = (type: AllowedTypes, value: any, optional?: boolean) => {
 	if (optional && typeof value === "undefined") {
@@ -14,5 +20,10 @@ export const invalid = (type: AllowedTypes, value: any, optional?: boolean) => {
 			return !Array.isArray(value);
 		case "object":
 			return Object.prototype.toString.call(value) !== "[object Object]";
+		case "date":
+			return (
+				Object.prototype.toString.call(value) !== "[object Date]" ||
+				isNaN(value?.getTime())
+			);
 	}
 };

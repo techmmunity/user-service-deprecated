@@ -2,42 +2,72 @@ import {
 	BaseEntity,
 	Column,
 	Entity,
-	ObjectIdColumn,
-	ObjectID,
 	Repository,
 	FindManyOptions,
 	FindOneOptions,
+	PrimaryColumn,
 } from "typeorm";
 
 import { EntityType } from "types/entity";
 
 @Entity("tutorials")
 export class TutorialEntity extends BaseEntity {
-	@ObjectIdColumn()
-	public _id: ObjectID;
+	@PrimaryColumn()
+	public id: string;
 
-	@Column()
-	public userId: string;
+	/**
+	 *
+	 * True = Should Show Tutorial
+	 * False = User Already See This Tutorial Before
+	 */
 
-	@Column() // True = Should Show Tutorial / False = User Already See This Tutorial Before
+	@Column({
+		name: "mentoring_list_page",
+		nullable: false,
+		default: true,
+	})
 	public mentoringListPage: boolean;
 
-	@Column() // True = Should Show Tutorial / False = User Already See This Tutorial Before
+	@Column({
+		name: "articles_list_page",
+		nullable: false,
+		default: true,
+	})
 	public articlesListPage: boolean;
 
-	@Column() // True = Should Show Tutorial / False = User Already See This Tutorial Before
+	@Column({
+		name: "courses_list_page",
+		nullable: false,
+		default: true,
+	})
 	public coursesListPage: boolean;
 
-	@Column() // True = Should Show Tutorial / False = User Already See This Tutorial Before
+	@Column({
+		name: "forum_list_page",
+		nullable: false,
+		default: true,
+	})
 	public forumListPage: boolean;
 
-	@Column() // True = Should Show Tutorial / False = User Already See This Tutorial Before
+	@Column({
+		name: "jobs_list_page",
+		nullable: false,
+		default: true,
+	})
 	public jobsListPage: boolean;
 
-	@Column() // True = Should Show Tutorial / False = User Already See This Tutorial Before
+	@Column({
+		name: "projects_list_page",
+		nullable: false,
+		default: true,
+	})
 	public projectsListPage: boolean;
 
-	@Column() // True = Should Show Tutorial / False = User Already See This Tutorial Before
+	@Column({
+		name: "store_list_page",
+		nullable: false,
+		default: true,
+	})
 	public storeListPage: boolean;
 }
 

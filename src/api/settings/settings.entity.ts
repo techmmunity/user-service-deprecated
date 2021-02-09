@@ -2,30 +2,38 @@ import {
 	BaseEntity,
 	Column,
 	Entity,
-	ObjectIdColumn,
-	ObjectID,
 	Repository,
 	FindManyOptions,
 	FindOneOptions,
+	PrimaryColumn,
 } from "typeorm";
 
-import { LanguageEnum } from "core/enums/language";
-import { ThemeEnum } from "core/enums/theme";
+import { LanguageEnum, LanguageValues } from "core/enums/language";
+import { ThemeEnum, ThemeValues } from "core/enums/theme";
 
 import { EntityType } from "types/entity";
 
 @Entity("settings")
 export class SettingsEntity extends BaseEntity {
-	@ObjectIdColumn()
-	public _id: ObjectID;
+	@PrimaryColumn({
+		nullable: false,
+	})
+	public id: string;
 
-	@Column()
-	public userId: string;
-
-	@Column()
+	@Column({
+		type: "enum",
+		enum: ThemeValues(),
+		nullable: false,
+		default: ThemeEnum.DARK,
+	})
 	public theme: ThemeEnum;
 
-	@Column()
+	@Column({
+		type: "enum",
+		enum: LanguageValues(),
+		nullable: false,
+		default: LanguageEnum.EN,
+	})
 	public language: LanguageEnum;
 }
 
