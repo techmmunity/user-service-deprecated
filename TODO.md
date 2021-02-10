@@ -40,6 +40,13 @@
 - [ ] Adicionar validações ao serviço
 - [ ] Adicionar testes ao serviço
 
+## Terms And Policies
+
+- [ ] Criar entidade de Terms And Policies
+- [ ] Criar função para aceitar termos de uso
+  - Só criar o registro no banco quando ele aceitar
+- [ ] Criar rota para aceitar os termos de uso
+
 ## Etc
 
 - [ ] Abistratir a checagem de tipos em um outro pacote NPM (type-check)
