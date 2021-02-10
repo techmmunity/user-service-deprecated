@@ -1,5 +1,7 @@
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+
+import { UserService as UserServiceDependency } from "api/user/user.service";
 
 import { create } from "./service/create";
 import { verify } from "./service/verify";
@@ -12,6 +14,8 @@ import {
 @Injectable()
 export class VerifyAccountService {
 	public constructor(
+		@Inject(forwardRef(() => UserServiceDependency))
+		private readonly UserService: UserServiceDependency,
 		@InjectRepository(VerifyAccountEntity)
 		private readonly VerifyAccountRepository: VerifyAccountRepository,
 	) {
@@ -27,8 +31,9 @@ export class VerifyAccountService {
 
 	public verify(confirmationCode: string) {
 		return verify({
-			confirmationCode,
+			UserService: this.UserService,
 			VerifyAccountRepository: this.VerifyAccountRepository,
+			confirmationCode,
 		});
 	}
 }

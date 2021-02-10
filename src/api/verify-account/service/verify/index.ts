@@ -1,22 +1,30 @@
-import { check } from "@techmmunity/easy-check";
+import { UserService } from "api/user/user.service";
+
+import { businessValidation } from "./validation/business-validation";
+import { typeValidation } from "./validation/type-validation";
 
 import { VerifyAccountRepository } from "api/verify-account/verify-account.entity";
 
 import { ErrorUtil } from "utils/error";
 import { TimeUtil } from "utils/time";
 
-interface verifyAccountParams {
+interface Injectables {
 	VerifyAccountRepository: VerifyAccountRepository;
+	UserService: UserService;
+}
+
+export interface VerifyAccountParams {
 	confirmationCode: string;
 }
 
 export const verify = async ({
+	UserService,
 	VerifyAccountRepository,
 	confirmationCode,
-}: verifyAccountParams) => {
-	if (!check.isUUIDv4(confirmationCode)) {
-		ErrorUtil.badRequest("INVALID_CONFIRMATION_CODE");
-	}
+}: VerifyAccountParams & Injectables) => {
+	typeValidation({ confirmationCode });
+
+	businessValidation({ confirmationCode });
 
 	const verifyAccount = await VerifyAccountRepository.findOne({
 		where: {
@@ -28,9 +36,14 @@ export const verify = async ({
 		return ErrorUtil.notFound("CONFIRMATION_CODE_NOT_FOUND");
 	}
 
-	await VerifyAccountRepository.update(verifyAccount, {
-		verifiedAt: TimeUtil.newDate(),
-	});
+	await Promise.all([
+		UserService.verify({
+			userId: verifyAccount.id,
+		}),
+		VerifyAccountRepository.update(verifyAccount, {
+			verifiedAt: TimeUtil.newDate(),
+		}),
+	]);
 
 	return {
 		ok: true,

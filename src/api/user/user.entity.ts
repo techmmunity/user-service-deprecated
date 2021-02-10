@@ -97,16 +97,19 @@ export class UserEntity extends BaseEntity {
 
 	@Column({
 		type: "jsonb",
+		nullable: false,
 	})
 	public permissions: Array<PermissionsEnum>;
 
 	@Column({
 		type: "jsonb",
+		nullable: false,
 	})
 	public languages: Array<LanguageEnum>;
 
 	@Column({
 		type: "jsonb",
+		nullable: false,
 	})
 	public interests: Array<InterestEnum>;
 

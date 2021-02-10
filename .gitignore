@@ -35,6 +35,7 @@ lerna-debug.log*
 
 # Enviroment
 *.env*
+!.env.sample
 
 # Core
 src/core

@@ -37,6 +37,7 @@
 		"env-cmd": "^10.1.0",
 		"eslint": "^7.12.1",
 		"eslint-config-prettier": "7.2.0",
+		"eslint-plugin-import": "^2.22.1",
 		"eslint-plugin-import-helpers": "^1.1.0",
 		"eslint-plugin-prettier": "^3.1.4",
 		"husky": "^4.3.8",
@@ -58,7 +59,7 @@
 	},
 	"lint-staged": {
 		"*.{ts,tsx}": [
-			"npx prettier --write",
+			"npx prettier --write src",
 			"eslint src/**/*.ts --fix-dry-run"
 		]
 	},

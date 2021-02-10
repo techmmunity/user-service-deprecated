@@ -1,13 +1,14 @@
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 
 import { SettingsService } from "api/settings/settings.service";
 import { TutorialService } from "api/tutorial/tutorial.service";
 import { UserTokenService } from "api/user-token/user-token.service";
-import { VerifyAccountService } from "api/verify-account/verify-account.service";
+import { VerifyAccountService as VerifyAccountServiceDependency } from "api/verify-account/verify-account.service";
 
 import { createDiscord, CreateDiscordParams } from "./service/create/discord";
 import { createLocal, CreateLocalParams } from "./service/create/local";
+import { verify, VerifyParams } from "./service/verify";
 
 import { UserEntity, UserRepository } from "api/user/user.entity";
 
@@ -17,7 +18,8 @@ export class UserService {
 		private readonly SettingsService: SettingsService,
 		private readonly TutorialService: TutorialService,
 		private readonly UserTokenService: UserTokenService,
-		private readonly VerifyAccountService: VerifyAccountService,
+		@Inject(forwardRef(() => VerifyAccountServiceDependency))
+		private readonly VerifyAccountService: VerifyAccountServiceDependency,
 		@InjectRepository(UserEntity)
 		private readonly UserRepository: UserRepository,
 	) {
@@ -44,6 +46,13 @@ export class UserService {
 	public createDiscord(params: CreateDiscordParams) {
 		return createDiscord({
 			...this.repositoriesAndServices,
+			...params,
+		});
+	}
+
+	public verify(params: VerifyParams) {
+		return verify({
+			UserRepository: this.UserRepository,
 			...params,
 		});
 	}
