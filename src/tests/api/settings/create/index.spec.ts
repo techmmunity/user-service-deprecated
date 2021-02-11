@@ -1,8 +1,11 @@
 import { ServiceMock } from "tests/mocks/settings";
+import { v4 } from "uuid";
 
 import { SettingsService } from "api/settings/settings.service";
 
 import { LanguageEnum } from "core/enums/language";
+
+const userId = v4();
 
 describe("SettingsService > create", () => {
 	let service: SettingsService;
@@ -21,13 +24,13 @@ describe("SettingsService > create", () => {
 
 	it("should create settings with valid params", async () => {
 		const settingsDoc = ServiceMock.doc({
-			userId: "123",
+			userId,
 		});
 
 		ServiceMock.repository.save.mockReturnValue(settingsDoc);
 
 		const settings = await service.create({
-			userId: "123",
+			userId,
 		});
 
 		expect(ServiceMock.repository.save).toBeCalledTimes(1);
@@ -36,14 +39,14 @@ describe("SettingsService > create", () => {
 
 	it("should create settings with valid params", async () => {
 		const settingsDoc = ServiceMock.doc({
-			userId: "123",
+			userId,
 			language: LanguageEnum.PT_BR,
 		});
 
 		ServiceMock.repository.save.mockReturnValue(settingsDoc);
 
 		const settings = await service.create({
-			userId: "123",
+			userId,
 			language: LanguageEnum.PT_BR,
 		});
 

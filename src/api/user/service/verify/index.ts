@@ -1,4 +1,4 @@
-import { typeValidation } from "./validation/type-validation";
+import { validate } from "./validation";
 
 import { UserRepository } from "api/user/user.entity";
 
@@ -14,7 +14,7 @@ export const verify = async ({
 	UserRepository,
 	userId,
 }: VerifyParams & Injectables) => {
-	typeValidation({ userId });
+	await validate({ userId });
 
 	await UserRepository.update(userId, {
 		verified: true,

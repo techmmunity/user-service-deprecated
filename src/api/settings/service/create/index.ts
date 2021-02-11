@@ -1,5 +1,4 @@
-import { businessValidation } from "./validation/business-validation";
-import { typeValidation } from "./validation/type-validation";
+import { validate } from "./validation";
 
 import { SettingsRepository, SettingsType } from "api/settings/settings.entity";
 
@@ -16,9 +15,7 @@ export interface CreateParams {
 }
 
 export const create = async (params: CreateParams & Injectables) => {
-	typeValidation(params);
-
-	businessValidation(params);
+	await validate(params);
 
 	const { SettingsRepository, userId, language } = params;
 

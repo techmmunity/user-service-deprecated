@@ -1,6 +1,9 @@
 import { TutorialMock } from "tests/mocks/tutorial";
+import { v4 } from "uuid";
 
 import { TutorialService } from "api/tutorial/tutorial.service";
+
+const userId = v4();
 
 describe("TutorialService > create", () => {
 	let service: TutorialService;
@@ -19,13 +22,13 @@ describe("TutorialService > create", () => {
 
 	it("should create tutorial with valid params", async () => {
 		const tutorialDoc = TutorialMock.doc({
-			userId: "123",
+			userId,
 		});
 
 		TutorialMock.repository.save.mockReturnValue(tutorialDoc);
 
 		const tutorial = await service.create({
-			userId: "123",
+			userId,
 		});
 
 		expect(TutorialMock.repository.save).toBeCalledTimes(1);

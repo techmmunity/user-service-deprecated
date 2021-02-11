@@ -1,7 +1,6 @@
 import { UserService } from "api/user/user.service";
 
-import { businessValidation } from "./validation/business-validation";
-import { typeValidation } from "./validation/type-validation";
+import { validate } from "./validation";
 
 import { VerifyAccountRepository } from "api/verify-account/verify-account.entity";
 
@@ -22,9 +21,7 @@ export const verify = async ({
 	VerifyAccountRepository,
 	confirmationCode,
 }: VerifyAccountParams & Injectables) => {
-	typeValidation({ confirmationCode });
-
-	businessValidation({ confirmationCode });
+	await validate({ confirmationCode });
 
 	const verifyAccount = await VerifyAccountRepository.findOne({
 		where: {

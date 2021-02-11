@@ -1,24 +1,24 @@
-import { uuid } from "uuidv4";
+import { v4 } from "uuid";
 
-import { businessValidation } from "./validation/business-validation";
-import { typeValidation } from "./validation/type-validation";
+import { validate } from "./validation";
 
 import { VerifyAccountRepository } from "api/verify-account/verify-account.entity";
 
-interface CreateVerificationCodeParams {
+interface Injectables {
 	VerifyAccountRepository: VerifyAccountRepository;
+}
+
+export interface CreateVerificationCodeParams {
 	userId: string;
 }
 
 export const create = async ({
 	VerifyAccountRepository,
 	userId,
-}: CreateVerificationCodeParams) => {
-	typeValidation(userId);
+}: CreateVerificationCodeParams & Injectables) => {
+	await validate({ userId });
 
-	businessValidation(userId);
-
-	const verificationCode = uuid();
+	const verificationCode = v4();
 
 	await VerifyAccountRepository.insert({
 		id: userId,

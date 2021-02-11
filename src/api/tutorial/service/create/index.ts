@@ -1,4 +1,4 @@
-import { typeValidation } from "./validation/type-validation";
+import { validate } from "./validation";
 
 import { TutorialRepository, TutorialType } from "api/tutorial/tutorial.entity";
 
@@ -10,8 +10,8 @@ export interface CreateParams {
 	userId: string;
 }
 
-export const create = (params: CreateParams & Injectable) => {
-	typeValidation(params);
+export const create = async (params: CreateParams & Injectable) => {
+	await validate(params);
 
 	const { TutorialRepository, userId } = params;
 

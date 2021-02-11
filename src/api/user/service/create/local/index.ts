@@ -4,9 +4,8 @@ import { createRelations } from "../helpers/create-relations";
 import { formatData } from "../helpers/format-data";
 import { removeSensiveDataFromUser } from "../helpers/remove-sensive-data-from-user";
 
-import { businessValidation } from "../validation/business-validation";
-import { duplicatedValidation } from "../validation/duplicated-validation";
-import { typeValidation } from "../validation/type-validation";
+import { validate } from "../validation";
+import { duplicatedValidation } from "../validation-duplicated";
 
 import { BaseCreateUser, BaseInjectables } from "../types";
 
@@ -19,9 +18,7 @@ interface InjectablesLocal extends BaseInjectables {
 export const createLocal = async (
 	params: CreateLocalParams & InjectablesLocal,
 ) => {
-	typeValidation(params);
-
-	businessValidation(params);
+	await validate(params);
 
 	const {
 		UserRepository,

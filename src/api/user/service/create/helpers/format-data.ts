@@ -1,5 +1,5 @@
 import * as bcrypt from "bcrypt";
-import { uuid } from "uuidv4";
+import { v4 } from "uuid";
 
 import { generatePIN } from "./generate-pin";
 
@@ -46,7 +46,7 @@ export const formatData = ({
 }: BaseCreateUser) => {
 	const { name, surnames } = getNameAndSurnames(fullName);
 
-	const id = uuid();
+	const id = v4();
 
 	const user: UserType = {
 		id,
