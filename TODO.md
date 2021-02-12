@@ -25,7 +25,8 @@
 - [x] Criar função para criar usuário via discord
 - [x] Criar rota para criar usuário via discord
 - [x] Na criação do usuário local, criar um "Verify Account"
-- [ ] Criar rota para buscar os dados
+- [x] Criar rota para buscar os dados via id
+- [ ] Adicionar testes a rota de buscar dados via id
 - [ ] Criar rota para re-gerar o PIN
 - [ ] Criar rota para alterar username
 - [ ] Criar rota para alterar email
@@ -44,6 +45,7 @@
 - [x] Criar entidade de Terms And Policies
 - [ ] Criar função para aceitar termos de uso
   - Só criar o registro no banco quando ele aceitar
+  - Recebe como parametro o userId e a versão
 - [ ] Criar rota para buscar os termos de uso
   - Recebe como parametro o userId e a versão
 
