@@ -1,9 +1,10 @@
-import { ServiceMock } from "tests/mocks/settings";
 import { v4 } from "uuid";
 
 import { SettingsService } from "api/settings/settings.service";
 
 import { LanguageEnum } from "core/enums/language";
+
+import { ServiceMock } from "tests/mocks/settings";
 
 const userId = v4();
 

@@ -1,20 +1,20 @@
-import { CreateParams } from "api/tutorial/service/create";
+import { CreateVerificationCodeParams } from "api/verify-account/service/create";
 import { v4 } from "uuid";
 
-import { validate } from "api/tutorial/service/create/validation";
+import { validate } from "api/verify-account/service/create/validation";
 
 import { InvalidParamsErrorMessage } from "utils/yup";
 
 const userId = v4();
 
-describe("TutorialService > create > validation > type-validation", () => {
+describe("VerifyAccountService > create > validation", () => {
 	it("should do nothing with valid params", async () => {
 		let result;
 
 		try {
 			await validate({
 				userId,
-			} as CreateParams);
+			} as CreateVerificationCodeParams);
 		} catch (e) {
 			result = e;
 		}
@@ -26,7 +26,7 @@ describe("TutorialService > create > validation > type-validation", () => {
 		let result;
 
 		try {
-			await validate(("" as unknown) as CreateParams);
+			await validate(("" as unknown) as CreateVerificationCodeParams);
 		} catch (e) {
 			result = e;
 		}
@@ -45,7 +45,7 @@ describe("TutorialService > create > validation > type-validation", () => {
 		try {
 			await validate({
 				userId: 123 as any,
-			} as CreateParams);
+			} as CreateVerificationCodeParams);
 		} catch (e) {
 			result = e;
 		}
@@ -64,7 +64,7 @@ describe("TutorialService > create > validation > type-validation", () => {
 		try {
 			await validate({
 				userId: "123",
-			} as CreateParams);
+			} as CreateVerificationCodeParams);
 		} catch (e) {
 			result = e;
 		}

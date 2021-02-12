@@ -1,7 +1,8 @@
-import { TutorialMock } from "tests/mocks/tutorial";
 import { v4 } from "uuid";
 
 import { TutorialService } from "api/tutorial/tutorial.service";
+
+import { TutorialMock } from "tests/mocks/tutorial";
 
 const userId = v4();
 

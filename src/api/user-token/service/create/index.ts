@@ -1,3 +1,5 @@
+import { validate } from "./validation";
+
 import {
 	UserTokenRepository,
 	UserTokenType,
@@ -17,16 +19,13 @@ export interface CreateParams {
 	expirationDate?: Date;
 }
 
-export const create = (params: CreateParams & Injectables) => {
-	const {
-		UserTokenRepository,
-		userId,
-		type,
-		accessToken,
-		refreshToken,
-		expirationDate,
-	} = params;
-
+const getUserTokenData = ({
+	userId,
+	type,
+	accessToken,
+	refreshToken,
+	expirationDate,
+}: CreateParams) => {
 	const userTokenData = {
 		id: userId,
 	} as UserTokenType;
@@ -53,6 +52,17 @@ export const create = (params: CreateParams & Injectables) => {
 			userTokenData.linkedinExpirationDate = expirationDate;
 			break;
 	}
+
+	return userTokenData;
+};
+
+export const create = async ({
+	UserTokenRepository,
+	...params
+}: CreateParams & Injectables) => {
+	await validate(params);
+
+	const userTokenData = getUserTokenData(params);
 
 	return UserTokenRepository.save(userTokenData);
 };

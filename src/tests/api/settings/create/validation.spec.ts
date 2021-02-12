@@ -44,7 +44,7 @@ describe("SettingsService > create > validation", () => {
 		let result;
 
 		try {
-			result = await validate(("" as unknown) as CreateParams);
+			await validate(("" as unknown) as CreateParams);
 		} catch (e) {
 			result = e;
 		}
@@ -61,7 +61,7 @@ describe("SettingsService > create > validation", () => {
 		let result;
 
 		try {
-			result = await validate({
+			await validate({
 				userId: 123 as any,
 			} as CreateParams);
 		} catch (e) {
@@ -80,7 +80,7 @@ describe("SettingsService > create > validation", () => {
 		let result;
 
 		try {
-			result = await validate({
+			await validate({
 				userId: "123",
 			} as CreateParams);
 		} catch (e) {
@@ -99,7 +99,7 @@ describe("SettingsService > create > validation", () => {
 		let result;
 
 		try {
-			result = await validate({
+			await validate({
 				userId,
 				language: 123 as any,
 			} as CreateParams);
@@ -121,7 +121,7 @@ describe("SettingsService > create > validation", () => {
 		let result;
 
 		try {
-			result = await validate({
+			await validate({
 				userId,
 				language: "bar" as any,
 			} as CreateParams);

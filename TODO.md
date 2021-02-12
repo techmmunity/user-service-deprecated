@@ -25,7 +25,6 @@
 - [x] Criar função para criar usuário via discord
 - [x] Criar rota para criar usuário via discord
 - [x] Na criação do usuário local, criar um "Verify Account"
-- [ ] Criar função para atualizar
 - [ ] Criar rota para buscar os dados
 - [ ] Criar rota para re-gerar o PIN
 - [ ] Criar rota para alterar username
@@ -42,12 +41,12 @@
 
 ## Terms And Policies
 
-- [ ] Criar entidade de Terms And Policies
+- [x] Criar entidade de Terms And Policies
 - [ ] Criar função para aceitar termos de uso
   - Só criar o registro no banco quando ele aceitar
-- [ ] Criar rota para aceitar os termos de uso
+- [ ] Criar rota para buscar os termos de uso
+  - Recebe como parametro o userId e a versão
 
 ## Etc
 
-- [ ] Abistratir a checagem de tipos em um outro pacote NPM (type-check)
 - [ ] Testar as paradas

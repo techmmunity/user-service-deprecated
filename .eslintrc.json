@@ -58,7 +58,8 @@
 					"/enums/",
 					"/config/",
 					"/assets/",
-					"/types/"
+					"/types/",
+					"/mocks/"
 				],
 				"alphabetize": { "order": "asc", "ignoreCase": true }
 			}
