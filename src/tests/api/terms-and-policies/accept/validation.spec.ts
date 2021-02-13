@@ -1,37 +1,23 @@
-import { CreateParams } from "api/settings/service/create";
+import { AcceptParams } from "api/terms-and-policies/service/accept";
 import { v4 } from "uuid";
 
-import { validate } from "api/settings/service/create/validation";
+import { validate } from "api/terms-and-policies/service/accept/validation";
 
 import { InvalidParamsErrorMessage } from "utils/yup";
 
-import { LanguageEnum, LanguageValues } from "core/enums/language";
+import { TERMS_AND_POLICIES_ALLOWED_VERSIONS } from "config/terms-and-policies";
 
 const userId = v4();
-const languageEnumAllowedValues = [...LanguageValues(), undefined].join(", ");
+const veriosnAllowedValues = TERMS_AND_POLICIES_ALLOWED_VERSIONS.join(", ");
 
-describe("SettingsService > create > validation", () => {
+describe("TermsAndPoliciesService > accept > validation", () => {
 	it("should do nothing with valid params", async () => {
 		let result;
 
 		try {
 			await validate({
 				userId,
-				language: LanguageEnum.EN,
-			});
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result).toBeUndefined();
-	});
-
-	it("should do nothing with valid params (without language)", async () => {
-		let result;
-
-		try {
-			await validate({
-				userId,
+				version: 1,
 			});
 		} catch (e) {
 			result = e;
@@ -44,7 +30,7 @@ describe("SettingsService > create > validation", () => {
 		let result;
 
 		try {
-			await validate(("" as unknown) as CreateParams);
+			await validate(("" as unknown) as AcceptParams);
 		} catch (e) {
 			result = e;
 		}
@@ -63,7 +49,8 @@ describe("SettingsService > create > validation", () => {
 		try {
 			await validate({
 				userId: 123 as any,
-			} as CreateParams);
+				version: 1,
+			} as AcceptParams);
 		} catch (e) {
 			result = e;
 		}
@@ -82,7 +69,8 @@ describe("SettingsService > create > validation", () => {
 		try {
 			await validate({
 				userId: "123",
-			} as CreateParams);
+				version: 1,
+			} as AcceptParams);
 		} catch (e) {
 			result = e;
 		}
@@ -95,14 +83,14 @@ describe("SettingsService > create > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid language type", async () => {
+	it("should throw an error with invalid version type", async () => {
 		let result;
 
 		try {
 			await validate({
 				userId,
-				language: 123 as any,
-			} as CreateParams);
+				version: "1" as any,
+			} as AcceptParams);
 		} catch (e) {
 			result = e;
 		}
@@ -112,19 +100,19 @@ describe("SettingsService > create > validation", () => {
 			code: "INVALID_PARAMS",
 			statusCode: 400,
 			errors: [
-				`language must be one of the following values: ${languageEnumAllowedValues}`,
+				'version must be a `number` type, but the final value was: `"1"`.',
 			],
 		});
 	});
 
-	it("should throw an error with invalid language", async () => {
+	it("should throw an error with invalid version", async () => {
 		let result;
 
 		try {
 			await validate({
 				userId,
-				language: "bar" as any,
-			} as CreateParams);
+				version: 999999,
+			} as AcceptParams);
 		} catch (e) {
 			result = e;
 		}
@@ -134,7 +122,7 @@ describe("SettingsService > create > validation", () => {
 			code: "INVALID_PARAMS",
 			statusCode: 400,
 			errors: [
-				`language must be one of the following values: ${languageEnumAllowedValues}`,
+				`version must be one of the following values: ${veriosnAllowedValues}`,
 			],
 		});
 	});

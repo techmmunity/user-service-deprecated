@@ -55,7 +55,7 @@
 ## Terms And Policies
 
 - [x] Criar entidade de Terms And Policies
-- [ ] Criar função e rota para aceitar termos de uso
+- [x] Criar função e rota para aceitar termos de uso
   - Só criar o registro no banco quando ele aceitar
   - Recebe como parametro o userId e a versão
 - [ ] Criar rota para verificar se o usuário aceitou os termos de uso

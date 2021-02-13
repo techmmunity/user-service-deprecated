@@ -16,4 +16,7 @@ export const MessagePatterns = {
 	userToken: {
 		update: "update-user-token",
 	},
+	termsAndPolicies: {
+		accept: "accept-terms-and-policies",
+	},
 };

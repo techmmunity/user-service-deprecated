@@ -14,7 +14,8 @@ import { EntityType } from "types/entity";
 export class TermsAndPoliciesEntity extends BaseEntity {
 	@PrimaryGeneratedColumn({
 		type: "uuid",
-		comment: "Canno't be the userId, because many versions can be accepted",
+		comment:
+			"Canno't be the userId, because many versions and apps can be accepted",
 	})
 	public id: string;
 
