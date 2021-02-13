@@ -5,21 +5,24 @@
 - [x] Criar função para criar
 - [x] Criar função para atualizar
 - [x] Criar rota para atualizar
-- [x] Adicionar testes ao serviço (create)
-- [x] Adicionar testes ao serviço (verify)
+- [x] Adicionar testes a função de criar verify account
+- [x] Adicionar testes a função de verificar account
 
 ## Tutorial
 
 - [x] Criar função para criar
 - [x] Criar função para completar tutorial
 - [x] Criar rota para completar tutorial
+- [x] Adicionar testes a função de criar tutorial
 - [x] Adicionar testes a função de completar tutorial
 
 # Settings
 
 - [x] Criar função para criar
-- [ ] Criar função para atualizar
-- [ ] Criar rota para atualizar
+- [x] Criar função para atualizar
+- [x] Criar rota para atualizar
+- [x] Adicionar testes a função de criar
+- [x] Adicionar testes a função de atualizar
 
 ## User
 
@@ -40,7 +43,8 @@
 - [x] Criar função para criar
 - [x] Criar função para atualizar
 - [ ] Criar rota para atualizar
-- [ ] Adicionar validações ao serviço
+- [ ] Adicionar validações a função de criar
+- [ ] Adicionar validações a função de atualizar
 - [ ] Adicionar testes a função de criar
 - [ ] Adicionar testes a função de atualizar
 

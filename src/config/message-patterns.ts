@@ -10,4 +10,7 @@ export const MessagePatterns = {
 	tutorial: {
 		complete: "complete-tutorial",
 	},
+	settings: {
+		update: "update-settings",
+	},
 };
