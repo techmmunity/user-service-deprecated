@@ -15,7 +15,7 @@ describe("VerifyAccountService > verify", () => {
 	});
 
 	beforeEach(() => {
-		VerifyAccountMock.repository.save.mockReset();
+		VerifyAccountMock.repository.resetMock();
 	});
 
 	it("should be defined", () => {

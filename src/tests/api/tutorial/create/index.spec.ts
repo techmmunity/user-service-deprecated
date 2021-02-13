@@ -14,7 +14,7 @@ describe("TutorialService > create", () => {
 	});
 
 	beforeEach(() => {
-		TutorialMock.repository.save.mockReset();
+		TutorialMock.repository.resetMock();
 	});
 
 	it("should be defined", () => {

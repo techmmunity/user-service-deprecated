@@ -11,8 +11,9 @@
 ## Tutorial
 
 - [x] Criar função para criar
-- [ ] Criar função para atualizar
-- [ ] Criar rota para completar
+- [x] Criar função para completar tutorial
+- [x] Criar rota para completar tutorial
+- [x] Adicionar testes a função de completar tutorial
 
 # Settings
 
@@ -40,7 +41,8 @@
 - [x] Criar função para atualizar
 - [ ] Criar rota para atualizar
 - [ ] Adicionar validações ao serviço
-- [ ] Adicionar testes ao serviço
+- [ ] Adicionar testes a função de criar
+- [ ] Adicionar testes a função de atualizar
 
 ## Terms And Policies
 

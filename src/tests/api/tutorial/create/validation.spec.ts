@@ -7,7 +7,7 @@ import { InvalidParamsErrorMessage } from "utils/yup";
 
 const userId = v4();
 
-describe("TutorialService > create > validation > type-validation", () => {
+describe("TutorialService > create > validation", () => {
 	it("should do nothing with valid params", async () => {
 		let result;
 

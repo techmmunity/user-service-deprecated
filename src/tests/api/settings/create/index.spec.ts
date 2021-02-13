@@ -16,7 +16,7 @@ describe("SettingsService > create", () => {
 	});
 
 	beforeEach(() => {
-		SettingsMock.repository.save.mockReset();
+		SettingsMock.repository.resetMock();
 	});
 
 	it("should be defined", () => {

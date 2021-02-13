@@ -7,4 +7,7 @@ export const MessagePatterns = {
 	verifyAccount: {
 		verify: "verify-account",
 	},
+	tutorial: {
+		complete: "complete-tutorial",
+	},
 };

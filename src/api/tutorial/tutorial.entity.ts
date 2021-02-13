@@ -10,6 +10,16 @@ import {
 
 import { EntityType } from "types/entity";
 
+export const ALLOWED_FIELDS_TO_UPDATE = [
+	"mentoringListPage",
+	"articlesListPage",
+	"coursesListPage",
+	"forumListPage",
+	"jobsListPage",
+	"projectsListPage",
+	"storeListPage",
+] as Array<keyof Omit<TutorialType, "id">>;
+
 @Entity("tutorials")
 export class TutorialEntity extends BaseEntity {
 	@PrimaryColumn()

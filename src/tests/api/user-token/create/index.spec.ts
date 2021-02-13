@@ -14,7 +14,7 @@ describe("UserTokenService > create", () => {
 	});
 
 	beforeEach(() => {
-		UserTokenMock.repository.save.mockReset();
+		UserTokenMock.repository.resetMock();
 	});
 
 	it("should be defined", () => {
