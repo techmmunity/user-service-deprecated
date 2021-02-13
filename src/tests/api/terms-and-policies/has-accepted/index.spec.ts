@@ -6,7 +6,7 @@ import { TermsAndPoliciesMock } from "tests/mocks/terms-and-policies";
 
 const userId = v4();
 
-describe("TermsAndPoliciesService > accept", () => {
+describe("TermsAndPoliciesService > hasAccepted", () => {
 	let service: TermsAndPoliciesService;
 
 	beforeAll(async () => {
@@ -21,20 +21,22 @@ describe("TermsAndPoliciesService > accept", () => {
 		expect(service).toBeDefined();
 	});
 
-	it("should accept termsAndPolicies with valid params", async () => {
+	it("should return termsAndPolicies with valid params", async () => {
 		const termsAndPoliciesDoc = TermsAndPoliciesMock.doc({
 			userId,
 			version: 1,
 		});
 
-		TermsAndPoliciesMock.repository.save.mockReturnValue(termsAndPoliciesDoc);
+		TermsAndPoliciesMock.repository.findOne.mockReturnValue(
+			termsAndPoliciesDoc,
+		);
 
-		const termsAndPolicies = await service.accept({
+		const termsAndPolicies = await service.hasAccepted({
 			userId,
 			version: 1,
 		});
 
-		expect(TermsAndPoliciesMock.repository.save).toBeCalledTimes(1);
+		expect(TermsAndPoliciesMock.repository.findOne).toBeCalledTimes(1);
 		expect(termsAndPolicies).toMatchObject(termsAndPoliciesDoc);
 	});
 });

@@ -18,5 +18,6 @@ export const MessagePatterns = {
 	},
 	termsAndPolicies: {
 		accept: "accept-terms-and-policies",
+		hasAccepted: "has-accepted-terms-and-policies",
 	},
 };
