@@ -22,14 +22,10 @@ export const update = ({
 	refreshToken,
 	expirationDate,
 }: UpdateTokenParams & Injectables) => {
-	return UserTokenRepository.save(
-		{
-			id: userId,
-		},
-		{
-			[`${type.toLowerCase()}accessToken`]: accessToken,
-			[`${type.toLowerCase()}refreshToken`]: refreshToken,
-			[`${type.toLowerCase()}expirationDate`]: expirationDate,
-		},
-	);
+	return UserTokenRepository.save({
+		id: userId,
+		[`${type.toLowerCase()}accessToken`]: accessToken,
+		[`${type.toLowerCase()}refreshToken`]: refreshToken,
+		[`${type.toLowerCase()}expirationDate`]: expirationDate,
+	});
 };

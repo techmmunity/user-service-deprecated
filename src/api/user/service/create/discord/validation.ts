@@ -7,10 +7,14 @@ import { TimeUtil } from "utils/time";
 import { yup } from "utils/yup";
 
 const schema = yup.object().shape({
-	discordUserId: yup.string().required(),
-	discordAccessToken: yup.string().required(),
-	discordRefreshToken: yup.string().required(),
-	discordTokenExpirationDate: yup.date().required().min(TimeUtil.newDate()),
+	discordUserId: yup.string().strict().required(),
+	discordAccessToken: yup.string().strict().required(),
+	discordRefreshToken: yup.string().strict().required(),
+	discordTokenExpirationDate: yup
+		.date()
+		.strict()
+		.required()
+		.min(TimeUtil.newDate()),
 });
 
 export const validate = async (params: CreateDiscordParams) => {

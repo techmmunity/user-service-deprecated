@@ -9,9 +9,9 @@ import { IntegrationsValues } from "core/enums/integrations";
 const schema = yup.object().shape({
 	userId: yup.string().uuid().required(),
 	type: yup.string().oneOf([...IntegrationsValues(), undefined]),
-	accessToken: yup.string().notRequired(),
-	refreshToken: yup.string().notRequired(),
-	expirationDate: yup.date().min(TimeUtil.newDate()).notRequired(),
+	accessToken: yup.string().strict().notRequired(),
+	refreshToken: yup.string().strict().notRequired(),
+	expirationDate: yup.date().strict().min(TimeUtil.newDate()).notRequired(),
 });
 
 export const validate = async (params: CreateParams) =>

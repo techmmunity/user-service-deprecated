@@ -13,4 +13,7 @@ export const MessagePatterns = {
 	settings: {
 		update: "update-settings",
 	},
+	userToken: {
+		update: "update-user-token",
+	},
 };

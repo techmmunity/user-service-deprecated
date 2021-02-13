@@ -1,6 +1,6 @@
 import { check } from "@techmmunity/easy-check";
 
-import { Yup } from ".";
+import { Yup } from "..";
 
 export const username = (yup: Yup) => {
 	yup.addMethod(yup.string, "username", function (username: string) {

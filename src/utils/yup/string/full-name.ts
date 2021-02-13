@@ -1,4 +1,4 @@
-import { Yup } from ".";
+import { Yup } from "..";
 
 export const fullName = (yup: Yup) => {
 	yup.addMethod(yup.string, "fullName", function (fullName: string) {

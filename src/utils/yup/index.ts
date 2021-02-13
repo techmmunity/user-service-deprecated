@@ -8,9 +8,9 @@
 
 import * as yup from "yup";
 
-import { fullName } from "./full-name";
-import { password } from "./password";
-import { username } from "./username";
+import { fullName } from "./string/full-name";
+import { password } from "./string/password";
+import { username } from "./string/username";
 
 export type Yup = typeof yup;
 
