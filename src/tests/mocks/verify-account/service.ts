@@ -2,6 +2,10 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 
 import { MockRepository } from "../repository";
+import { SettingsMock } from "../settings";
+import { TutorialMock } from "../tutorial";
+import { UserMock } from "../user";
+import { UserTokenMock } from "../user-token";
 
 import { SettingsService } from "api/settings/settings.service";
 import { TutorialService } from "api/tutorial/tutorial.service";
@@ -29,19 +33,19 @@ export const service = (mockRepository: MockRepository) => async () => {
 			},
 			{
 				provide: getRepositoryToken(UserEntity),
-				useValue: mockRepository,
+				useValue: UserMock.repository,
 			},
 			{
 				provide: getRepositoryToken(SettingsEntity),
-				useValue: mockRepository,
+				useValue: SettingsMock.repository,
 			},
 			{
 				provide: getRepositoryToken(TutorialEntity),
-				useValue: mockRepository,
+				useValue: TutorialMock.repository,
 			},
 			{
 				provide: getRepositoryToken(UserTokenEntity),
-				useValue: mockRepository,
+				useValue: UserTokenMock.repository,
 			},
 		],
 	}).compile();

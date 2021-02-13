@@ -3,8 +3,10 @@
 ## Verify Account
 
 - [x] Criar função para criar
+- [x] Criar função para atualizar
 - [x] Criar rota para atualizar
-- [ ] Adicionar testes ao serviço
+- [x] Adicionar testes ao serviço (create)
+- [x] Adicionar testes ao serviço (verify)
 
 ## Tutorial
 

@@ -4,7 +4,7 @@ import { SettingsService } from "api/settings/settings.service";
 
 import { LanguageEnum } from "core/enums/language";
 
-import { ServiceMock } from "tests/mocks/settings";
+import { SettingsMock } from "tests/mocks/settings";
 
 const userId = v4();
 
@@ -12,11 +12,11 @@ describe("SettingsService > create", () => {
 	let service: SettingsService;
 
 	beforeAll(async () => {
-		service = await ServiceMock.service();
+		service = await SettingsMock.service();
 	});
 
 	beforeEach(() => {
-		ServiceMock.repository.save.mockReset();
+		SettingsMock.repository.save.mockReset();
 	});
 
 	it("should be defined", () => {
@@ -24,34 +24,34 @@ describe("SettingsService > create", () => {
 	});
 
 	it("should create settings with valid params", async () => {
-		const settingsDoc = ServiceMock.doc({
+		const settingsDoc = SettingsMock.doc({
 			userId,
 		});
 
-		ServiceMock.repository.save.mockReturnValue(settingsDoc);
+		SettingsMock.repository.save.mockReturnValue(settingsDoc);
 
 		const settings = await service.create({
 			userId,
 		});
 
-		expect(ServiceMock.repository.save).toBeCalledTimes(1);
+		expect(SettingsMock.repository.save).toBeCalledTimes(1);
 		expect(settings).toMatchObject(settingsDoc);
 	});
 
 	it("should create settings with valid params", async () => {
-		const settingsDoc = ServiceMock.doc({
+		const settingsDoc = SettingsMock.doc({
 			userId,
 			language: LanguageEnum.PT_BR,
 		});
 
-		ServiceMock.repository.save.mockReturnValue(settingsDoc);
+		SettingsMock.repository.save.mockReturnValue(settingsDoc);
 
 		const settings = await service.create({
 			userId,
 			language: LanguageEnum.PT_BR,
 		});
 
-		expect(ServiceMock.repository.save).toBeCalledTimes(1);
+		expect(SettingsMock.repository.save).toBeCalledTimes(1);
 		expect(settings).toMatchObject(settingsDoc);
 	});
 });

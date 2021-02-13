@@ -5,7 +5,7 @@ import { service } from "./service";
 
 const repository = makeMockRepository();
 
-export const SettingsMock = {
+export const UserMock = {
 	doc,
 	repository,
 	service: service(repository),

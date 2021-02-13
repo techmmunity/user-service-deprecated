@@ -6,7 +6,7 @@ export interface MockRepository {
 	update: jest.Mock<any, any>;
 }
 
-export const mameMockRepository = () => ({
+export const makeMockRepository = () => ({
 	find: jest.fn(),
 	findOne: jest.fn(),
 	save: jest.fn(),

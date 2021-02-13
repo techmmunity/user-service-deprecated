@@ -1,9 +1,9 @@
-import { mameMockRepository } from "../repository";
+import { makeMockRepository } from "../repository";
 import { doc } from "./doc";
 
 import { service } from "./service";
 
-const repository = mameMockRepository();
+const repository = makeMockRepository();
 
 export const TutorialMock = {
 	doc,
