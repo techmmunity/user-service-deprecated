@@ -3,6 +3,7 @@ export const MessagePatterns = {
 		createLocal: "create-local",
 		createDiscord: "create-discord",
 		findById: "find-user-by-id",
+		regenPin: "regen-user-pin",
 	},
 	verifyAccount: {
 		verify: "verify-account",

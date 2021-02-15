@@ -42,7 +42,10 @@ export const createDiscord = async (
 		},
 	});
 
-	const userData = formatData(unformattedData);
+	const userData = formatData({
+		verified: true,
+		...unformattedData,
+	});
 
 	const user = await UserRepository.save(userData);
 

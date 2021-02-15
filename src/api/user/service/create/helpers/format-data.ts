@@ -1,7 +1,7 @@
 import * as bcrypt from "bcrypt";
 import { v4 } from "uuid";
 
-import { generatePIN } from "./generate-pin";
+import { generatePIN } from "../../helpers/generate-pin";
 
 import { UserType } from "api/user/user.entity";
 

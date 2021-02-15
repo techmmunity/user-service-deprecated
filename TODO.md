@@ -26,21 +26,20 @@
 
 ## User
 
-- [x] Criar função para criar usuário local
-- [x] Criar rota para criar usuário local
-- [x] Criar função para criar usuário via discord
-- [x] Criar rota para criar usuário via discord
-- [x] Na criação do usuário local, criar um "Verify Account"
+- [x] Criar função e rota para criar usuário local
+  - [ ] Adicionar testes a rota de criar usuário local
+- [x] Criar função e rota para criar usuário via discord
+  - [ ] Adicionar testes a rota de criar usuário via discord
 - [x] Criar rota para buscar os dados via id
-- [ ] Adicionar testes a rota de buscar dados via id
-- [ ] Criar função e rota para re-gerar o PIN
-- [ ] Adicionar testes para a função de re-gerar o PIN
+  - [ ] Adicionar testes a rota de buscar dados via id
+- [x] Criar função e rota para re-gerar o PIN
+  - [ ] Adicionar testes para a função de re-gerar o PIN
 - [ ] Criar função e rota para alterar username
-- [ ] Adicionar testes para a função alterar username
+  - [ ] Adicionar testes para a função alterar username
 - [ ] Criar função e rota para alterar email
-- [ ] Adicionar testes para a função alterar email
+  - [ ] Adicionar testes para a função alterar email
 - [ ] Criar função e rota para alterar senha
-- [ ] Adicionar testes para a função alterar senha
+  - [ ] Adicionar testes para a função alterar senha
 
 ## User Token
 

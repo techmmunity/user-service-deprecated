@@ -5,7 +5,8 @@ import { UserService } from "./user.service";
 
 import { CreateDiscordParams } from "./service/create/discord";
 import { CreateLocalParams } from "./service/create/local";
-import { FindByIdParams } from "./service/findById";
+import { FindByIdParams } from "./service/find-by-id";
+import { RegenPinParams } from "./service/regen-pin";
 
 import { MessagePatterns } from "config/message-patterns";
 
@@ -28,5 +29,10 @@ export class UserController {
 	@MessagePattern(MessagePatterns.user.findById)
 	public findById(data: FindByIdParams) {
 		return this.UserService.findById(data);
+	}
+
+	@MessagePattern(MessagePatterns.user.regenPin)
+	public regenPin(data: RegenPinParams) {
+		return this.UserService.regenPin(data);
 	}
 }

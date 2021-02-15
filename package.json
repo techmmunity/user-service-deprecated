@@ -101,6 +101,7 @@
 		"clean": "rm -rd dist",
 		"clone:core": "./scripts/clone-core.sh",
 		"copy:core": "./scripts/copy-core.sh",
-		"docker": "docker-compose up"
+		"docker": "docker-compose up",
+		"migration:create": "npx typeorm migration:create -d src/migrations -n"
 	}
 }
