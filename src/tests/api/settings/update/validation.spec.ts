@@ -9,8 +9,8 @@ import { LanguageEnum, LanguageValues } from "core/enums/language";
 import { ThemeEnum, ThemeValues } from "core/enums/theme";
 
 const userId = v4();
-const languageEnumAllowedValues = [...LanguageValues(), undefined].join(", ");
-const themeEnumAllowedValues = [...ThemeValues(), undefined].join(", ");
+const languageEnumAllowedValues = LanguageValues().join(", ");
+const themeEnumAllowedValues = ThemeValues().join(", ");
 
 describe("SettingsService > update > validation", () => {
 	it("should do nothing with valid params", async () => {

@@ -11,12 +11,11 @@ export interface BaseCreateUser {
 	email: string;
 	username: string;
 	fullName: string;
-	birthday: string;
 	password: string;
+	birthday: Date;
 	headline: HeadlineEnum;
 	suggestedLanguage?: LanguageEnum;
 	avatar?: string;
-	verified?: boolean;
 }
 
 export interface BaseInjectables {

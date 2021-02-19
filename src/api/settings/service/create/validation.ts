@@ -7,7 +7,7 @@ import { LanguageValues } from "core/enums/language";
 
 const schema = yup.object().shape({
 	userId: yup.string().uuid().required(),
-	language: yup.string().oneOf([...LanguageValues(), undefined]),
+	language: yup.string().oneOf(LanguageValues()).notRequired(),
 });
 
 export const validate = async (params: CreateParams) =>

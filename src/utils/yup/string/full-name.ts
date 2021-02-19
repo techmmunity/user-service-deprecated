@@ -1,11 +1,11 @@
 import { Yup } from "..";
 
 export const fullName = (yup: Yup) => {
-	yup.addMethod(yup.string, "fullName", function (fullName: string) {
+	yup.addMethod(yup.string, "fullName", function () {
 		return this.test({
 			name: "fullName",
-			message: "INVALID_FULL_NAME",
-			test: () => {
+			message: "fullName must have at least two words",
+			test: fullName => {
 				if (!fullName) return true;
 
 				const splited = fullName.split(" ");

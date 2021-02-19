@@ -9,9 +9,7 @@ import { InvalidParamsErrorMessage } from "utils/yup";
 import { IntegrationsEnum, IntegrationsValues } from "core/enums/integrations";
 
 const userId = v4();
-const integrationsEnumAllowedValues = [...IntegrationsValues(), undefined].join(
-	", ",
-);
+const integrationsEnumAllowedValues = IntegrationsValues().join(", ");
 
 describe("UserTokenService > create > validation", () => {
 	let expirationDate: Date;

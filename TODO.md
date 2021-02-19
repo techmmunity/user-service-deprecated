@@ -27,15 +27,17 @@
 ## User
 
 - [x] Criar função e rota para criar usuário local
-  - [ ] Adicionar testes a rota de criar usuário local
+  - [x] Adicionar testes a rota de criar usuário local
 - [x] Criar função e rota para criar usuário via discord
   - [ ] Adicionar testes a rota de criar usuário via discord
+- [ ] Adicionar testes a validação de usuário duplicado
 - [x] Criar rota para buscar os dados via id
   - [ ] Adicionar testes a rota de buscar dados via id
 - [x] Criar função e rota para re-gerar o PIN
   - [ ] Adicionar testes para a função de re-gerar o PIN
 - [ ] Criar função e rota para alterar username
   - [ ] Adicionar testes para a função alterar username
+  - Um membro da staff Tech não pode alterar o username
 - [ ] Criar função e rota para alterar email
   - [ ] Adicionar testes para a função alterar email
 - [ ] Criar função e rota para alterar senha

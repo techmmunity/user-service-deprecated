@@ -5,13 +5,15 @@ import { generatePIN } from "../../helpers/generate-pin";
 
 import { UserType } from "api/user/user.entity";
 
-import { TimeUtil } from "utils/time";
-
 import { LanguageEnum } from "core/enums/language";
 
 import { DEFAULT_USER_PERMISSIONS } from "config/default-user-permissions";
 
 import { BaseCreateUser } from "../types";
+
+interface FormatDataParams extends BaseCreateUser {
+	verified?: boolean;
+}
 
 const getNameAndSurnames = (fullName: string) => {
 	const [name, ...surnamesArray] = fullName.split(" ");
@@ -43,7 +45,7 @@ export const formatData = ({
 	password,
 	verified,
 	suggestedLanguage,
-}: BaseCreateUser) => {
+}: FormatDataParams) => {
 	const { name, surnames } = getNameAndSurnames(fullName);
 
 	const id = v4();
@@ -55,8 +57,8 @@ export const formatData = ({
 		email,
 		username,
 		headline,
+		birthday,
 		verified: verified ? true : false,
-		birthday: TimeUtil.unformat(birthday),
 		password: getPasswordEncrypted(password),
 		languages: getLanguages(suggestedLanguage),
 		pin: generatePIN(),

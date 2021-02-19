@@ -8,7 +8,7 @@ import { IntegrationsValues } from "core/enums/integrations";
 
 const schema = yup.object().shape({
 	userId: yup.string().uuid().required(),
-	type: yup.string().oneOf([...IntegrationsValues(), undefined]),
+	type: yup.string().oneOf(IntegrationsValues()).notRequired(),
 	accessToken: yup.string().strict().notRequired(),
 	refreshToken: yup.string().strict().notRequired(),
 	expirationDate: yup.date().strict().min(TimeUtil.newDate()).notRequired(),

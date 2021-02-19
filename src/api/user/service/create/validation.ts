@@ -1,4 +1,5 @@
 import { ErrorUtil } from "utils/error";
+import { TimeUtil } from "utils/time";
 import { yup } from "utils/yup";
 
 import { HeadlineValues } from "core/enums/headline";
@@ -9,7 +10,7 @@ import { BaseCreateUser } from "./types";
 const schema = yup.object().shape({
 	email: yup.string().email().required(),
 	username: yup.string().username().required(),
-	birthday: yup.date().strict().required(),
+	birthday: yup.date().strict().required().max(TimeUtil.newDate()),
 	password: yup.string().password().required(),
 	fullName: yup.string().fullName().required(),
 	avatar: yup.string().url().notRequired(),

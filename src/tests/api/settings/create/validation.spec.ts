@@ -8,7 +8,7 @@ import { InvalidParamsErrorMessage } from "utils/yup";
 import { LanguageEnum, LanguageValues } from "core/enums/language";
 
 const userId = v4();
-const languageEnumAllowedValues = [...LanguageValues(), undefined].join(", ");
+const languageEnumAllowedValues = LanguageValues().join(", ");
 
 describe("SettingsService > create > validation", () => {
 	it("should do nothing with valid params", async () => {

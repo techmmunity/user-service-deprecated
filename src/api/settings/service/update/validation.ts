@@ -8,8 +8,8 @@ import { ThemeValues } from "core/enums/theme";
 
 const schema = yup.object().shape({
 	userId: yup.string().uuid().required(),
-	language: yup.string().oneOf([...LanguageValues(), undefined]),
-	theme: yup.string().oneOf([...ThemeValues(), undefined]),
+	language: yup.string().oneOf(LanguageValues()).notRequired(),
+	theme: yup.string().oneOf(ThemeValues()).notRequired(),
 });
 
 export const validate = async (params: UpdateParams) => {
