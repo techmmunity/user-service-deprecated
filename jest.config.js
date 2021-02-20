@@ -7,7 +7,8 @@ module.exports = {
 	},
 	collectCoverageFrom: [
 		"api/**/*.service.ts",
-		"api/**/service/**/validation/*.ts",
+		"api/**/service/**/*.ts",
+		"api/**/service/**/**/*.ts",
 	],
 	coverageDirectory: "../coverage",
 	testEnvironment: "node",

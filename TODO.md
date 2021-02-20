@@ -34,7 +34,7 @@
 - [x] Criar rota para buscar os dados via id
   - [ ] Adicionar testes a rota de buscar dados via id
 - [x] Criar função e rota para re-gerar o PIN
-  - [ ] Adicionar testes para a função de re-gerar o PIN
+  - [x] Adicionar testes para a função de re-gerar o PIN
 - [ ] Criar função e rota para alterar username
   - [ ] Adicionar testes para a função alterar username
   - Um membro da staff Tech não pode alterar o username
