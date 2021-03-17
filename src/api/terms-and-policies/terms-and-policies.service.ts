@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Transactional } from "typeorm-transactional-cls-hooked";
 
 import { accept, AcceptParams } from "./service/accept";
 import { hasAccepted } from "./service/has-accepted";
@@ -18,6 +19,7 @@ export class TermsAndPoliciesService {
 		//
 	}
 
+	@Transactional()
 	public accept(params: AcceptParams) {
 		return accept({
 			TermsAndPoliciesRepository: this.TermsAndPoliciesRepository,
@@ -25,6 +27,7 @@ export class TermsAndPoliciesService {
 		});
 	}
 
+	@Transactional()
 	public hasAccepted(params: AcceptParams) {
 		return hasAccepted({
 			TermsAndPoliciesRepository: this.TermsAndPoliciesRepository,

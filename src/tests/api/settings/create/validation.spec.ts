@@ -72,7 +72,9 @@ describe("SettingsService > create > validation", () => {
 		expect(result.response).toMatchObject({
 			code: "INVALID_PARAMS",
 			statusCode: 400,
-			errors: ["userId must be a valid UUID"],
+			errors: [
+				"userId must be a `string` type, but the final value was: `123`.",
+			],
 		});
 	});
 

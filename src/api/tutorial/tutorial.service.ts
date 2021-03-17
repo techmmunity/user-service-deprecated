@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Transactional } from "typeorm-transactional-cls-hooked";
 
 import { complete, CompleteParams } from "./service/complete";
 import { create, CreateParams } from "./service/create";
@@ -15,6 +16,7 @@ export class TutorialService {
 		//
 	}
 
+	@Transactional()
 	public create(params: CreateParams) {
 		return create({
 			TutorialRepository: this.TutorialRepository,
@@ -22,6 +24,7 @@ export class TutorialService {
 		});
 	}
 
+	@Transactional()
 	public complete(params: CompleteParams) {
 		return complete({
 			TutorialRepository: this.TutorialRepository,

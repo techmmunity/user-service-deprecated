@@ -10,6 +10,7 @@ module.exports = {
 		"api/**/service/**/*.ts",
 		"api/**/service/**/**/*.ts",
 	],
+	setupFiles: ["./tests/setup.ts"],
 	coverageDirectory: "../coverage",
 	testEnvironment: "node",
 	moduleDirectories: ["node_modules", "src"],

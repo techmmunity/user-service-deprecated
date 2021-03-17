@@ -1,5 +1,6 @@
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Transactional } from "typeorm-transactional-cls-hooked";
 
 import { SettingsService } from "api/settings/settings.service";
 import { TutorialService } from "api/tutorial/tutorial.service";
@@ -38,6 +39,7 @@ export class UserService {
 		};
 	}
 
+	@Transactional()
 	public createLocal(params: CreateLocalParams) {
 		return createLocal({
 			...this.repositoriesAndServices,
@@ -45,6 +47,7 @@ export class UserService {
 		});
 	}
 
+	@Transactional()
 	public createDiscord(params: CreateDiscordParams) {
 		return createDiscord({
 			...this.repositoriesAndServices,
@@ -52,6 +55,7 @@ export class UserService {
 		});
 	}
 
+	@Transactional()
 	public verify(params: VerifyParams) {
 		return verify({
 			UserRepository: this.UserRepository,
@@ -59,6 +63,7 @@ export class UserService {
 		});
 	}
 
+	@Transactional()
 	public findById(params: FindByIdParams) {
 		return findById({
 			UserRepository: this.UserRepository,
@@ -66,6 +71,7 @@ export class UserService {
 		});
 	}
 
+	@Transactional()
 	public regenPin(params: RegenPinParams) {
 		return regenPin({
 			UserRepository: this.UserRepository,

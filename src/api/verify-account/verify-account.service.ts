@@ -1,5 +1,6 @@
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Transactional } from "typeorm-transactional-cls-hooked";
 
 import { UserService as UserServiceDependency } from "api/user/user.service";
 
@@ -22,6 +23,7 @@ export class VerifyAccountService {
 		//
 	}
 
+	@Transactional()
 	public create(userId: string) {
 		return create({
 			userId,
@@ -29,6 +31,7 @@ export class VerifyAccountService {
 		});
 	}
 
+	@Transactional()
 	public verify(confirmationCode: string) {
 		return verify({
 			UserService: this.UserService,
