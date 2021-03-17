@@ -84,11 +84,14 @@
 		"testEnvironment": "node"
 	},
 	"scripts": {
+		"clear": "rimraf dist && rimraf tsconfig.build.tsbuildinfo && rimraf tsconfig.tsbuildinfo",
+		"clear:dev": "yarn clear && yarn dev",
 		"prebuild": "rimraf dist",
 		"build": "nest build",
 		"format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
 		"start": "nest start",
-		"dev": "env-cmd nest start --watch --exec 'node -r tsconfig-paths/register'",
+		"dev": "env-cmd yarn dev:docker",
+		"dev:docker": "nest start --watch --exec 'node -r tsconfig-paths/register'",
 		"start:debug": "nest start --debug --watch",
 		"start:prod": "node dist/main",
 		"lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -99,10 +102,9 @@
 		"test:e2e": "jest --config ./test/jest-e2e.json",
 		"update-dependencies": "yarn upgrade-interactive --latest",
 		"todo": "node scripts/count-todo.js",
-		"clean": "rm -rd dist",
 		"clone:core": "./scripts/clone-core.sh",
 		"copy:core": "./scripts/copy-core.sh",
 		"docker": "docker-compose up",
-		"migration:create": "npx typeorm migration:create -d src/migrations -n"
+		"migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config ormconfig.migrations.json migration:generate -d src/migrations -n"
 	}
 }

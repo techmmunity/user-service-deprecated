@@ -30,7 +30,7 @@
   - [x] Adicionar testes a rota de criar usuário local
 - [x] Criar função e rota para criar usuário via discord
   - [ ] Adicionar testes a rota de criar usuário via discord
-- [ ] Adicionar testes a validação de usuário duplicado
+  - [ ] Adicionar testes a validação de usuário duplicado
 - [x] Criar rota para buscar os dados via id
   - [ ] Adicionar testes a rota de buscar dados via id
 - [x] Criar função e rota para re-gerar o PIN
@@ -41,6 +41,8 @@
 - [ ] Criar função e rota para alterar email
   - [ ] Adicionar testes para a função alterar email
 - [ ] Criar função e rota para alterar senha
+  - [ ] Pensar no fluxo de alteração de senha
+    - Ele deve ter 2 etapas, uma do envio de email com um token para alteração de senha e outra que realmente altera a senha baseado naquele token
   - [ ] Adicionar testes para a função alterar senha
 
 ## User Token
@@ -64,12 +66,12 @@
 
 # Migrations
 
-- [ ] Escrever migration da tabela settings
-- [ ] Escrever migration da tabela terms_and_policies
-- [ ] Escrever migration da tabela tutorials
-- [ ] Escrever migration da tabela users
-- [ ] Escrever migration da tabela user_tokens
-- [ ] Escrever migration da tabela verify_accounts
+- [x] Escrever migration da tabela settings
+- [x] Escrever migration da tabela terms_and_policies
+- [x] Escrever migration da tabela tutorials
+- [x] Escrever migration da tabela users
+- [x] Escrever migration da tabela user_tokens
+- [x] Escrever migration da tabela verify_accounts
 
 ## Etc
 

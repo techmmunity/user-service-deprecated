@@ -18,7 +18,7 @@ services:
       context: "."
       dockerfile: Dockerfile.dev
     container_name: user_api
-    command: yarn dev
+    command: yarn dev:docker
     depends_on:
       - db
     ports:
@@ -26,7 +26,7 @@ services:
     networks:
       - api_network
     env_file:
-      - .env
+      - .env.docker
     volumes:
       - ./:/app/
       - nodemodules:/app/node_modules

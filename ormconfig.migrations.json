@@ -1,0 +1,16 @@
+{
+	"type": "postgres",
+	"host": "localhost",
+	"username": "dev_db",
+	"database": "dev_db",
+	"password": "123",
+	"synchronize": false,
+	"logging": true,
+	"migrationsRun": true,
+	"entities": [
+		"src/api/**/*.entity.ts"
+	],
+	"migrations": [
+		"src/migrations/*.ts"
+	]
+}

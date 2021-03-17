@@ -9,4 +9,4 @@ RUN yarn
 
 ADD ./ ./
 
-CMD yarn dev
+CMD yarn dev:docker
