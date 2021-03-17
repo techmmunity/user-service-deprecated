@@ -57,7 +57,7 @@
 	"husky": {
 		"hooks": {
 			"pre-commit": "tsc && lint-staged",
-			"pre-push": "yarn test"
+			"pre-push": "yarn test:cov"
 		}
 	},
 	"lint-staged": {
