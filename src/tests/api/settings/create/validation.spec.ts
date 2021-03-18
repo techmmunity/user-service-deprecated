@@ -5,20 +5,25 @@ import { validate } from "api/settings/service/create/validation";
 
 import { InvalidParamsErrorMessage } from "utils/yup";
 
-import { LanguageEnum, LanguageValues } from "core/enums/language";
-
-const userId = v4();
-const languageEnumAllowedValues = LanguageValues().join(", ");
+import { LanguageValues } from "core/enums/language";
 
 describe("SettingsService > create > validation", () => {
+	const userId = v4();
+
+	const languageEnumAllowedValues = LanguageValues().join(", ");
+
 	it("should do nothing with valid params", async () => {
 		let result;
 
 		try {
-			await validate({
-				userId,
-				language: LanguageEnum.EN,
-			});
+			await Promise.all(
+				LanguageValues().map(language =>
+					validate({
+						userId,
+						language,
+					}),
+				),
+			);
 		} catch (e) {
 			result = e;
 		}
@@ -57,13 +62,11 @@ describe("SettingsService > create > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid user id type", async () => {
+	it("should throw an error without userId", async () => {
 		let result;
 
 		try {
-			await validate({
-				userId: 123 as any,
-			} as CreateParams);
+			await validate({} as CreateParams);
 		} catch (e) {
 			result = e;
 		}
@@ -72,13 +75,11 @@ describe("SettingsService > create > validation", () => {
 		expect(result.response).toMatchObject({
 			code: "INVALID_PARAMS",
 			statusCode: 400,
-			errors: [
-				"userId must be a `string` type, but the final value was: `123`.",
-			],
+			errors: ["userId is a required field"],
 		});
 	});
 
-	it("should throw an error with invalid user id", async () => {
+	it("should throw an error with invalid userId", async () => {
 		let result;
 
 		try {
@@ -97,13 +98,12 @@ describe("SettingsService > create > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid language type", async () => {
+	it("should throw an error with invalid userId type", async () => {
 		let result;
 
 		try {
 			await validate({
-				userId,
-				language: 123 as any,
+				userId: 123 as any,
 			} as CreateParams);
 		} catch (e) {
 			result = e;
@@ -114,7 +114,7 @@ describe("SettingsService > create > validation", () => {
 			code: "INVALID_PARAMS",
 			statusCode: 400,
 			errors: [
-				`language must be one of the following values: ${languageEnumAllowedValues}`,
+				"userId must be a `string` type, but the final value was: `123`.",
 			],
 		});
 	});
@@ -137,6 +137,28 @@ describe("SettingsService > create > validation", () => {
 			statusCode: 400,
 			errors: [
 				`language must be one of the following values: ${languageEnumAllowedValues}`,
+			],
+		});
+	});
+
+	it("should throw an error with invalid language type", async () => {
+		let result;
+
+		try {
+			await validate({
+				userId,
+				language: 123 as any,
+			} as CreateParams);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: [
+				"language must be a `string` type, but the final value was: `123`.",
 			],
 		});
 	});

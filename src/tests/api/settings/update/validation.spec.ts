@@ -5,56 +5,74 @@ import { validate } from "api/settings/service/update/validation";
 
 import { InvalidParamsErrorMessage } from "utils/yup";
 
-import { LanguageEnum, LanguageValues } from "core/enums/language";
-import { ThemeEnum, ThemeValues } from "core/enums/theme";
-
-const userId = v4();
-const languageEnumAllowedValues = LanguageValues().join(", ");
-const themeEnumAllowedValues = ThemeValues().join(", ");
+import { LanguageValues } from "core/enums/language";
+import { ThemeValues } from "core/enums/theme";
 
 describe("SettingsService > update > validation", () => {
-	it("should do nothing with valid params", async () => {
+	const userId = v4();
+
+	const languageEnumAllowedValues = LanguageValues().join(", ");
+
+	const themeEnumAllowedValues = ThemeValues().join(", ");
+
+	it("should do nothing with valid params (with ALL languages)", async () => {
 		let result;
 
 		try {
-			await Promise.all([
-				validate({
-					userId,
-					language: LanguageEnum.EN,
-				}),
-				validate({
-					userId,
-					language: LanguageEnum.PT_BR,
-				}),
-				validate({
-					userId,
-					theme: ThemeEnum.DARK,
-				}),
-				validate({
-					userId,
-					theme: ThemeEnum.LIGHT,
-				}),
-				validate({
-					userId,
-					language: LanguageEnum.EN,
-					theme: ThemeEnum.LIGHT,
-				}),
-				validate({
-					userId,
-					language: LanguageEnum.EN,
-					theme: ThemeEnum.DARK,
-				}),
-				validate({
-					userId,
-					language: LanguageEnum.PT_BR,
-					theme: ThemeEnum.LIGHT,
-				}),
-				validate({
-					userId,
-					language: LanguageEnum.PT_BR,
-					theme: ThemeEnum.DARK,
-				}),
-			]);
+			await Promise.all(
+				LanguageValues().map(language =>
+					validate({
+						userId,
+						language,
+					}),
+				),
+			);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result).toBeUndefined();
+	});
+
+	it("should do nothing with valid params (with ALL themes)", async () => {
+		let result;
+
+		try {
+			await Promise.all(
+				ThemeValues().map(theme =>
+					validate({
+						userId,
+						theme,
+					}),
+				),
+			);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result).toBeUndefined();
+	});
+
+	it("should do nothing with valid params (with ALL languages and ALL themes)", async () => {
+		let result;
+
+		const languagesArray = LanguageValues();
+		const themesArray = ThemeValues();
+
+		try {
+			await Promise.all(
+				languagesArray
+					.map(language => {
+						themesArray.map(theme =>
+							validate({
+								userId,
+								language,
+								theme,
+							}),
+						);
+					})
+					.flat(),
+			);
 		} catch (e) {
 			result = e;
 		}
@@ -79,7 +97,24 @@ describe("SettingsService > update > validation", () => {
 		});
 	});
 
-	it("should throw an error with only user id", async () => {
+	it("should throw an error without userId", async () => {
+		let result;
+
+		try {
+			await validate({} as any);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: ["userId is a required field"],
+		});
+	});
+
+	it("should throw an error with only userId", async () => {
 		let result;
 
 		try {
@@ -98,7 +133,7 @@ describe("SettingsService > update > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid user id type", async () => {
+	it("should throw an error with invalid userId type", async () => {
 		let result;
 
 		try {
@@ -113,11 +148,13 @@ describe("SettingsService > update > validation", () => {
 		expect(result.response).toMatchObject({
 			code: "INVALID_PARAMS",
 			statusCode: 400,
-			errors: ["userId must be a valid UUID"],
+			errors: [
+				"userId must be a `string` type, but the final value was: `123`.",
+			],
 		});
 	});
 
-	it("should throw an error with invalid user id", async () => {
+	it("should throw an error with invalid userId", async () => {
 		let result;
 
 		try {
@@ -133,28 +170,6 @@ describe("SettingsService > update > validation", () => {
 			code: "INVALID_PARAMS",
 			statusCode: 400,
 			errors: ["userId must be a valid UUID"],
-		});
-	});
-
-	it("should throw an error with invalid language type", async () => {
-		let result;
-
-		try {
-			await validate({
-				userId,
-				language: 123 as any,
-			} as UpdateParams);
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result.status).toBe(400);
-		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
-			errors: [
-				`language must be one of the following values: ${languageEnumAllowedValues}`,
-			],
 		});
 	});
 
@@ -180,13 +195,13 @@ describe("SettingsService > update > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid theme type", async () => {
+	it("should throw an error with invalid language type", async () => {
 		let result;
 
 		try {
 			await validate({
 				userId,
-				theme: 123 as any,
+				language: 123 as any,
 			} as UpdateParams);
 		} catch (e) {
 			result = e;
@@ -197,7 +212,7 @@ describe("SettingsService > update > validation", () => {
 			code: "INVALID_PARAMS",
 			statusCode: 400,
 			errors: [
-				`theme must be one of the following values: ${themeEnumAllowedValues}`,
+				"language must be a `string` type, but the final value was: `123`.",
 			],
 		});
 	});
@@ -220,6 +235,28 @@ describe("SettingsService > update > validation", () => {
 			statusCode: 400,
 			errors: [
 				`theme must be one of the following values: ${themeEnumAllowedValues}`,
+			],
+		});
+	});
+
+	it("should throw an error with invalid theme type", async () => {
+		let result;
+
+		try {
+			await validate({
+				userId,
+				theme: 123 as any,
+			} as UpdateParams);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: [
+				"theme must be a `string` type, but the final value was: `123`.",
 			],
 		});
 	});

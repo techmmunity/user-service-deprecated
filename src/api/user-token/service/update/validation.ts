@@ -7,11 +7,11 @@ import { yup } from "utils/yup";
 import { IntegrationsValues } from "core/enums/integrations";
 
 const schema = yup.object().shape({
-	userId: yup.string().strict().uuid().required(),
-	type: yup.string().strict().oneOf(IntegrationsValues()),
-	accessToken: yup.string().strict().required(),
-	refreshToken: yup.string().strict().required(),
-	expirationDate: yup.date().strict().min(TimeUtil.newDate()).required(),
+	userId: yup.string().required().strict().uuid(),
+	type: yup.string().required().strict().oneOf(IntegrationsValues()),
+	accessToken: yup.string().required().strict(),
+	refreshToken: yup.string().required().strict(),
+	expirationDate: yup.date().required().strict().min(TimeUtil.newDate()),
 });
 
 export const validate = async (params: UpdateTokenParams) =>

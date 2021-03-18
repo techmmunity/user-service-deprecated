@@ -63,6 +63,14 @@
   - Recebe como parametro o userId e a versão
 - [x] Criar rota para verificar se o usuário aceitou os termos de uso
   - Recebe como parametro o userId e a versão
+- [ ] Criar uma tabela de Termos de Uso por produto da Tech
+  - Colunas:
+    - id
+    - version
+    - product (enum de produtos da Tech)
+    - body (conteudo dos termos de uso em Markdown)
+    - createdAt
+  - Sempre que ocorrer uma atualização nos temos de uso, um novo documento deve ser criado, ao invez de atualizar o antigo
 
 # Migrations
 
@@ -76,3 +84,8 @@
 ## Etc
 
 - [ ] Testar as paradas
+- [ ] Criar funções no util de errors para retornar as mensagens de erros
+  - required field
+  - wrong type
+  - invalid enum value
+- [ ] Descomentar bloqueio de coverage de testes

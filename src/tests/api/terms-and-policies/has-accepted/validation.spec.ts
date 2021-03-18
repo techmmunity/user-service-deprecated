@@ -43,27 +43,7 @@ describe("TermsAndPoliciesService > hasAccepted > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid user id type", async () => {
-		let result;
-
-		try {
-			await validate({
-				userId: 123 as any,
-				version: 1,
-			} as HasAcceptedParams);
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result.status).toBe(400);
-		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
-			errors: ["userId must be a valid UUID"],
-		});
-	});
-
-	it("should throw an error with invalid user id", async () => {
+	it("should throw an error with invalid userId", async () => {
 		let result;
 
 		try {
@@ -83,13 +63,13 @@ describe("TermsAndPoliciesService > hasAccepted > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid version type", async () => {
+	it("should throw an error with invalid userId type", async () => {
 		let result;
 
 		try {
 			await validate({
-				userId,
-				version: "1" as any,
+				userId: 123 as any,
+				version: 1,
 			} as HasAcceptedParams);
 		} catch (e) {
 			result = e;
@@ -100,7 +80,7 @@ describe("TermsAndPoliciesService > hasAccepted > validation", () => {
 			code: "INVALID_PARAMS",
 			statusCode: 400,
 			errors: [
-				'version must be a `number` type, but the final value was: `"1"`.',
+				"userId must be a `string` type, but the final value was: `123`.",
 			],
 		});
 	});
@@ -123,6 +103,28 @@ describe("TermsAndPoliciesService > hasAccepted > validation", () => {
 			statusCode: 400,
 			errors: [
 				`version must be one of the following values: ${veriosnAllowedValues}`,
+			],
+		});
+	});
+
+	it("should throw an error with invalid version type", async () => {
+		let result;
+
+		try {
+			await validate({
+				userId,
+				version: "1" as any,
+			} as HasAcceptedParams);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: [
+				'version must be a `number` type, but the final value was: `"1"`.',
 			],
 		});
 	});

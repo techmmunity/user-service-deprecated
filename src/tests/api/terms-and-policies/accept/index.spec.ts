@@ -4,10 +4,10 @@ import { TermsAndPoliciesService } from "api/terms-and-policies/terms-and-polici
 
 import { TermsAndPoliciesMock } from "tests/mocks/terms-and-policies";
 
-const userId = v4();
-
 describe("TermsAndPoliciesService > accept", () => {
 	let service: TermsAndPoliciesService;
+
+	const userId = v4();
 
 	beforeAll(async () => {
 		service = await TermsAndPoliciesMock.service();

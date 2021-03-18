@@ -7,13 +7,13 @@ import { TimeUtil } from "utils/time";
 import { yup } from "utils/yup";
 
 const schema = yup.object().shape({
-	discordUserId: yup.string().strict().required(),
-	discordAccessToken: yup.string().strict().required(),
-	discordRefreshToken: yup.string().strict().required(),
+	discordUserId: yup.string().required().strict(),
+	discordAccessToken: yup.string().required().strict(),
+	discordRefreshToken: yup.string().required().strict(),
 	discordTokenExpirationDate: yup
 		.date()
-		.strict()
 		.required()
+		.strict()
 		.min(TimeUtil.newDate()),
 });
 

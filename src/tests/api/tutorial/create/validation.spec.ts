@@ -39,7 +39,7 @@ describe("TutorialService > create > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid user id type", async () => {
+	it("should throw an error with invalid userId type", async () => {
 		let result;
 
 		try {
@@ -54,11 +54,13 @@ describe("TutorialService > create > validation", () => {
 		expect(result.response).toMatchObject({
 			code: "INVALID_PARAMS",
 			statusCode: 400,
-			errors: ["userId must be a valid UUID"],
+			errors: [
+				"userId must be a `string` type, but the final value was: `123`.",
+			],
 		});
 	});
 
-	it("should throw an error with invalid user id", async () => {
+	it("should throw an error with invalid userId", async () => {
 		let result;
 
 		try {

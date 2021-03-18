@@ -30,7 +30,13 @@ describe("VerifyAccountService > verify", () => {
 			confirmationCode,
 		});
 
-		const result = await service.verify(confirmationCode);
+		let result;
+
+		try {
+			result = await service.verify(confirmationCode);
+		} catch (err) {
+			result = err;
+		}
 
 		expect(VerifyAccountMock.repository.findOne).toBeCalledTimes(1);
 		expect(VerifyAccountMock.repository.update).toBeCalledTimes(1);

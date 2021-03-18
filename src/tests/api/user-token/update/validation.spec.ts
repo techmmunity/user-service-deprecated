@@ -61,7 +61,7 @@ describe("UserTokenService > update > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid user id type", async () => {
+	it("should throw an error with invalid userId type", async () => {
 		let result;
 
 		try {
@@ -86,7 +86,7 @@ describe("UserTokenService > update > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid user id", async () => {
+	it("should throw an error with invalid userId", async () => {
 		let result;
 
 		try {

@@ -6,7 +6,7 @@ import { validate } from "api/user-token/service/create/validation";
 import { TimeUtil } from "utils/time";
 import { InvalidParamsErrorMessage } from "utils/yup";
 
-import { IntegrationsEnum, IntegrationsValues } from "core/enums/integrations";
+import { IntegrationsValues } from "core/enums/integrations";
 
 const userId = v4();
 const integrationsEnumAllowedValues = IntegrationsValues().join(", ");
@@ -34,71 +34,21 @@ describe("UserTokenService > create > validation", () => {
 		expect(result).toBeUndefined();
 	});
 
-	it("should do nothing with valid params (with DISCORD integration)", async () => {
+	it("should do nothing with valid params (with ALL integration)", async () => {
 		let result;
 
 		try {
-			await validate({
-				userId,
-				type: IntegrationsEnum.DISCORD,
-				accessToken: "ACCESS_TOKEN",
-				refreshToken: "REFRESH_TOKEN",
-				expirationDate,
-			} as CreateParams);
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result).toBeUndefined();
-	});
-
-	it("should do nothing with valid params (with GOOGLE integration)", async () => {
-		let result;
-
-		try {
-			await validate({
-				userId,
-				type: IntegrationsEnum.GOOGLE,
-				accessToken: "ACCESS_TOKEN",
-				refreshToken: "REFRESH_TOKEN",
-				expirationDate,
-			} as CreateParams);
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result).toBeUndefined();
-	});
-
-	it("should do nothing with valid params (with GITHUB integration)", async () => {
-		let result;
-
-		try {
-			await validate({
-				userId,
-				type: IntegrationsEnum.GITHUB,
-				accessToken: "ACCESS_TOKEN",
-				refreshToken: "REFRESH_TOKEN",
-				expirationDate,
-			} as CreateParams);
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result).toBeUndefined();
-	});
-
-	it("should do nothing with valid params (with LINKEDIN integration)", async () => {
-		let result;
-
-		try {
-			await validate({
-				userId,
-				type: IntegrationsEnum.LINKEDIN,
-				accessToken: "ACCESS_TOKEN",
-				refreshToken: "REFRESH_TOKEN",
-				expirationDate,
-			} as CreateParams);
+			await Promise.all(
+				IntegrationsValues().map(integration =>
+					validate({
+						userId,
+						type: integration,
+						accessToken: "ACCESS_TOKEN",
+						refreshToken: "REFRESH_TOKEN",
+						expirationDate,
+					} as CreateParams),
+				),
+			);
 		} catch (e) {
 			result = e;
 		}
@@ -123,13 +73,11 @@ describe("UserTokenService > create > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid user id type", async () => {
+	it("should throw an error without userId", async () => {
 		let result;
 
 		try {
-			await validate({
-				userId: 123 as any,
-			} as CreateParams);
+			await validate({} as CreateParams);
 		} catch (e) {
 			result = e;
 		}
@@ -138,11 +86,11 @@ describe("UserTokenService > create > validation", () => {
 		expect(result.response).toMatchObject({
 			code: "INVALID_PARAMS",
 			statusCode: 400,
-			errors: ["userId must be a valid UUID"],
+			errors: ["userId is a required field"],
 		});
 	});
 
-	it("should throw an error with invalid user id", async () => {
+	it("should throw an error with invalid userId", async () => {
 		let result;
 
 		try {
@@ -161,13 +109,12 @@ describe("UserTokenService > create > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid type type", async () => {
+	it("should throw an error with invalid userId type", async () => {
 		let result;
 
 		try {
 			await validate({
-				userId,
-				type: 123 as any,
+				userId: 123 as any,
 			} as CreateParams);
 		} catch (e) {
 			result = e;
@@ -178,7 +125,7 @@ describe("UserTokenService > create > validation", () => {
 			code: "INVALID_PARAMS",
 			statusCode: 400,
 			errors: [
-				`type must be one of the following values: ${integrationsEnumAllowedValues}`,
+				"userId must be a `string` type, but the final value was: `123`.",
 			],
 		});
 	});
@@ -203,5 +150,51 @@ describe("UserTokenService > create > validation", () => {
 				`type must be one of the following values: ${integrationsEnumAllowedValues}`,
 			],
 		});
+	});
+
+	it("should throw an error with invalid type type", async () => {
+		let result;
+
+		try {
+			await validate({
+				userId,
+				type: 123 as any,
+			} as CreateParams);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: ["type must be a `string` type, but the final value was: `123`."],
+		});
+	});
+
+	it("should throw an error with invalid expirationDate", async () => {
+		let result;
+
+		try {
+			await validate({
+				userId,
+				expirationDate: TimeUtil.newDate(
+					TimeUtil.newDate().getTime() - TimeUtil.ONE_DAY,
+				),
+			} as CreateParams);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+		});
+		expect(
+			result.response.errors[0].startsWith(
+				"expirationDate field must be later than ",
+			),
+		).toBe(true);
 	});
 });

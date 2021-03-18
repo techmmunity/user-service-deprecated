@@ -22,70 +22,112 @@ describe("TutorialService > complete", () => {
 	});
 
 	it("should complete tutorial with valid params (articlesListPage)", async () => {
-		const result = await service.complete({
-			userId,
-			field: "articlesListPage",
-		});
+		let result;
+
+		try {
+			result = await service.complete({
+				userId,
+				field: "articlesListPage",
+			});
+		} catch (err) {
+			result = err;
+		}
 
 		expect(TutorialMock.repository.update).toBeCalledTimes(1);
 		expect(result).toMatchObject({ ok: true });
 	});
 
 	it("should complete tutorial with valid params (coursesListPage)", async () => {
-		const result = await service.complete({
-			userId,
-			field: "coursesListPage",
-		});
+		let result;
+
+		try {
+			result = await service.complete({
+				userId,
+				field: "coursesListPage",
+			});
+		} catch (err) {
+			result = err;
+		}
 
 		expect(TutorialMock.repository.update).toBeCalledTimes(1);
 		expect(result).toMatchObject({ ok: true });
 	});
 
 	it("should complete tutorial with valid params (forumListPage)", async () => {
-		const result = await service.complete({
-			userId,
-			field: "forumListPage",
-		});
+		let result;
+
+		try {
+			result = await service.complete({
+				userId,
+				field: "forumListPage",
+			});
+		} catch (err) {
+			result = err;
+		}
 
 		expect(TutorialMock.repository.update).toBeCalledTimes(1);
 		expect(result).toMatchObject({ ok: true });
 	});
 
 	it("should complete tutorial with valid params (jobsListPage)", async () => {
-		const result = await service.complete({
-			userId,
-			field: "jobsListPage",
-		});
+		let result;
+
+		try {
+			result = await service.complete({
+				userId,
+				field: "jobsListPage",
+			});
+		} catch (err) {
+			result = err;
+		}
 
 		expect(TutorialMock.repository.update).toBeCalledTimes(1);
 		expect(result).toMatchObject({ ok: true });
 	});
 
 	it("should complete tutorial with valid params (mentoringListPage)", async () => {
-		const result = await service.complete({
-			userId,
-			field: "mentoringListPage",
-		});
+		let result;
+
+		try {
+			result = await service.complete({
+				userId,
+				field: "mentoringListPage",
+			});
+		} catch (err) {
+			result = err;
+		}
 
 		expect(TutorialMock.repository.update).toBeCalledTimes(1);
 		expect(result).toMatchObject({ ok: true });
 	});
 
 	it("should complete tutorial with valid params (projectsListPage)", async () => {
-		const result = await service.complete({
-			userId,
-			field: "projectsListPage",
-		});
+		let result;
+
+		try {
+			result = await service.complete({
+				userId,
+				field: "projectsListPage",
+			});
+		} catch (err) {
+			result = err;
+		}
 
 		expect(TutorialMock.repository.update).toBeCalledTimes(1);
 		expect(result).toMatchObject({ ok: true });
 	});
 
 	it("should complete tutorial with valid params (storeListPage)", async () => {
-		const result = await service.complete({
-			userId,
-			field: "storeListPage",
-		});
+		let result;
+
+		try {
+			result = await service.complete({
+				userId,
+				field: "storeListPage",
+			});
+		} catch (err) {
+			result = err;
+		}
 
 		expect(TutorialMock.repository.update).toBeCalledTimes(1);
 		expect(result).toMatchObject({ ok: true });

@@ -7,7 +7,7 @@ export const password = (yup: Yup) => {
 		return this.test({
 			name: "password",
 			message:
-				"password must habe at least 1 special character, 1 lower case character, 1 upper case character, 1 number and a lenght between 6 and 24 characters",
+				"password must have at least 1 special character, 1 lower case character, 1 upper case character, 1 number and a lenght between 6 and 24 characters",
 			test: password => (password ? check.isStrongPassword(password) : true),
 		});
 	});

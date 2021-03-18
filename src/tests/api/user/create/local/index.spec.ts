@@ -59,14 +59,20 @@ describe("UserService > create > local", () => {
 		SettingsMock.repository.save.mockReturnValue(settingsDoc);
 		TutorialMock.repository.save.mockReturnValue(tutorialDoc);
 
-		const result = await service.createLocal({
-			email: "test@email.com",
-			username: "test",
-			fullName: "Test User User",
-			birthday: userBirthDay,
-			password: "$trongPass123",
-			headline: HeadlineEnum.BACK_END_DEV,
-		});
+		let result;
+
+		try {
+			result = await service.createLocal({
+				email: "test@email.com",
+				username: "test",
+				fullName: "Test User User",
+				birthday: userBirthDay,
+				password: "$trongPass123",
+				headline: HeadlineEnum.BACK_END_DEV,
+			});
+		} catch (err) {
+			result = err;
+		}
 
 		expect(UserMock.repository.findOne).toBeCalledTimes(1);
 		expect(UserMock.repository.save).toBeCalledTimes(1);
@@ -117,16 +123,22 @@ describe("UserService > create > local", () => {
 		SettingsMock.repository.save.mockReturnValue(settingsDoc);
 		TutorialMock.repository.save.mockReturnValue(tutorialDoc);
 
-		const result = await service.createLocal({
-			email: "test@email.com",
-			username: "test",
-			fullName: "Test User User",
-			birthday: userBirthDay,
-			password: "$trongPass123",
-			headline: HeadlineEnum.BACK_END_DEV,
-			suggestedLanguage: LanguageEnum.PT_BR,
-			avatar: "https://avatarurl.com",
-		});
+		let result;
+
+		try {
+			result = await service.createLocal({
+				email: "test@email.com",
+				username: "test",
+				fullName: "Test User User",
+				birthday: userBirthDay,
+				password: "$trongPass123",
+				headline: HeadlineEnum.BACK_END_DEV,
+				suggestedLanguage: LanguageEnum.PT_BR,
+				avatar: "https://avatarurl.com",
+			});
+		} catch (err) {
+			result = err;
+		}
 
 		expect(UserMock.repository.findOne).toBeCalledTimes(1);
 		expect(UserMock.repository.save).toBeCalledTimes(1);

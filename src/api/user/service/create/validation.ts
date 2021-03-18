@@ -8,14 +8,18 @@ import { LanguageValues } from "core/enums/language";
 import { BaseCreateUser } from "./types";
 
 const schema = yup.object().shape({
-	email: yup.string().email().required(),
-	username: yup.string().username().required(),
-	birthday: yup.date().strict().required().max(TimeUtil.newDate()),
-	password: yup.string().password().required(),
-	fullName: yup.string().fullName().required(),
-	avatar: yup.string().url().notRequired(),
-	suggestedLanguage: yup.string().oneOf(LanguageValues()).notRequired(),
-	headline: yup.string().oneOf(HeadlineValues()).required(),
+	email: yup.string().required().strict().email(),
+	username: yup.string().required().strict().username(),
+	birthday: yup.date().required().strict().max(TimeUtil.newDate()),
+	password: yup.string().required().strict().password(),
+	fullName: yup.string().required().strict().fullName(),
+	avatar: yup.string().notRequired().strict().url(),
+	suggestedLanguage: yup
+		.string()
+		.notRequired()
+		.strict()
+		.oneOf(LanguageValues()),
+	headline: yup.string().required().strict().oneOf(HeadlineValues()),
 });
 
 export const validate = async (params: BaseCreateUser) =>

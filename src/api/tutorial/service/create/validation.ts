@@ -4,7 +4,7 @@ import { ErrorUtil } from "utils/error";
 import { yup } from "utils/yup";
 
 const schema = yup.object().shape({
-	userId: yup.string().uuid().required(),
+	userId: yup.string().required().strict().uuid(),
 });
 
 export const validate = async (params: CreateParams) =>

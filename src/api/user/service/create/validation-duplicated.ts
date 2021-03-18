@@ -24,6 +24,6 @@ export const duplicatedValidation = async ({
 	});
 
 	if (user) {
-		ErrorUtil.badRequest("DUPLICATED_USER");
+		ErrorUtil.conflict("DUPLICATED_USER");
 	}
 };

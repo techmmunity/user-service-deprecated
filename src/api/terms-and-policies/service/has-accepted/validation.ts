@@ -6,8 +6,12 @@ import { yup } from "utils/yup";
 import { TERMS_AND_POLICIES_ALLOWED_VERSIONS } from "config/terms-and-policies";
 
 const schema = yup.object().shape({
-	userId: yup.string().uuid().required(),
-	version: yup.number().strict().oneOf(TERMS_AND_POLICIES_ALLOWED_VERSIONS),
+	userId: yup.string().required().strict().uuid(),
+	version: yup
+		.number()
+		.required()
+		.strict()
+		.oneOf(TERMS_AND_POLICIES_ALLOWED_VERSIONS),
 });
 
 export const validate = async (params: HasAcceptedParams) =>

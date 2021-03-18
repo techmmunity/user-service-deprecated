@@ -26,9 +26,15 @@ describe("UserService > regen-pin", () => {
 			raw: "UPDATE 1",
 		});
 
-		const result = await service.regenPin({
-			userId,
-		});
+		let result;
+
+		try {
+			result = await service.regenPin({
+				userId,
+			});
+		} catch (err) {
+			result = err;
+		}
 
 		expect(UserMock.repository.update).toBeCalledTimes(1);
 		expect(typeof result).toBe("string");

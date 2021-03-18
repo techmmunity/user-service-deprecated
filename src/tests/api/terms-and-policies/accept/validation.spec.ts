@@ -7,10 +7,11 @@ import { InvalidParamsErrorMessage } from "utils/yup";
 
 import { TERMS_AND_POLICIES_ALLOWED_VERSIONS } from "config/terms-and-policies";
 
-const userId = v4();
-const veriosnAllowedValues = TERMS_AND_POLICIES_ALLOWED_VERSIONS.join(", ");
-
 describe("TermsAndPoliciesService > accept > validation", () => {
+	const userId = v4();
+
+	const veriosnAllowedValues = TERMS_AND_POLICIES_ALLOWED_VERSIONS.join(", ");
+
 	it("should do nothing with valid params", async () => {
 		let result;
 
@@ -43,12 +44,11 @@ describe("TermsAndPoliciesService > accept > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid user id type", async () => {
+	it("should throw an error without userId", async () => {
 		let result;
 
 		try {
 			await validate({
-				userId: 123 as any,
 				version: 1,
 			} as AcceptParams);
 		} catch (e) {
@@ -59,11 +59,11 @@ describe("TermsAndPoliciesService > accept > validation", () => {
 		expect(result.response).toMatchObject({
 			code: "INVALID_PARAMS",
 			statusCode: 400,
-			errors: ["userId must be a valid UUID"],
+			errors: ["userId is a required field"],
 		});
 	});
 
-	it("should throw an error with invalid user id", async () => {
+	it("should throw an error with invalid userId", async () => {
 		let result;
 
 		try {
@@ -83,13 +83,13 @@ describe("TermsAndPoliciesService > accept > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid version type", async () => {
+	it("should throw an error with invalid userId type", async () => {
 		let result;
 
 		try {
 			await validate({
-				userId,
-				version: "1" as any,
+				userId: 123 as any,
+				version: 1,
 			} as AcceptParams);
 		} catch (e) {
 			result = e;
@@ -100,8 +100,27 @@ describe("TermsAndPoliciesService > accept > validation", () => {
 			code: "INVALID_PARAMS",
 			statusCode: 400,
 			errors: [
-				'version must be a `number` type, but the final value was: `"1"`.',
+				"userId must be a `string` type, but the final value was: `123`.",
 			],
+		});
+	});
+
+	it("should throw an error without version", async () => {
+		let result;
+
+		try {
+			await validate({
+				userId,
+			} as AcceptParams);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: ["version is a required field"],
 		});
 	});
 
@@ -123,6 +142,28 @@ describe("TermsAndPoliciesService > accept > validation", () => {
 			statusCode: 400,
 			errors: [
 				`version must be one of the following values: ${veriosnAllowedValues}`,
+			],
+		});
+	});
+
+	it("should throw an error with invalid version type", async () => {
+		let result;
+
+		try {
+			await validate({
+				userId,
+				version: "1" as any,
+			} as AcceptParams);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: [
+				'version must be a `number` type, but the final value was: `"1"`.',
 			],
 		});
 	});

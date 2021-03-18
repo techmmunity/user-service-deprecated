@@ -39,7 +39,7 @@ describe("VerifyAccountService > verify > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid user id type", async () => {
+	it("should throw an error with invalid userId type", async () => {
 		let result;
 
 		try {
@@ -54,11 +54,13 @@ describe("VerifyAccountService > verify > validation", () => {
 		expect(result.response).toMatchObject({
 			code: "INVALID_PARAMS",
 			statusCode: 400,
-			errors: ["confirmationCode must be a valid UUID"],
+			errors: [
+				"confirmationCode must be a `string` type, but the final value was: `123`.",
+			],
 		});
 	});
 
-	it("should throw an error with invalid user id", async () => {
+	it("should throw an error with invalid userId", async () => {
 		let result;
 
 		try {
