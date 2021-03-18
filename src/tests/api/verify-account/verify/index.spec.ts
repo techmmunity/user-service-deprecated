@@ -5,10 +5,10 @@ import { VerifyAccountService } from "api/verify-account/verify-account.service"
 import { UserMock } from "tests/mocks/user";
 import { VerifyAccountMock } from "tests/mocks/verify-account";
 
-const userId = v4();
-
 describe("VerifyAccountService > verify", () => {
 	let service: VerifyAccountService;
+
+	const userId = v4();
 
 	beforeAll(async () => {
 		service = await VerifyAccountMock.service();

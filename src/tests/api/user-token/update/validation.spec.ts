@@ -8,12 +8,14 @@ import { InvalidParamsErrorMessage } from "utils/yup";
 
 import { IntegrationsEnum, IntegrationsValues } from "core/enums/integrations";
 
-const userId = v4();
-const integrationsEnumAllowedValues = IntegrationsValues().join(", ");
-
 describe("UserTokenService > update > validation", () => {
+	const userId = v4();
+
 	let expirationDate: Date;
+
 	let invalidExpirationDate: Date;
+
+	const integrationsEnumAllowedValues = IntegrationsValues().join(", ");
 
 	beforeAll(() => {
 		const now = TimeUtil.newDate().getTime();
@@ -61,17 +63,16 @@ describe("UserTokenService > update > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid userId type", async () => {
+	it("should throw an error without userId", async () => {
 		let result;
 
 		try {
 			await validate({
-				userId: 123 as any,
 				accessToken: "foo_bar",
 				refreshToken: "foo_bar",
 				type: IntegrationsEnum.DISCORD,
 				expirationDate,
-			});
+			} as any);
 		} catch (e) {
 			result = e;
 		}
@@ -80,9 +81,7 @@ describe("UserTokenService > update > validation", () => {
 		expect(result.response).toMatchObject({
 			code: "INVALID_PARAMS",
 			statusCode: 400,
-			errors: [
-				"userId must be a `string` type, but the final value was: `123`.",
-			],
+			errors: ["userId is a required field"],
 		});
 	});
 
@@ -109,7 +108,54 @@ describe("UserTokenService > update > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid access token type", async () => {
+	it("should throw an error with invalid userId type", async () => {
+		let result;
+
+		try {
+			await validate({
+				userId: 123 as any,
+				accessToken: "foo_bar",
+				refreshToken: "foo_bar",
+				type: IntegrationsEnum.DISCORD,
+				expirationDate,
+			});
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: [
+				"userId must be a `string` type, but the final value was: `123`.",
+			],
+		});
+	});
+
+	it("should throw an error without accessToken", async () => {
+		let result;
+
+		try {
+			await validate({
+				refreshToken: "foo_bar",
+				type: IntegrationsEnum.DISCORD,
+				expirationDate,
+				userId,
+			} as any);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: ["accessToken is a required field"],
+		});
+	});
+
+	it("should throw an error with invalid accessToken type", async () => {
 		let result;
 
 		try {
@@ -134,7 +180,29 @@ describe("UserTokenService > update > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid refresh token type", async () => {
+	it("should throw an error without refreshToken", async () => {
+		let result;
+
+		try {
+			await validate({
+				accessToken: "foo_bar",
+				type: IntegrationsEnum.DISCORD,
+				expirationDate,
+				userId,
+			} as any);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: ["refreshToken is a required field"],
+		});
+	});
+
+	it("should throw an error with invalid refreshToken type", async () => {
 		let result;
 
 		try {
@@ -159,17 +227,16 @@ describe("UserTokenService > update > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid type type", async () => {
+	it("should throw an error without type", async () => {
 		let result;
 
 		try {
 			await validate({
 				accessToken: "foo_bar",
 				refreshToken: "foo_bar",
-				type: 123 as any,
 				expirationDate,
 				userId,
-			});
+			} as any);
 		} catch (e) {
 			result = e;
 		}
@@ -178,7 +245,7 @@ describe("UserTokenService > update > validation", () => {
 		expect(result.response).toMatchObject({
 			code: "INVALID_PARAMS",
 			statusCode: 400,
-			errors: ["type must be a `string` type, but the final value was: `123`."],
+			errors: ["type is a required field"],
 		});
 	});
 
@@ -207,15 +274,15 @@ describe("UserTokenService > update > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid expiration date type (number)", async () => {
+	it("should throw an error with invalid type type", async () => {
 		let result;
 
 		try {
 			await validate({
 				accessToken: "foo_bar",
 				refreshToken: "foo_bar",
-				type: IntegrationsEnum.DISCORD,
-				expirationDate: 123 as any,
+				type: 123 as any,
+				expirationDate,
 				userId,
 			});
 		} catch (e) {
@@ -226,13 +293,11 @@ describe("UserTokenService > update > validation", () => {
 		expect(result.response).toMatchObject({
 			code: "INVALID_PARAMS",
 			statusCode: 400,
-			errors: [
-				"expirationDate must be a `date` type, but the final value was: `123`.",
-			],
+			errors: ["type must be a `string` type, but the final value was: `123`."],
 		});
 	});
 
-	it("should throw an error with invalid expiration date type (string)", async () => {
+	it("should throw an error without expirationDate", async () => {
 		let result;
 
 		try {
@@ -240,24 +305,23 @@ describe("UserTokenService > update > validation", () => {
 				accessToken: "foo_bar",
 				refreshToken: "foo_bar",
 				type: IntegrationsEnum.DISCORD,
-				expirationDate: "123" as any,
 				userId,
-			});
+			} as any);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
-		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
-			errors: [
-				'expirationDate must be a `date` type, but the final value was: `"123"`.',
-			],
-		});
+		expect(result.response).toEqual(
+			expect.objectContaining({
+				code: "INVALID_PARAMS",
+				statusCode: 400,
+				errors: ["expirationDate is a required field"],
+			}),
+		);
 	});
 
-	it("should throw an error with invalid expiration date", async () => {
+	it("should throw an error with invalid expirationDate", async () => {
 		let result;
 
 		try {
@@ -284,5 +348,55 @@ describe("UserTokenService > update > validation", () => {
 				"expirationDate field must be later than ",
 			),
 		).toBeTruthy();
+	});
+
+	it("should throw an error with invalid expirationDate type (number)", async () => {
+		let result;
+
+		try {
+			await validate({
+				accessToken: "foo_bar",
+				refreshToken: "foo_bar",
+				type: IntegrationsEnum.DISCORD,
+				expirationDate: 123 as any,
+				userId,
+			});
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: [
+				"expirationDate must be a `date` type, but the final value was: `123`.",
+			],
+		});
+	});
+
+	it("should throw an error with invalid expirationDate type (string)", async () => {
+		let result;
+
+		try {
+			await validate({
+				accessToken: "foo_bar",
+				refreshToken: "foo_bar",
+				type: IntegrationsEnum.DISCORD,
+				expirationDate: "123" as any,
+				userId,
+			});
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: [
+				'expirationDate must be a `date` type, but the final value was: `"123"`.',
+			],
+		});
 	});
 });

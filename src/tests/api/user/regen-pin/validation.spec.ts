@@ -4,9 +4,9 @@ import { validate } from "api/user/service/regen-pin/validation";
 
 import { InvalidParamsErrorMessage } from "utils/yup";
 
-const userId = v4();
-
 describe("UserService > regen-pin > validation", () => {
+	const userId = v4();
+
 	it("should do nothing with valid params", async () => {
 		let result;
 
@@ -38,13 +38,11 @@ describe("UserService > regen-pin > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid userId type", async () => {
+	it("should throw an error without userId", async () => {
 		let result;
 
 		try {
-			await validate({
-				userId: 123 as any,
-			});
+			await validate({} as any);
 		} catch (e) {
 			result = e;
 		}
@@ -53,9 +51,7 @@ describe("UserService > regen-pin > validation", () => {
 		expect(result.response).toMatchObject({
 			code: "INVALID_PARAMS",
 			statusCode: 400,
-			errors: [
-				"userId must be a `string` type, but the final value was: `123`.",
-			],
+			errors: ["userId is a required field"],
 		});
 	});
 
@@ -75,6 +71,27 @@ describe("UserService > regen-pin > validation", () => {
 			code: "INVALID_PARAMS",
 			statusCode: 400,
 			errors: ["userId must be a valid UUID"],
+		});
+	});
+
+	it("should throw an error with invalid userId type", async () => {
+		let result;
+
+		try {
+			await validate({
+				userId: 123 as any,
+			});
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: [
+				"userId must be a `string` type, but the final value was: `123`.",
+			],
 		});
 	});
 });

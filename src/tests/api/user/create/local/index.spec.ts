@@ -15,10 +15,10 @@ import { UserMock } from "tests/mocks/user";
 import { UserTokenMock } from "tests/mocks/user-token";
 import { VerifyAccountMock } from "tests/mocks/verify-account";
 
-const userId = v4();
-
 describe("UserService > create > local", () => {
 	let service: UserService;
+
+	const userId = v4();
 
 	beforeAll(async () => {
 		service = await UserMock.service();
@@ -97,7 +97,7 @@ describe("UserService > create > local", () => {
 		expect(validate(result.verificationCode)).toBe(true);
 	});
 
-	it("should create user with optional valid params", async () => {
+	it("should create user with mandatory and optional valid params", async () => {
 		const userBirthDay = TimeUtil.newDate([2000, 4, 15]);
 
 		const userDoc = UserMock.doc({

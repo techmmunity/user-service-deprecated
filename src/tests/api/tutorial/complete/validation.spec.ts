@@ -7,13 +7,13 @@ import { ALLOWED_FIELDS_TO_UPDATE } from "api/tutorial/tutorial.entity";
 
 import { InvalidParamsErrorMessage } from "utils/yup";
 
-const userId = v4();
-
-const ALLOWED_FIELDS_MESSAGE = `field must be one of the following values: ${ALLOWED_FIELDS_TO_UPDATE.join(
-	", ",
-)}`;
-
 describe("TutorialService > complete > validation", () => {
+	const userId = v4();
+
+	const ALLOWED_FIELDS_MESSAGE = `field must be one of the following values: ${ALLOWED_FIELDS_TO_UPDATE.join(
+		", ",
+	)}`;
+
 	it("should do nothing with valid params", async () => {
 		let result;
 
@@ -50,7 +50,7 @@ describe("TutorialService > complete > validation", () => {
 		});
 	});
 
-	it("should throw an error with no userId", async () => {
+	it("should throw an error without userId", async () => {
 		let result;
 
 		try {
@@ -69,11 +69,14 @@ describe("TutorialService > complete > validation", () => {
 		});
 	});
 
-	it("should throw an error without field", async () => {
+	it("should throw an error with invalid userId", async () => {
 		let result;
 
 		try {
-			await validate({ userId } as CompleteParams);
+			await validate({
+				userId: "123",
+				field: "articlesListPage",
+			} as CompleteParams);
 		} catch (e) {
 			result = e;
 		}
@@ -82,7 +85,7 @@ describe("TutorialService > complete > validation", () => {
 		expect(result.response).toMatchObject({
 			code: "INVALID_PARAMS",
 			statusCode: 400,
-			errors: ["field is a required field"],
+			errors: ["userId must be a valid UUID"],
 		});
 	});
 
@@ -108,13 +111,30 @@ describe("TutorialService > complete > validation", () => {
 		});
 	});
 
-	it("should throw an error with invalid userId", async () => {
+	it("should throw an error without field", async () => {
+		let result;
+
+		try {
+			await validate({ userId } as CompleteParams);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: ["field is a required field"],
+		});
+	});
+
+	it("should throw an error with invalid field", async () => {
 		let result;
 
 		try {
 			await validate({
-				userId: "123",
-				field: "articlesListPage",
+				userId,
+				field: "123" as any,
 			} as CompleteParams);
 		} catch (e) {
 			result = e;
@@ -124,7 +144,7 @@ describe("TutorialService > complete > validation", () => {
 		expect(result.response).toMatchObject({
 			code: "INVALID_PARAMS",
 			statusCode: 400,
-			errors: ["userId must be a valid UUID"],
+			errors: [ALLOWED_FIELDS_MESSAGE],
 		});
 	});
 
@@ -147,26 +167,6 @@ describe("TutorialService > complete > validation", () => {
 			errors: [
 				"field must be a `string` type, but the final value was: `123`.",
 			],
-		});
-	});
-
-	it("should throw an error with invalid userId", async () => {
-		let result;
-
-		try {
-			await validate({
-				userId,
-				field: "123" as any,
-			} as CompleteParams);
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result.status).toBe(400);
-		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
-			errors: [ALLOWED_FIELDS_MESSAGE],
 		});
 	});
 });

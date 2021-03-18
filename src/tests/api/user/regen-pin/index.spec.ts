@@ -4,10 +4,10 @@ import { UserService } from "api/user/user.service";
 
 import { UserMock } from "tests/mocks/user";
 
-const userId = v4();
-
 describe("UserService > regen-pin", () => {
 	let service: UserService;
+
+	const userId = v4();
 
 	beforeAll(async () => {
 		service = await UserMock.service();

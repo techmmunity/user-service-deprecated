@@ -8,10 +8,11 @@ import { IntegrationsEnum } from "core/enums/integrations";
 
 import { UserTokenMock } from "tests/mocks/user-token";
 
-const userId = v4();
-
 describe("UserTokenService > update", () => {
 	let service: UserTokenService;
+
+	const userId = v4();
+
 	let expirationDate: Date;
 
 	beforeAll(async () => {

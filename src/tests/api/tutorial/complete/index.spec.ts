@@ -4,10 +4,10 @@ import { TutorialService } from "api/tutorial/tutorial.service";
 
 import { TutorialMock } from "tests/mocks/tutorial";
 
-const userId = v4();
-
 describe("TutorialService > complete", () => {
 	let service: TutorialService;
+
+	const userId = v4();
 
 	beforeAll(async () => {
 		service = await TutorialMock.service();

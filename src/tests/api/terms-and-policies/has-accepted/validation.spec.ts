@@ -7,10 +7,11 @@ import { InvalidParamsErrorMessage } from "utils/yup";
 
 import { TERMS_AND_POLICIES_ALLOWED_VERSIONS } from "config/terms-and-policies";
 
-const userId = v4();
-const veriosnAllowedValues = TERMS_AND_POLICIES_ALLOWED_VERSIONS.join(", ");
-
 describe("TermsAndPoliciesService > hasAccepted > validation", () => {
+	const userId = v4();
+
+	const veriosnAllowedValues = TERMS_AND_POLICIES_ALLOWED_VERSIONS.join(", ");
+
 	it("should do nothing with valid params", async () => {
 		let result;
 
@@ -40,6 +41,25 @@ describe("TermsAndPoliciesService > hasAccepted > validation", () => {
 			code: "INVALID_PARAMS",
 			statusCode: 400,
 			errors: [InvalidParamsErrorMessage],
+		});
+	});
+
+	it("should throw an error without userId", async () => {
+		let result;
+
+		try {
+			await validate({
+				version: 1,
+			} as HasAcceptedParams);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: ["userId is a required field"],
 		});
 	});
 
@@ -82,6 +102,25 @@ describe("TermsAndPoliciesService > hasAccepted > validation", () => {
 			errors: [
 				"userId must be a `string` type, but the final value was: `123`.",
 			],
+		});
+	});
+
+	it("should throw an error without version", async () => {
+		let result;
+
+		try {
+			await validate({
+				userId,
+			} as HasAcceptedParams);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			code: "INVALID_PARAMS",
+			statusCode: 400,
+			errors: ["version is a required field"],
 		});
 	});
 

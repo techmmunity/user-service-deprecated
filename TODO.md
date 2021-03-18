@@ -83,9 +83,11 @@
 
 ## Etc
 
+- [x] Revisar os testes para conferir se eles seguem um padrão
 - [ ] Testar as paradas
 - [ ] Criar funções no util de errors para retornar as mensagens de erros
   - required field
   - wrong type
   - invalid enum value
 - [ ] Descomentar bloqueio de coverage de testes
+- [ ] Escrever a documentação do padrão usado para fazer testes
