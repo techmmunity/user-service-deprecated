@@ -7,10 +7,6 @@ import { TimeUtil } from "v1/utils/time";
 import { HeadlineEnum } from "core/enums/headline";
 import { LanguageEnum } from "core/enums/language";
 
-import { DEFAULT_USER_PERMISSIONS } from "v1/config/default-user-permissions";
-
-import { SettingsMock } from "v1/tests/mocks/settings";
-import { TutorialMock } from "v1/tests/mocks/tutorial";
 import { UserMock } from "v1/tests/mocks/user";
 import { UserTokenMock } from "v1/tests/mocks/user-token";
 import { VerifyAccountMock } from "v1/tests/mocks/verify-account";
@@ -32,8 +28,6 @@ describe("UserService > create > discord", () => {
 
 	beforeEach(() => {
 		UserMock.repository.resetMock();
-		SettingsMock.repository.resetMock();
-		TutorialMock.repository.resetMock();
 		UserTokenMock.repository.resetMock();
 		VerifyAccountMock.repository.resetMock();
 	});
@@ -54,16 +48,8 @@ describe("UserService > create > discord", () => {
 			surnames: "User User",
 			headline: HeadlineEnum.BACK_END_DEV,
 		});
-		const settingsDoc = SettingsMock.doc({
-			userId,
-		});
-		const tutorialDoc = TutorialMock.doc({
-			userId,
-		});
 
 		UserMock.repository.save.mockReturnValue(userDoc);
-		SettingsMock.repository.save.mockReturnValue(settingsDoc);
-		TutorialMock.repository.save.mockReturnValue(tutorialDoc);
 
 		let result;
 
@@ -86,18 +72,13 @@ describe("UserService > create > discord", () => {
 
 		expect(UserMock.repository.findOne).toBeCalledTimes(1);
 		expect(UserMock.repository.save).toBeCalledTimes(1);
-		expect(TutorialMock.repository.save).toBeCalledTimes(1);
-		expect(SettingsMock.repository.save).toBeCalledTimes(1);
 		expect(UserTokenMock.repository.save).toBeCalledTimes(1);
 		expect(VerifyAccountMock.repository.insert).toBeCalledTimes(1);
 		expect(result).toMatchObject({
-			settings: settingsDoc,
-			tutorial: tutorialDoc,
 			user: {
 				id: userId,
 				username: "test",
 				headline: HeadlineEnum.BACK_END_DEV,
-				permissions: DEFAULT_USER_PERMISSIONS,
 			},
 		});
 		expect(typeof result.user.pin).toBe("string");
@@ -118,20 +99,10 @@ describe("UserService > create > discord", () => {
 			name: "Test",
 			surnames: "User User",
 			headline: HeadlineEnum.BACK_END_DEV,
-			languages: [LanguageEnum.PT_BR],
 			avatar: "https://avatarurl.com",
-		});
-		const settingsDoc = SettingsMock.doc({
-			userId,
-			language: LanguageEnum.PT_BR,
-		});
-		const tutorialDoc = TutorialMock.doc({
-			userId,
 		});
 
 		UserMock.repository.save.mockReturnValue(userDoc);
-		SettingsMock.repository.save.mockReturnValue(settingsDoc);
-		TutorialMock.repository.save.mockReturnValue(tutorialDoc);
 
 		let result;
 
@@ -156,19 +127,14 @@ describe("UserService > create > discord", () => {
 
 		expect(UserMock.repository.findOne).toBeCalledTimes(1);
 		expect(UserMock.repository.save).toBeCalledTimes(1);
-		expect(TutorialMock.repository.save).toBeCalledTimes(1);
-		expect(SettingsMock.repository.save).toBeCalledTimes(1);
 		expect(UserTokenMock.repository.save).toBeCalledTimes(1);
 		expect(VerifyAccountMock.repository.insert).toBeCalledTimes(1);
 		expect(result).toMatchObject({
-			settings: settingsDoc,
-			tutorial: tutorialDoc,
 			user: {
 				id: userId,
 				username: "test",
 				avatar: "https://avatarurl.com",
 				headline: HeadlineEnum.BACK_END_DEV,
-				permissions: DEFAULT_USER_PERMISSIONS,
 			},
 		});
 		expect(typeof result.user.pin).toBe("string");

@@ -5,13 +5,11 @@ export const removeSensiveDataFromUser = ({
 	username,
 	avatar,
 	headline,
-	permissions,
 	pin,
 }: UserEntity) => ({
 	id,
 	username,
 	avatar,
 	headline,
-	permissions,
 	pin,
 });

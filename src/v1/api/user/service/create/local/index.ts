@@ -19,8 +19,6 @@ export const createLocal = async (
 	const {
 		UserRepository,
 		UserTokenService,
-		SettingsService,
-		TutorialService,
 		VerifyAccountService,
 		...unformattedData
 	} = params;
@@ -37,21 +35,16 @@ export const createLocal = async (
 
 	const userId = user.id;
 
-	const { tutorial, settings, verificationCode } = await createRelations({
-		TutorialService,
-		SettingsService,
+	const { verificationCode } = await createRelations({
 		UserTokenService,
 		VerifyAccountService,
 		userId,
-		suggestedLanguage: unformattedData.suggestedLanguage,
 	});
 
 	const userWithoutSensiveData = removeSensiveDataFromUser(user);
 
 	return {
 		user: userWithoutSensiveData,
-		tutorial,
-		settings,
 		verificationCode,
 	};
 };

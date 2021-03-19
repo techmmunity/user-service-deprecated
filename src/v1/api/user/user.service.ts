@@ -2,8 +2,6 @@ import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Transactional } from "typeorm-transactional-cls-hooked";
 
-import { SettingsService } from "v1/api/settings/settings.service";
-import { TutorialService } from "v1/api/tutorial/tutorial.service";
 import { UserTokenService } from "v1/api/user-token/user-token.service";
 import { VerifyAccountService as VerifyAccountServiceDependency } from "v1/api/verify-account/verify-account.service";
 
@@ -18,8 +16,6 @@ import { UserEntity, UserRepository } from "v1/api/user/user.entity";
 @Injectable()
 export class UserService {
 	public constructor(
-		private readonly SettingsService: SettingsService,
-		private readonly TutorialService: TutorialService,
 		private readonly UserTokenService: UserTokenService,
 		@Inject(forwardRef(() => VerifyAccountServiceDependency))
 		private readonly VerifyAccountService: VerifyAccountServiceDependency,
@@ -31,8 +27,6 @@ export class UserService {
 
 	private get repositoriesAndServices() {
 		return {
-			TutorialService: this.TutorialService,
-			SettingsService: this.SettingsService,
 			UserTokenService: this.UserTokenService,
 			UserRepository: this.UserRepository,
 			VerifyAccountService: this.VerifyAccountService,

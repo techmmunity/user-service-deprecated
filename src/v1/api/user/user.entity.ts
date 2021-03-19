@@ -12,9 +12,6 @@ import {
 } from "typeorm";
 
 import { HeadlineEnum, HeadlineValues } from "core/enums/headline";
-import { InterestEnum } from "core/enums/interests";
-import { LanguageEnum } from "core/enums/language";
-import { PermissionsEnum } from "core/enums/permissions";
 
 import { EntityType } from "types/entity";
 
@@ -94,24 +91,6 @@ export class UserEntity extends BaseEntity {
 		enum: HeadlineValues(),
 	})
 	public headline: HeadlineEnum;
-
-	@Column({
-		type: "jsonb",
-		nullable: false,
-	})
-	public permissions: Array<PermissionsEnum>;
-
-	@Column({
-		type: "jsonb",
-		nullable: false,
-	})
-	public languages: Array<LanguageEnum>;
-
-	@Column({
-		type: "jsonb",
-		nullable: false,
-	})
-	public interests: Array<InterestEnum>;
 
 	@Column({
 		nullable: false,

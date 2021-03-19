@@ -1,11 +1,5 @@
 export const Routes = {
 	version: "v1",
-	settings: {
-		update: "/",
-	},
-	tutorial: {
-		complete: "/",
-	},
 	user: {
 		createLocal: "/local",
 		createDiscord: "/discord",

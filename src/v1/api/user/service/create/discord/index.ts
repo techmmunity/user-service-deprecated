@@ -26,8 +26,6 @@ export const createDiscord = async (
 	const {
 		UserRepository,
 		UserTokenService,
-		SettingsService,
-		TutorialService,
 		VerifyAccountService,
 		...unformattedData
 	} = params;
@@ -48,19 +46,15 @@ export const createDiscord = async (
 	const userId = user.id;
 
 	const {
-		suggestedLanguage,
 		discordAccessToken,
 		discordRefreshToken,
 		discordTokenExpirationDate,
 	} = unformattedData;
 
-	const { tutorial, settings, verificationCode } = await createRelations({
-		TutorialService,
-		SettingsService,
+	const { verificationCode } = await createRelations({
 		UserTokenService,
 		VerifyAccountService,
 		userId,
-		suggestedLanguage,
 		userTokenData: {
 			type: IntegrationsEnum.DISCORD,
 			accessToken: discordAccessToken,
@@ -73,8 +67,6 @@ export const createDiscord = async (
 
 	return {
 		user: userWithoutSensiveData,
-		tutorial,
-		settings,
 		verificationCode,
 	};
 };
