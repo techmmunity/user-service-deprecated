@@ -1,4 +1,4 @@
-import { validate } from "api/user/service/create/validation";
+import { validate } from "api/user/service/create/local/validation";
 
 import { TimeUtil } from "utils/time";
 import { InvalidParamsErrorMessage } from "utils/yup";
@@ -6,10 +6,11 @@ import { InvalidParamsErrorMessage } from "utils/yup";
 import { HeadlineEnum, HeadlineValues } from "core/enums/headline";
 import { LanguageEnum, LanguageValues } from "core/enums/language";
 
-const headlineEnumAllowedValues = HeadlineValues().join(", ");
-const languageEnumAllowedValues = LanguageValues().join(", ");
+describe("UserService > create > local > validation", () => {
+	const headlineEnumAllowedValues = HeadlineValues().join(", ");
 
-describe("UserService > create > validation", () => {
+	const languageEnumAllowedValues = LanguageValues().join(", ");
+
 	it("should do nothing with valid mandatory params", async () => {
 		let result;
 

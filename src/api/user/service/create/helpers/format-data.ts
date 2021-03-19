@@ -11,9 +11,7 @@ import { DEFAULT_USER_PERMISSIONS } from "config/default-user-permissions";
 
 import { BaseCreateUser } from "../types";
 
-interface FormatDataParams extends BaseCreateUser {
-	verified?: boolean;
-}
+type FormatDataParams = BaseCreateUser;
 
 const getNameAndSurnames = (fullName: string) => {
 	const [name, ...surnamesArray] = fullName.split(" ");
@@ -43,7 +41,6 @@ export const formatData = ({
 	birthday,
 	fullName,
 	password,
-	verified,
 	suggestedLanguage,
 }: FormatDataParams) => {
 	const { name, surnames } = getNameAndSurnames(fullName);
@@ -58,7 +55,7 @@ export const formatData = ({
 		username,
 		headline,
 		birthday,
-		verified: verified ? true : false,
+		verified: false,
 		password: getPasswordEncrypted(password),
 		languages: getLanguages(suggestedLanguage),
 		pin: generatePIN(),

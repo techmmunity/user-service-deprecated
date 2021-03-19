@@ -1,6 +1,6 @@
 import { CreateDiscordParams } from ".";
 
-import { validate as baseValidate } from "../validation";
+import { baseValidate } from "../validation-base";
 
 import { ErrorUtil } from "utils/error";
 import { TimeUtil } from "utils/time";
@@ -17,12 +17,7 @@ const schema = yup.object().shape({
 		.min(TimeUtil.newDate()),
 });
 
-export const validate = async (params: CreateDiscordParams) => {
-	await baseValidate(params).catch(err =>
-		ErrorUtil.badRequest("INVALID_PARAMS", err.errors),
-	);
-
-	return schema
-		.validate(params)
+export const validate = async (params: CreateDiscordParams) =>
+	baseValidate(params)
+		.then(() => schema.validate(params))
 		.catch(err => ErrorUtil.badRequest("INVALID_PARAMS", err.errors));
-};

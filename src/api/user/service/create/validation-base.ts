@@ -1,4 +1,3 @@
-import { ErrorUtil } from "utils/error";
 import { TimeUtil } from "utils/time";
 import { yup } from "utils/yup";
 
@@ -22,7 +21,5 @@ const schema = yup.object().shape({
 	headline: yup.string().required().strict().oneOf(HeadlineValues()),
 });
 
-export const validate = async (params: BaseCreateUser) =>
-	schema
-		.validate(params)
-		.catch(err => ErrorUtil.badRequest("INVALID_PARAMS", err.errors));
+export const baseValidate = async (params: BaseCreateUser) =>
+	schema.validate(params);

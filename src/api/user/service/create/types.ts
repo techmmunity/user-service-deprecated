@@ -1,6 +1,7 @@
 import { SettingsService } from "api/settings/settings.service";
 import { TutorialService } from "api/tutorial/tutorial.service";
 import { UserTokenService } from "api/user-token/user-token.service";
+import { VerifyAccountService } from "api/verify-account/verify-account.service";
 
 import { UserRepository } from "api/user/user.entity";
 
@@ -23,4 +24,5 @@ export interface BaseInjectables {
 	SettingsService: SettingsService;
 	TutorialService: TutorialService;
 	UserTokenService: UserTokenService;
+	VerifyAccountService: VerifyAccountService;
 }

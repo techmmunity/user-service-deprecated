@@ -5,8 +5,6 @@ import { removeSensiveDataFromUser } from "../helpers/remove-sensive-data-from-u
 import { duplicatedValidation } from "../validation-duplicated";
 import { validate } from "./validation";
 
-import { TimeUtil } from "utils/time";
-
 import { IntegrationsEnum } from "core/enums/integrations";
 
 import { BaseCreateUser, BaseInjectables } from "../types";
@@ -30,6 +28,7 @@ export const createDiscord = async (
 		UserTokenService,
 		SettingsService,
 		TutorialService,
+		VerifyAccountService,
 		...unformattedData
 	} = params;
 
@@ -42,10 +41,7 @@ export const createDiscord = async (
 		},
 	});
 
-	const userData = formatData({
-		verified: true,
-		...unformattedData,
-	});
+	const userData = formatData(unformattedData);
 
 	const user = await UserRepository.save(userData);
 
@@ -58,17 +54,18 @@ export const createDiscord = async (
 		discordTokenExpirationDate,
 	} = unformattedData;
 
-	const { tutorial, settings } = await createRelations({
+	const { tutorial, settings, verificationCode } = await createRelations({
 		TutorialService,
 		SettingsService,
 		UserTokenService,
+		VerifyAccountService,
 		userId,
 		suggestedLanguage,
 		userTokenData: {
 			type: IntegrationsEnum.DISCORD,
 			accessToken: discordAccessToken,
 			refreshToken: discordRefreshToken,
-			expirationDate: TimeUtil.newDate(discordTokenExpirationDate),
+			expirationDate: discordTokenExpirationDate,
 		},
 	});
 
@@ -78,5 +75,6 @@ export const createDiscord = async (
 		user: userWithoutSensiveData,
 		tutorial,
 		settings,
+		verificationCode,
 	};
 };

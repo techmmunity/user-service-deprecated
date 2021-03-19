@@ -29,12 +29,14 @@
 - [x] Criar função e rota para criar usuário local
   - [x] Adicionar testes a rota de criar usuário local
 - [x] Criar função e rota para criar usuário via discord
-  - [ ] Adicionar testes a rota de criar usuário via discord
-  - [ ] Adicionar testes a validação de usuário duplicado
+  - [x] Adicionar testes a rota de criar usuário via discord
+- [x] Adicionar testes a validação de usuário duplicado
 - [x] Criar rota para buscar os dados via id
   - [ ] Adicionar testes a rota de buscar dados via id
 - [x] Criar função e rota para re-gerar o PIN
   - [x] Adicionar testes para a função de re-gerar o PIN
+- [x] Criar função para atualizar o campo "verified" do usuário
+  - [ ] Adicionar testes para a função de atualizar o campo "verified" do usuário
 - [ ] Criar função e rota para alterar username
   - [ ] Adicionar testes para a função alterar username
   - Um membro da staff Tech não pode alterar o username
@@ -63,27 +65,21 @@
   - Recebe como parametro o userId e a versão
 - [x] Criar rota para verificar se o usuário aceitou os termos de uso
   - Recebe como parametro o userId e a versão
-- [ ] Criar uma tabela de Termos de Uso por produto da Tech
-  - Colunas:
-    - id
-    - version
-    - product (enum de produtos da Tech)
-    - body (conteudo dos termos de uso em Markdown)
-    - createdAt
-  - Sempre que ocorrer uma atualização nos temos de uso, um novo documento deve ser criado, ao invez de atualizar o antigo
 
 # Migrations
 
-- [x] Escrever migration da tabela settings
-- [x] Escrever migration da tabela terms_and_policies
-- [x] Escrever migration da tabela tutorials
-- [x] Escrever migration da tabela users
-- [x] Escrever migration da tabela user_tokens
-- [x] Escrever migration da tabela verify_accounts
+- [ ] Escrever migration da tabela settings
+- [ ] Escrever migration da tabela terms_and_policies
+- [ ] Escrever migration da tabela tutorials
+- [ ] Escrever migration da tabela users
+- [ ] Escrever migration da tabela user_tokens
+- [ ] Escrever migration da tabela verify_accounts
 
 ## Etc
 
 - [x] Revisar os testes para conferir se eles seguem um padrão
+- [ ] Converter o projeto para ser uma REST API normal
+- [ ] Alterar o uso das variaveis de ambiente pra usar o ConfigService
 - [ ] Testar as paradas
 - [ ] Criar funções no util de errors para retornar as mensagens de erros
   - required field
