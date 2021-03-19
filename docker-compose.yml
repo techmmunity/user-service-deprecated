@@ -12,7 +12,7 @@ services:
     volumes:
       - database-data:/var/lib/postgresql/data/
     networks:
-      - api_network
+      - user_network
   api:
     build:
       context: "."
@@ -24,7 +24,7 @@ services:
     ports:
       - 3000:3000
     networks:
-      - api_network
+      - user_network
     env_file:
       - .env.docker
     volumes:
@@ -36,5 +36,5 @@ volumes:
   nodemodules:
 
 networks:
-  api_network:
+  user_network:
     driver: bridge

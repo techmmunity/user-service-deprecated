@@ -37,6 +37,11 @@
   - [x] Adicionar testes para a função de re-gerar o PIN
 - [x] Criar função para atualizar o campo "verified" do usuário
   - [ ] Adicionar testes para a função de atualizar o campo "verified" do usuário
+
+# Todo Upgrades
+
+## User
+
 - [ ] Criar função e rota para alterar username
   - [ ] Adicionar testes para a função alterar username
   - Um membro da staff Tech não pode alterar o username
@@ -57,20 +62,8 @@
 - [x] Adicionar testes a função de criar
 - [x] Adicionar testes a função de atualizar
 
-## Terms And Policies
-
-- [x] Criar entidade de Terms And Policies
-- [x] Criar função e rota para aceitar termos de uso
-  - Só criar o registro no banco quando ele aceitar
-  - Recebe como parametro o userId e a versão
-- [x] Criar rota para verificar se o usuário aceitou os termos de uso
-  - Recebe como parametro o userId e a versão
-
 # Migrations
 
-- [ ] Escrever migration da tabela settings
-- [ ] Escrever migration da tabela terms_and_policies
-- [ ] Escrever migration da tabela tutorials
 - [ ] Escrever migration da tabela users
 - [ ] Escrever migration da tabela user_tokens
 - [ ] Escrever migration da tabela verify_accounts
@@ -80,9 +73,5 @@
 - [x] Revisar os testes para conferir se eles seguem um padrão
 - [x] Converter o projeto para ser uma REST API normal
 - [ ] Testar as paradas
-- [ ] Criar funções no util de errors para retornar as mensagens de erros
-  - required field
-  - wrong type
-  - invalid enum value
 - [ ] Descomentar bloqueio de coverage de testes
 - [ ] Escrever a documentação do padrão usado para fazer testes

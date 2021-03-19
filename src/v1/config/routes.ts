@@ -3,10 +3,6 @@ export const Routes = {
 	settings: {
 		update: "/",
 	},
-	termsAndPolicies: {
-		accept: "/",
-		hasAccepted: "/:application/:userId/:version",
-	},
 	tutorial: {
 		complete: "/",
 	},

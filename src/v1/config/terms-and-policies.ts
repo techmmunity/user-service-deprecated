@@ -1,1 +1,0 @@
-export const TERMS_AND_POLICIES_ALLOWED_VERSIONS = [1];
