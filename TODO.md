@@ -78,8 +78,7 @@
 ## Etc
 
 - [x] Revisar os testes para conferir se eles seguem um padrão
-- [ ] Converter o projeto para ser uma REST API normal
-- [ ] Alterar o uso das variaveis de ambiente pra usar o ConfigService
+- [x] Converter o projeto para ser uma REST API normal
 - [ ] Testar as paradas
 - [ ] Criar funções no util de errors para retornar as mensagens de erros
   - required field

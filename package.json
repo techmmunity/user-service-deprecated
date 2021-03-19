@@ -8,8 +8,8 @@
 	"dependencies": {
 		"@nestjs/common": "^7.5.1",
 		"@nestjs/core": "^7.5.1",
-		"@nestjs/microservices": "^7.6.7",
 		"@nestjs/platform-express": "^7.5.1",
+		"@nestjs/swagger": "^4.7.16",
 		"@nestjs/typeorm": "^7.1.5",
 		"@techmmunity/easy-check": "^2.4.1",
 		"bcrypt": "^5.0.0",
@@ -19,6 +19,7 @@
 		"reflect-metadata": "^0.1.13",
 		"rimraf": "^3.0.2",
 		"rxjs": "^6.6.3",
+		"swagger-ui-express": "^4.1.6",
 		"typeorm": "^0.2.30",
 		"typeorm-transactional-cls-hooked": "^0.1.20",
 		"uuid": "^8.3.2",
@@ -105,6 +106,7 @@
 		"clone:core": "./scripts/clone-core.sh",
 		"copy:core": "./scripts/copy-core.sh",
 		"docker": "docker-compose up",
+		"docker:clear": "docker container rm user_api && docker image rm user_api && docker volume rm user_nodemodules",
 		"migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config ormconfig.migrations.json migration:generate -d src/migrations -n"
 	}
 }

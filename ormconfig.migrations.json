@@ -8,9 +8,9 @@
 	"logging": true,
 	"migrationsRun": true,
 	"entities": [
-		"src/api/**/*.entity.ts"
+		"src/v1/api/**/*.entity.ts"
 	],
 	"migrations": [
-		"src/migrations/*.ts"
+		"src/v1/migrations/*.ts"
 	]
 }
