@@ -41,8 +41,4 @@ export const verify = async ({
 			verifiedAt: TimeUtil.newDate(),
 		}),
 	]);
-
-	return {
-		ok: true,
-	};
 };

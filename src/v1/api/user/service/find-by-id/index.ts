@@ -1,6 +1,8 @@
-import { validate } from "./validate";
+import { validate } from "./validation";
 
 import { UserRepository } from "v1/api/user/user.entity";
+
+import { ErrorUtil } from "v1/utils/error";
 
 interface Injectables {
 	UserRepository: UserRepository;
@@ -18,5 +20,11 @@ export const findById = async ({
 
 	const { userId } = params;
 
-	return UserRepository.findOne(userId);
+	const user = await UserRepository.findOne(userId);
+
+	if (!user) {
+		return ErrorUtil.notFound("NOT_FOUND", ["user not found"]);
+	}
+
+	return user;
 };

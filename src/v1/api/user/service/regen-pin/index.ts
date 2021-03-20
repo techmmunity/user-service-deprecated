@@ -14,7 +14,7 @@ export interface RegenPinParams {
 	userId: string;
 }
 
-const getRowsUpdated = (raw: string) => parseInt(raw.replace("UPDATE ", ""));
+const getUpdatedRows = (raw: string) => raw.replace("UPDATE ", "");
 
 export const regenPin = async ({
 	UserRepository,
@@ -35,10 +35,10 @@ export const regenPin = async ({
 		},
 	);
 
-	const updatedRows = getRowsUpdated(result.raw);
+	const updatedRows = getUpdatedRows(result.raw);
 
-	if (updatedRows < 1) {
-		return ErrorUtil.notFound("USER_NOT_FOUND");
+	if (updatedRows !== "1") {
+		return ErrorUtil.notFound("NOT_FOUND", ["user not found"]);
 	}
 
 	return newPin;

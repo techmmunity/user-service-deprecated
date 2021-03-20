@@ -30,6 +30,9 @@ describe("VerifyAccountService > verify", () => {
 			id: userId,
 			confirmationCode,
 		});
+		UserMock.repository.update.mockReturnValue({
+			raw: "UPDATE 1",
+		});
 
 		let result;
 
@@ -42,7 +45,7 @@ describe("VerifyAccountService > verify", () => {
 		expect(VerifyAccountMock.repository.findOne).toBeCalledTimes(1);
 		expect(VerifyAccountMock.repository.update).toBeCalledTimes(1);
 		expect(UserMock.repository.update).toBeCalledTimes(1);
-		expect(result).toMatchObject({ ok: true });
+		expect(result).toBeUndefined();
 	});
 
 	it("should throw error if account not found", async () => {

@@ -2,9 +2,13 @@ import { v4 } from "uuid";
 
 import { UserService } from "v1/api/user/user.service";
 
+import { TimeUtil } from "v1/utils/time";
+
+import { HeadlineEnum } from "core/enums/headline";
+
 import { UserMock } from "v1/tests/mocks/user";
 
-describe("UserService > regen-pin", () => {
+describe("UserService > find-by-id", () => {
 	let service: UserService;
 
 	const userId = v4();
@@ -21,43 +25,47 @@ describe("UserService > regen-pin", () => {
 		expect(service).toBeDefined();
 	});
 
-	it("should regen pin user with valid params", async () => {
-		UserMock.repository.update.mockReturnValue({
-			raw: "UPDATE 1",
+	it("should find user with valid params", async () => {
+		const doc = UserMock.doc({
+			userId,
+			email: "test@email.com",
+			username: "test",
+			name: "Example",
+			surnames: "Name",
+			headline: HeadlineEnum.ANIMATOR,
+			birthday: TimeUtil.newDate(),
 		});
+
+		UserMock.repository.findOne.mockReturnValue(doc);
 
 		let result;
 
 		try {
-			result = await service.regenPin({
+			result = await service.findById({
 				userId,
 			});
 		} catch (err) {
 			result = err;
 		}
 
-		expect(UserMock.repository.update).toBeCalledTimes(1);
-		expect(typeof result).toBe("string");
-		expect(typeof parseInt(result)).toBe("number");
-		expect(Number.isNaN(parseInt(result))).toBe(false);
+		expect(UserMock.repository.findOne).toBeCalledTimes(1);
+		expect(result).toMatchObject(doc);
 	});
 
 	it("should throw error when user not found", async () => {
-		UserMock.repository.update.mockReturnValue({
-			raw: "UPDATE 0",
-		});
+		UserMock.repository.findOne.mockReturnValue(undefined);
 
 		let result;
 
 		try {
-			result = await service.regenPin({
+			result = await service.findById({
 				userId,
 			});
 		} catch (e) {
 			result = e;
 		}
 
-		expect(UserMock.repository.update).toBeCalledTimes(1);
+		expect(UserMock.repository.findOne).toBeCalledTimes(1);
 		expect(result.status).toBe(404);
 		expect(result.response).toMatchObject({
 			code: "NOT_FOUND",

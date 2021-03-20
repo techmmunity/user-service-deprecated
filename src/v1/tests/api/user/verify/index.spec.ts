@@ -4,7 +4,7 @@ import { UserService } from "v1/api/user/user.service";
 
 import { UserMock } from "v1/tests/mocks/user";
 
-describe("UserService > regen-pin", () => {
+describe("UserService > verify", () => {
 	let service: UserService;
 
 	const userId = v4();
@@ -21,7 +21,7 @@ describe("UserService > regen-pin", () => {
 		expect(service).toBeDefined();
 	});
 
-	it("should regen pin user with valid params", async () => {
+	it("should find user with valid params", async () => {
 		UserMock.repository.update.mockReturnValue({
 			raw: "UPDATE 1",
 		});
@@ -29,7 +29,7 @@ describe("UserService > regen-pin", () => {
 		let result;
 
 		try {
-			result = await service.regenPin({
+			result = await service.verify({
 				userId,
 			});
 		} catch (err) {
@@ -37,9 +37,7 @@ describe("UserService > regen-pin", () => {
 		}
 
 		expect(UserMock.repository.update).toBeCalledTimes(1);
-		expect(typeof result).toBe("string");
-		expect(typeof parseInt(result)).toBe("number");
-		expect(Number.isNaN(parseInt(result))).toBe(false);
+		expect(result).toBeUndefined();
 	});
 
 	it("should throw error when user not found", async () => {
@@ -50,7 +48,7 @@ describe("UserService > regen-pin", () => {
 		let result;
 
 		try {
-			result = await service.regenPin({
+			result = await service.verify({
 				userId,
 			});
 		} catch (e) {
