@@ -1,5 +1,4 @@
-export type EntityType<T> = Omit<
-	T,
+export type DefaultOmitEntityFields =
 	| "_id"
 	| "reload"
 	| "recover"
@@ -8,5 +7,4 @@ export type EntityType<T> = Omit<
 	| "save"
 	| "hasId"
 	| "createdAt"
-	| "updatedAt"
->;
+	| "updatedAt";

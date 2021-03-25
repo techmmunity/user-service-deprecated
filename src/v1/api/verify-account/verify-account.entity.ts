@@ -7,14 +7,25 @@ import {
 	FindOneOptions,
 	CreateDateColumn,
 	PrimaryColumn,
+	OneToOne,
+	JoinColumn,
 } from "typeorm";
 
-import { EntityType } from "types/entity";
+import { UserEntity } from "../user/user.entity";
 
-@Entity("verify_account")
+import { DefaultOmitEntityFields } from "types/entity";
+
+@Entity("verify_accounts")
 export class VerifyAccountEntity extends BaseEntity {
 	@PrimaryColumn()
 	public id: string;
+
+	@Column({
+		name: "user_id",
+		nullable: false,
+		unique: true,
+	})
+	public userId: string;
 
 	@Column({
 		name: "verification_code",
@@ -33,9 +44,18 @@ export class VerifyAccountEntity extends BaseEntity {
 		nullable: false,
 	})
 	public createdAt: Date;
+
+	@OneToOne(() => UserEntity, user => user.verifyAccount)
+	@JoinColumn({
+		name: "user_id",
+	})
+	public user: UserEntity;
 }
 
-export type VerifyAccountType = EntityType<VerifyAccountEntity>;
+export type VerifyAccountType = Omit<
+	VerifyAccountEntity,
+	DefaultOmitEntityFields | "user"
+>;
 
 export type VerifyAccountRepository = Repository<VerifyAccountEntity>;
 

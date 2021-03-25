@@ -2,7 +2,6 @@ import { createRelations } from "../helpers/create-relations";
 import { formatData } from "../helpers/format-data";
 import { removeSensiveDataFromUser } from "../helpers/remove-sensive-data-from-user";
 
-import { duplicatedValidation } from "../validation-duplicated";
 import { validate } from "./validation";
 
 import { IntegrationsEnum } from "core/enums/integrations";
@@ -29,15 +28,6 @@ export const createDiscord = async (
 		VerifyAccountService,
 		...unformattedData
 	} = params;
-
-	await duplicatedValidation({
-		UserRepository,
-		username: unformattedData.username,
-		email: unformattedData.email,
-		extraConditions: {
-			discordUserId: unformattedData.discordUserId,
-		},
-	});
 
 	const userData = formatData(unformattedData);
 

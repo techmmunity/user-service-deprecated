@@ -2,7 +2,6 @@ import { createRelations } from "../helpers/create-relations";
 import { formatData } from "../helpers/format-data";
 import { removeSensiveDataFromUser } from "../helpers/remove-sensive-data-from-user";
 
-import { duplicatedValidation } from "../validation-duplicated";
 import { validate } from "./validation";
 
 import { BaseCreateUser, BaseInjectables } from "../types";
@@ -22,12 +21,6 @@ export const createLocal = async (
 		VerifyAccountService,
 		...unformattedData
 	} = params;
-
-	await duplicatedValidation({
-		UserRepository,
-		username: unformattedData.username,
-		email: unformattedData.email,
-	});
 
 	const userData = formatData(unformattedData);
 
