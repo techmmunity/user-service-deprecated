@@ -11,7 +11,7 @@ const schema = yup.object().shape({
 		.string()
 		.required()
 		.strict()
-		.length(Limits.verifyAccount.code.max),
+		.length(Limits.verifyAccount.code.length),
 });
 
 export const validate = async (params: VerifyAccountParams) =>

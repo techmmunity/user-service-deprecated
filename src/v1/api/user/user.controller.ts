@@ -3,8 +3,7 @@ import { ApiTags } from "@nestjs/swagger";
 
 import { UserService } from "./user.service";
 
-import { CreateDiscordParams } from "./service/create/discord";
-import { CreateLocalParams } from "./service/create/local";
+import { CreateParams } from "./service/create";
 
 import { Routes } from "v1/config/routes";
 
@@ -15,14 +14,9 @@ export class UserController {
 		//
 	}
 
-	@Post(Routes.user.createLocal)
-	public createLocal(data: CreateLocalParams) {
-		return this.UserService.createLocal(data);
-	}
-
-	@Post(Routes.user.createDiscord)
-	public createDiscord(data: CreateDiscordParams) {
-		return this.UserService.createDiscord(data);
+	@Post(Routes.user.create)
+	public create(data: CreateParams) {
+		return this.UserService.create(data);
 	}
 
 	@Get(Routes.user.findById)

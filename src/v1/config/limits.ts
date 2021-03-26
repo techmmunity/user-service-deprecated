@@ -1,11 +1,10 @@
 export const Limits = {
 	ids: {
 		uuid: {
-			min: 36,
-			max: 36,
+			length: 36,
 		},
 		random: {
-			max: 25,
+			length: 25,
 		},
 	},
 	user: {
@@ -26,8 +25,7 @@ export const Limits = {
 			max: 16,
 		},
 		pin: {
-			min: 4,
-			max: 4,
+			length: 4,
 		},
 		avatar: {
 			max: 150,
@@ -38,7 +36,7 @@ export const Limits = {
 	},
 	verifyAccount: {
 		code: {
-			max: 6,
+			length: 6,
 		},
 	},
 	github: {

@@ -2,8 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Transactional } from "typeorm-transactional-cls-hooked";
 
-import { createDiscord, CreateDiscordParams } from "./service/create/discord";
-import { createLocal, CreateLocalParams } from "./service/create/local";
+import { create, CreateParams } from "./service/create";
 import { findById, FindByIdParams } from "./service/find-by-id";
 import { regenPin, RegenPinParams } from "./service/regen-pin";
 
@@ -19,18 +18,8 @@ export class UserService {
 	}
 
 	@Transactional()
-	public createLocal(params: CreateLocalParams) {
-		return createLocal(
-			{
-				UserRepository: this.UserRepository,
-			},
-			params,
-		);
-	}
-
-	@Transactional()
-	public createDiscord(params: CreateDiscordParams) {
-		return createDiscord(
+	public create(params: CreateParams) {
+		return create(
 			{
 				UserRepository: this.UserRepository,
 			},

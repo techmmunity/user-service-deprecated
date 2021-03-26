@@ -32,7 +32,7 @@ export class VerifyAccountEntity extends BaseEntity {
 	@Column({
 		name: "verification_code",
 		nullable: false,
-		length: Limits.verifyAccount.code.max,
+		length: Limits.verifyAccount.code.length,
 	})
 	public verificationCode: string;
 

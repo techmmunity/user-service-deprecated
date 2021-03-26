@@ -1,8 +1,7 @@
 export const Routes = {
 	version: "v1",
 	user: {
-		createLocal: "/local",
-		createDiscord: "/discord",
+		create: "/",
 		findById: "/:id",
 		regenPin: "/:id",
 	},

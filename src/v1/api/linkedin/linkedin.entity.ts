@@ -22,7 +22,7 @@ import { DefaultOmitEntityFields } from "types/entity";
 export class LinkedinEntity extends BaseEntity {
 	@PrimaryColumn({
 		name: "linkedin_user_id",
-		length: Limits.ids.random.max,
+		length: Limits.ids.random.length,
 		nullable: false,
 		unique: true,
 	})

@@ -5,9 +5,7 @@ import { UserType } from "v1/api/user/user.entity";
 
 import { PinUtil } from "v1/utils/pin";
 
-import { BaseCreateUser } from "../types";
-
-type FormatDataParams = BaseCreateUser;
+import { CreateParams } from "..";
 
 const getNameAndSurnames = (fullName: string) => {
 	const [name, ...surnamesArray] = fullName.split(" ");
@@ -29,7 +27,7 @@ export const formatData = ({
 	birthday,
 	fullName,
 	password,
-}: FormatDataParams) => {
+}: CreateParams) => {
 	const { name, surnames } = getNameAndSurnames(fullName);
 
 	const user: UserType = {

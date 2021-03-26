@@ -22,7 +22,7 @@ import { DefaultOmitEntityFields } from "types/entity";
 export class GoogleEntity extends BaseEntity {
 	@PrimaryColumn({
 		name: "google_user_id",
-		length: Limits.ids.random.max,
+		length: Limits.ids.random.length,
 		nullable: false,
 		unique: true,
 	})

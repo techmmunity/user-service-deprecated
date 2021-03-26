@@ -1,3 +1,5 @@
+import { CreateParams } from ".";
+
 import { TimeUtil } from "v1/utils/time";
 import { yup } from "v1/utils/yup";
 
@@ -5,8 +7,6 @@ import { HeadlineValues } from "core/enums/headline";
 import { LanguageValues } from "core/enums/language";
 
 import { Limits } from "v1/config/limits";
-
-import { BaseCreateUser } from "./types";
 
 const schema = yup.object().shape({
 	email: yup
@@ -32,6 +32,7 @@ const schema = yup.object().shape({
 		.max(Limits.user.name.max + Limits.user.surnames.max + 1)
 		.fullName(),
 	avatar: yup.string().notRequired().strict().max(Limits.user.avatar.max).url(),
+	youtube: yup.string().required().strict().max(Limits.user.youtube.max),
 	suggestedLanguage: yup
 		.string()
 		.notRequired()
@@ -40,5 +41,4 @@ const schema = yup.object().shape({
 	headline: yup.string().required().strict().oneOf(HeadlineValues()),
 });
 
-export const baseValidate = async (params: BaseCreateUser) =>
-	schema.validate(params);
+export const validate = async (params: CreateParams) => schema.validate(params);

@@ -24,7 +24,7 @@ export const create = async (
 
 	const { userId } = params;
 
-	const verificationCode = PinUtil.gen(Limits.verifyAccount.code.max);
+	const verificationCode = PinUtil.gen(Limits.verifyAccount.code.length);
 
 	await VerifyAccountRepository.save({
 		id: v4(),

@@ -27,7 +27,7 @@ import { DefaultOmitEntityFields } from "types/entity";
 @Entity({ name: "users" })
 export class UserEntity extends BaseEntity {
 	@PrimaryColumn({
-		length: Limits.ids.uuid.max,
+		length: Limits.ids.uuid.length,
 	})
 	public id: string;
 
@@ -64,7 +64,7 @@ export class UserEntity extends BaseEntity {
 	public surnames: string;
 
 	@Column({
-		length: Limits.user.pin.max,
+		length: Limits.user.pin.length,
 		nullable: false,
 	})
 	public pin: string;

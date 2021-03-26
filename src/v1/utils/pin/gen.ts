@@ -3,7 +3,7 @@ import { Limits } from "v1/config/limits";
 /**
  * Generates random PIN
  */
-export const gen = (length = Limits.user.pin.max) => {
+export const gen = (length = Limits.user.pin.length) => {
 	/**
 	 * Generates a number composed of 9s, based on the length
 	 * Ex: 9, 99, 999, 9999, ...
