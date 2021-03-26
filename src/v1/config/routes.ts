@@ -5,6 +5,9 @@ export const Routes = {
 		findById: "/:id",
 		regenPin: "/:id",
 	},
+	contact: {
+		create: "/",
+	},
 	userToken: {
 		update: "/",
 	},

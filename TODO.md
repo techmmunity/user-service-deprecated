@@ -2,8 +2,9 @@
 
 ## Trilha do que deve ser feito (NESSA EXATA ORDEM!!!!)
 
-- [ ] Criar a função de criar um contato no serviço de Contact
+- [x] Criar a função de criar um contato no serviço de Contact
   - [ ] Adicionar testes
+- [ ] Trocar o nome de todos os arquivos "validation" para "validate"
 - [ ] Revisar função de criar usuário local, para criar também os contacts
   - [ ] Adicionar testes
 - [ ] Adicionar testes a função CREATE do serviço de VerifyAccount
@@ -12,6 +13,7 @@
   - [ ] Adicionar testes
 - [ ] Criar função de criar um usuário via discord no serviço de User
   - [ ] Adicionar testes
+- [ ] Checar se a documentação do Swagger da rota de criatr um contato funciona, caso não funcione, passar uma função: `type: () => Contact`
 - [ ] Estudar a respeito de Kubernetes e começar a integração
 
 ## Todo Upgrades

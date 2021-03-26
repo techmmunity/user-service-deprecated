@@ -1,4 +1,4 @@
-import { Controller, Param, Put } from "@nestjs/common";
+import { Controller, Put } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 
 import { VerifyAccountService } from "./verify-account.service";
