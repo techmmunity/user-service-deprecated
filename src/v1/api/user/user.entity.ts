@@ -10,8 +10,10 @@ import {
 	PrimaryColumn,
 	Index,
 	OneToOne,
+	OneToMany,
 } from "typeorm";
 
+import { ContactEntity } from "../contact/contact.entity";
 import { DiscordEntity } from "../discord/discord.entity";
 import { GithubEntity } from "../github/github.entity";
 import { GoogleEntity } from "../google/google.entity";
@@ -24,25 +26,12 @@ import { Limits } from "v1/config/limits";
 
 import { DefaultOmitEntityFields } from "types/entity";
 
-@Entity({ name: "users" })
+@Entity("users")
 export class UserEntity extends BaseEntity {
 	@PrimaryColumn({
 		length: Limits.ids.uuid.length,
 	})
 	public id: string;
-
-	@Column({
-		length: Limits.user.email.max,
-		nullable: false,
-		unique: true,
-	})
-	public email: string;
-
-	@Column({
-		length: 200,
-		nullable: false,
-	})
-	public password: string;
 
 	@Column({
 		length: Limits.user.username.max,
@@ -70,6 +59,17 @@ export class UserEntity extends BaseEntity {
 	public pin: string;
 
 	@Column({
+		nullable: false,
+	})
+	public birthday: Date;
+
+	@Column({
+		length: 200,
+		nullable: true,
+	})
+	public password?: string;
+
+	@Column({
 		length: Limits.user.avatar.max,
 		nullable: true,
 	})
@@ -83,15 +83,10 @@ export class UserEntity extends BaseEntity {
 
 	@Index()
 	@Column({
-		nullable: false,
+		nullable: true,
 		enum: HeadlineValues(),
 	})
-	public headline: HeadlineEnum;
-
-	@Column({
-		nullable: false,
-	})
-	public birthday: Date;
+	public headline?: HeadlineEnum;
 
 	@CreateDateColumn({
 		name: "created_at",
@@ -119,6 +114,9 @@ export class UserEntity extends BaseEntity {
 
 	@OneToOne(() => LinkedinEntity, linkedin => linkedin.user)
 	public linkedin: LinkedinEntity;
+
+	@OneToMany(() => ContactEntity, contact => contact.user)
+	public contacts: Array<ContactEntity>;
 }
 
 export type UserType = Omit<
@@ -129,6 +127,7 @@ export type UserType = Omit<
 	| "github"
 	| "google"
 	| "linkedin"
+	| "contacts"
 >;
 
 export type UserRepository = Repository<UserEntity>;
