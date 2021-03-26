@@ -11,7 +11,8 @@ export type CreateLocalParams = BaseCreateUser;
 type InjectablesLocal = BaseInjectables;
 
 export const createLocal = async (
-	params: CreateLocalParams & InjectablesLocal,
+	{ UserRepository }: InjectablesLocal,
+	params: CreateLocalParams,
 ) => {
 	await validate(params);
 

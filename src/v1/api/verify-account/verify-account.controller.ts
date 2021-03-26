@@ -3,6 +3,8 @@ import { ApiTags } from "@nestjs/swagger";
 
 import { VerifyAccountService } from "./verify-account.service";
 
+import { VerifyAccountSchema } from "./service/verify/schema";
+
 import { Routes } from "v1/config/routes";
 
 @ApiTags("Verify Account")
@@ -13,7 +15,7 @@ export class VerifyAccountController {
 	}
 
 	@Put(Routes.verifyAccount.verify)
-	public verifyAccount(@Param("confirmationCode") confirmationCode: string) {
-		return this.VerifyAccountService.verify(confirmationCode);
+	public verify(params: VerifyAccountSchema) {
+		return this.VerifyAccountService.verify(params);
 	}
 }

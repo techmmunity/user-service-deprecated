@@ -13,6 +13,8 @@ import {
 
 import { UserEntity } from "../user/user.entity";
 
+import { Limits } from "v1/config/limits";
+
 import { DefaultOmitEntityFields } from "types/entity";
 
 @Entity("verify_accounts")
@@ -30,6 +32,7 @@ export class VerifyAccountEntity extends BaseEntity {
 	@Column({
 		name: "verification_code",
 		nullable: false,
+		length: Limits.verifyAccount.code.max,
 	})
 	public verificationCode: string;
 

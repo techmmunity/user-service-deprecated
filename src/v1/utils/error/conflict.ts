@@ -1,9 +1,5 @@
 import { ConflictException } from "@nestjs/common";
 
-export const conflict = (code: string, errors: Array<string> = []) => {
-	throw new ConflictException({
-		code,
-		statusCode: 409,
-		errors,
-	});
+export const conflict = (errors: Array<any> = []) => {
+	throw new ConflictException({ errors });
 };

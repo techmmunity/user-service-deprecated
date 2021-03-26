@@ -32,5 +32,28 @@ export const Limits = {
 		avatar: {
 			max: 150,
 		},
+		youtube: {
+			max: 100,
+		},
+	},
+	verifyAccount: {
+		code: {
+			max: 6,
+		},
+	},
+	github: {
+		username: {
+			max: 100,
+		},
+	},
+	discord: {
+		username: {
+			max: 100,
+		},
+	},
+	linkedin: {
+		username: {
+			max: 100,
+		},
 	},
 };

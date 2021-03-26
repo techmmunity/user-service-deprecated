@@ -1,8 +1,5 @@
 import { UnauthorizedException } from "@nestjs/common";
 
-export const unauthorized = (code: string) => {
-	throw new UnauthorizedException({
-		code,
-		statusCode: 403,
-	});
+export const unauthorized = (errors: Array<any>) => {
+	throw new UnauthorizedException({ errors });
 };

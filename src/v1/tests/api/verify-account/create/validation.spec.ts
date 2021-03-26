@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { CreateVerificationCodeParams } from "v1/api/verify-account/service/create";
+import { CreateVerifyAccountParams } from "v1/api/verify-account/service/create";
 
 import { validate } from "v1/api/verify-account/service/create/validation";
 
@@ -14,7 +14,7 @@ describe("VerifyAccountService > create > validation", () => {
 		try {
 			await validate({
 				userId,
-			} as CreateVerificationCodeParams);
+			} as CreateVerifyAccountParams);
 		} catch (e) {
 			result = e;
 		}
@@ -26,7 +26,7 @@ describe("VerifyAccountService > create > validation", () => {
 		let result;
 
 		try {
-			await validate(("" as unknown) as CreateVerificationCodeParams);
+			await validate(("" as unknown) as CreateVerifyAccountParams);
 		} catch (e) {
 			result = e;
 		}
@@ -43,7 +43,7 @@ describe("VerifyAccountService > create > validation", () => {
 		let result;
 
 		try {
-			await validate({} as CreateVerificationCodeParams);
+			await validate({} as CreateVerifyAccountParams);
 		} catch (e) {
 			result = e;
 		}
@@ -62,7 +62,7 @@ describe("VerifyAccountService > create > validation", () => {
 		try {
 			await validate({
 				userId: "123",
-			} as CreateVerificationCodeParams);
+			} as CreateVerifyAccountParams);
 		} catch (e) {
 			result = e;
 		}
@@ -81,7 +81,7 @@ describe("VerifyAccountService > create > validation", () => {
 		try {
 			await validate({
 				userId: 123 as any,
-			} as CreateVerificationCodeParams);
+			} as CreateVerifyAccountParams);
 		} catch (e) {
 			result = e;
 		}

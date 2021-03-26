@@ -8,7 +8,6 @@ import {
 	FindManyOptions,
 	FindOneOptions,
 	PrimaryColumn,
-	Index,
 	OneToOne,
 	JoinColumn,
 } from "typeorm";
@@ -29,7 +28,6 @@ export class GoogleEntity extends BaseEntity {
 	})
 	public googleUserId?: string;
 
-	@Index()
 	@Column({
 		name: "user_id",
 		nullable: false,

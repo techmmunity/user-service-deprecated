@@ -8,6 +8,4 @@ const schema = yup.object().shape({
 });
 
 export const validate = async (params: FindByIdParams) =>
-	schema
-		.validate(params)
-		.catch(err => ErrorUtil.badRequest("INVALID_PARAMS", err.errors));
+	schema.validate(params).catch(err => ErrorUtil.badRequest(err.errors));

@@ -75,6 +75,12 @@ export class UserEntity extends BaseEntity {
 	})
 	public avatar?: string;
 
+	@Column({
+		length: Limits.user.youtube.max,
+		nullable: true,
+	})
+	public youtube?: string;
+
 	@Index()
 	@Column({
 		nullable: false,
@@ -115,7 +121,15 @@ export class UserEntity extends BaseEntity {
 	public linkedin: LinkedinEntity;
 }
 
-export type UserType = Omit<UserEntity, DefaultOmitEntityFields | "user">;
+export type UserType = Omit<
+	UserEntity,
+	| DefaultOmitEntityFields
+	| "verifyAccount"
+	| "discord"
+	| "github"
+	| "google"
+	| "linkedin"
+>;
 
 export type UserRepository = Repository<UserEntity>;
 

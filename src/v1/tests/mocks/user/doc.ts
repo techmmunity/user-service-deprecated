@@ -1,7 +1,6 @@
-import { generatePIN } from "v1/api/user/service/helpers/generate-pin";
-
 import { UserType } from "v1/api/user/user.entity";
 
+import { PinUtil } from "v1/utils/pin";
 import { TimeUtil } from "v1/utils/time";
 
 import { HeadlineEnum } from "core/enums/headline";
@@ -50,7 +49,7 @@ export const doc = ({
 		updatedAt: date,
 		id: userId,
 		verified: verified ? true : false,
-		pin: generatePIN(),
+		pin: PinUtil.gen(),
 	} as Partial<UserType>;
 
 	if (avatar) userDoc.avatar = avatar;

@@ -22,4 +22,4 @@ const schema = yup.object().shape({
 export const validate = async (params: CreateDiscordParams) =>
 	baseValidate(params)
 		.then(() => schema.validate(params))
-		.catch(err => ErrorUtil.badRequest("INVALID_PARAMS", err.errors));
+		.catch(err => ErrorUtil.badRequest(err.errors));

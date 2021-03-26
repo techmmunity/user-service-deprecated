@@ -12,10 +12,10 @@ export interface FindByIdParams {
 	userId: string;
 }
 
-export const findById = async ({
-	UserRepository,
-	...params
-}: FindByIdParams & Injectables) => {
+export const findById = async (
+	{ UserRepository }: Injectables,
+	params: FindByIdParams,
+) => {
 	await validate(params);
 
 	const { userId } = params;
@@ -23,7 +23,7 @@ export const findById = async ({
 	const user = await UserRepository.findOne(userId);
 
 	if (!user) {
-		return ErrorUtil.notFound("NOT_FOUND", ["user not found"]);
+		return ErrorUtil.notFound(["user not found"]);
 	}
 
 	return user;

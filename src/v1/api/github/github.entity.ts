@@ -36,6 +36,13 @@ export class GithubEntity extends BaseEntity {
 	public userId: string;
 
 	@Column({
+		name: "github_username",
+		length: Limits.github.username.max,
+		nullable: false,
+	})
+	public githubUsername: string;
+
+	@Column({
 		name: "github_access_token",
 		nullable: false,
 	})

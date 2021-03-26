@@ -15,6 +15,7 @@ export const PostgresConnect = TypeOrmModule.forRoot({
 	password: POSTGRES_PASSWORD,
 	synchronize: false,
 	logging: true,
-	entities: ["dist/v*/api/**/*.entity.js"],
-	migrations: ["dist/v*/migrations/*.migrations.js"],
+	migrationsRun: true,
+	entities: ["dist/v1/api/**/*.entity.js"],
+	migrations: ["dist/v1/migrations/*.js"],
 });

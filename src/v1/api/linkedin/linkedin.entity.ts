@@ -8,7 +8,6 @@ import {
 	FindManyOptions,
 	FindOneOptions,
 	PrimaryColumn,
-	Index,
 	OneToOne,
 	JoinColumn,
 } from "typeorm";
@@ -29,13 +28,19 @@ export class LinkedinEntity extends BaseEntity {
 	})
 	public linkedinUserId?: string;
 
-	@Index()
 	@Column({
 		name: "user_id",
 		nullable: false,
 		unique: true,
 	})
 	public userId: string;
+
+	@Column({
+		name: "linkedin_username",
+		length: Limits.linkedin.username.max,
+		nullable: false,
+	})
+	public linkedinUsername: string;
 
 	@Column({
 		name: "linkedin_access_token",

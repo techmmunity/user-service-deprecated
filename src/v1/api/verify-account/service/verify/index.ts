@@ -1,5 +1,3 @@
-import { UserService } from "v1/api/user/user.service";
-
 import { validate } from "./validation";
 
 import { VerifyAccountRepository } from "v1/api/verify-account/verify-account.entity";
@@ -9,36 +7,33 @@ import { TimeUtil } from "v1/utils/time";
 
 interface Injectables {
 	VerifyAccountRepository: VerifyAccountRepository;
-	UserService: UserService;
 }
 
 export interface VerifyAccountParams {
-	confirmationCode: string;
+	userId: string;
+	verificationCode: string;
 }
 
-export const verify = async ({
-	UserService,
-	VerifyAccountRepository,
-	confirmationCode,
-}: VerifyAccountParams & Injectables) => {
-	await validate({ confirmationCode });
+export const verify = async (
+	{ VerifyAccountRepository }: Injectables,
+	params: VerifyAccountParams,
+) => {
+	await validate(params);
+
+	const { userId, verificationCode } = params;
 
 	const verifyAccount = await VerifyAccountRepository.findOne({
 		where: {
-			confirmationCode,
+			userId,
+			verificationCode,
 		},
 	});
 
 	if (!verifyAccount) {
-		return ErrorUtil.notFound("CONFIRMATION_CODE_NOT_FOUND");
+		return ErrorUtil.notFound(["Confirmation code not found"]);
 	}
 
-	await Promise.all([
-		UserService.verify({
-			userId: verifyAccount.id,
-		}),
-		VerifyAccountRepository.update(verifyAccount, {
-			verifiedAt: TimeUtil.newDate(),
-		}),
-	]);
+	verifyAccount.verifiedAt = TimeUtil.newDate();
+
+	await verifyAccount.save();
 };

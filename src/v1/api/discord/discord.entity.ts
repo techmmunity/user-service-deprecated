@@ -8,7 +8,6 @@ import {
 	FindManyOptions,
 	FindOneOptions,
 	PrimaryColumn,
-	Index,
 	OneToOne,
 	JoinColumn,
 } from "typeorm";
@@ -29,13 +28,19 @@ export class DiscordEntity extends BaseEntity {
 	})
 	public discordUserId?: string;
 
-	@Index()
 	@Column({
 		name: "user_id",
 		nullable: false,
 		unique: true,
 	})
 	public userId: string;
+
+	@Column({
+		name: "discord_username",
+		length: Limits.discord.username.max,
+		nullable: false,
+	})
+	public discordUsername: string;
 
 	@Column({
 		name: "discord_access_token",

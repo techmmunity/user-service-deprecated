@@ -1,9 +1,9 @@
 import * as bcrypt from "bcrypt";
 import { v4 } from "uuid";
 
-import { generatePIN } from "../../helpers/generate-pin";
-
 import { UserType } from "v1/api/user/user.entity";
+
+import { PinUtil } from "v1/utils/pin";
 
 import { BaseCreateUser } from "../types";
 
@@ -32,24 +32,18 @@ export const formatData = ({
 }: FormatDataParams) => {
 	const { name, surnames } = getNameAndSurnames(fullName);
 
-	const id = v4();
-
 	const user: UserType = {
-		id,
+		id: v4(),
+		password: getPasswordEncrypted(password),
+		pin: PinUtil.gen(),
 		name,
 		surnames,
+		avatar,
 		email,
 		username,
 		headline,
 		birthday,
-		verified: false,
-		password: getPasswordEncrypted(password),
-		pin: generatePIN(),
 	};
 
-	if (avatar) {
-		user.avatar = avatar;
-	}
-
-	return user as UserType;
+	return user;
 };
