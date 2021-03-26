@@ -21,19 +21,17 @@ import { DefaultOmitEntityFields } from "types/entity";
 @Entity("googles")
 export class GoogleEntity extends BaseEntity {
 	@PrimaryColumn({
+		name: "user_id",
+	})
+	public userId: string;
+
+	@Column({
 		name: "google_user_id",
 		length: Limits.ids.random.length,
 		nullable: false,
 		unique: true,
 	})
 	public googleUserId?: string;
-
-	@Column({
-		name: "user_id",
-		nullable: false,
-		unique: true,
-	})
-	public userId: string;
 
 	@Column({
 		name: "google_access_token",
@@ -65,7 +63,9 @@ export class GoogleEntity extends BaseEntity {
 	})
 	public updatedAt: Date;
 
-	@OneToOne(() => UserEntity, user => user.google)
+	@OneToOne(() => UserEntity, user => user.google, {
+		primary: true,
+	})
 	@JoinColumn({
 		name: "user_id",
 	})

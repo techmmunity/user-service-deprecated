@@ -1,10 +1,10 @@
 import { v4 } from "uuid";
-
-import { validate } from "v1/api/user/service/find-by-id/validation";
+import { CreateVerifyAccountParams } from "v1/api/verify-account/service/create";
+import { validate } from "v1/api/verify-account/service/create/validate";
 
 import { InvalidParamsErrorMessage } from "v1/utils/yup";
 
-describe("UserService > find-by-id > validation", () => {
+describe("VerifyAccountService > create > validation", () => {
 	const userId = v4();
 
 	it("should do nothing with valid params", async () => {
@@ -13,7 +13,7 @@ describe("UserService > find-by-id > validation", () => {
 		try {
 			await validate({
 				userId,
-			});
+			} as CreateVerifyAccountParams);
 		} catch (e) {
 			result = e;
 		}
@@ -25,7 +25,7 @@ describe("UserService > find-by-id > validation", () => {
 		let result;
 
 		try {
-			await validate("" as any);
+			await validate(("" as unknown) as CreateVerifyAccountParams);
 		} catch (e) {
 			result = e;
 		}
@@ -42,7 +42,7 @@ describe("UserService > find-by-id > validation", () => {
 		let result;
 
 		try {
-			await validate({} as any);
+			await validate({} as CreateVerifyAccountParams);
 		} catch (e) {
 			result = e;
 		}
@@ -61,7 +61,7 @@ describe("UserService > find-by-id > validation", () => {
 		try {
 			await validate({
 				userId: "123",
-			});
+			} as CreateVerifyAccountParams);
 		} catch (e) {
 			result = e;
 		}
@@ -80,7 +80,7 @@ describe("UserService > find-by-id > validation", () => {
 		try {
 			await validate({
 				userId: 123 as any,
-			});
+			} as CreateVerifyAccountParams);
 		} catch (e) {
 			result = e;
 		}

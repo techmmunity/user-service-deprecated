@@ -1,4 +1,4 @@
-import { validate } from "./validation";
+import { validate } from "./validate";
 
 import { UserRepository } from "v1/api/user/user.entity";
 

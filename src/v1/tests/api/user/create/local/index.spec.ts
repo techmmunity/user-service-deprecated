@@ -2,8 +2,6 @@ import { v4, validate } from "uuid";
 
 import { UserService } from "v1/api/user/user.service";
 
-import { TimeUtil } from "v1/utils/time";
-
 import { HeadlineEnum } from "core/enums/headline";
 import { LanguageEnum } from "core/enums/language";
 
@@ -31,7 +29,7 @@ describe("UserService > create > local", () => {
 	});
 
 	it("should create user with mandatory valid params", async () => {
-		const userBirthDay = TimeUtil.newDate([2000, 4, 15]);
+		const userBirthDay = new Date([2000, 4, 15]);
 
 		const userDoc = UserMock.doc({
 			userId,
@@ -79,7 +77,7 @@ describe("UserService > create > local", () => {
 	});
 
 	it("should create user with mandatory and optional valid params", async () => {
-		const userBirthDay = TimeUtil.newDate([2000, 4, 15]);
+		const userBirthDay = new Date([2000, 4, 15]);
 
 		const userDoc = UserMock.doc({
 			userId,

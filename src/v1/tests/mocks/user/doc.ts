@@ -1,7 +1,6 @@
 import { UserType } from "v1/api/user/user.entity";
 
 import { PinUtil } from "v1/utils/pin";
-import { TimeUtil } from "v1/utils/time";
 
 import { HeadlineEnum } from "core/enums/headline";
 
@@ -36,7 +35,7 @@ export const doc = ({
 	githubUserId,
 	linkedinUserId,
 }: CreateUserDoc) => {
-	const date = TimeUtil.newDate();
+	const date = new Date();
 
 	const userDoc = {
 		email,

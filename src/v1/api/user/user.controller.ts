@@ -3,7 +3,7 @@ import { ApiTags } from "@nestjs/swagger";
 
 import { UserService } from "./user.service";
 
-import { CreateParams } from "./service/create";
+import { CreateParams } from "./service/create/local";
 
 import { Routes } from "v1/config/routes";
 

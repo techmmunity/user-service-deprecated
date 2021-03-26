@@ -21,9 +21,7 @@ describe("UserService > create > discord", () => {
 	beforeAll(async () => {
 		service = await UserMock.service();
 
-		validExpirationDate = TimeUtil.newDate(
-			TimeUtil.newDate().getTime() + TimeUtil.ONE_HOUR,
-		);
+		validExpirationDate = new Date(new Date().getTime() + TimeUtil.ONE_HOUR);
 	});
 
 	beforeEach(() => {
@@ -37,7 +35,7 @@ describe("UserService > create > discord", () => {
 	});
 
 	it("should create user with mandatory valid params", async () => {
-		const userBirthDay = TimeUtil.newDate([2000, 4, 15]);
+		const userBirthDay = new Date([2000, 4, 15]);
 
 		const userDoc = UserMock.doc({
 			userId,
@@ -89,7 +87,7 @@ describe("UserService > create > discord", () => {
 	});
 
 	it("should create user with mandatory and optional valid params", async () => {
-		const userBirthDay = TimeUtil.newDate([2000, 4, 15]);
+		const userBirthDay = new Date([2000, 4, 15]);
 
 		const userDoc = UserMock.doc({
 			userId,

@@ -8,17 +8,9 @@ export const Limits = {
 		},
 	},
 	user: {
-		name: {
+		fullName: {
 			min: 3,
-			max: 60,
-		},
-		surnames: {
-			min: 3,
-			max: 60,
-		},
-		email: {
-			min: 5,
-			max: 50,
+			max: 121,
 		},
 		username: {
 			min: 3,

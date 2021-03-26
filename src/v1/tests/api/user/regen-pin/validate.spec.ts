@@ -1,20 +1,18 @@
 import { v4 } from "uuid";
-import { VerifyAccountParams } from "v1/api/verify-account/service/verify";
-
-import { validate } from "v1/api/verify-account/service/verify/validation";
+import { validate } from "v1/api/user/service/regen-pin/validate";
 
 import { InvalidParamsErrorMessage } from "v1/utils/yup";
 
-describe("VerifyAccountService > verify > validation", () => {
-	const confirmationCode = v4();
+describe("UserService > regen-pin > validation", () => {
+	const userId = v4();
 
 	it("should do nothing with valid params", async () => {
 		let result;
 
 		try {
 			await validate({
-				confirmationCode,
-			} as VerifyAccountParams);
+				userId,
+			});
 		} catch (e) {
 			result = e;
 		}
@@ -26,7 +24,7 @@ describe("VerifyAccountService > verify > validation", () => {
 		let result;
 
 		try {
-			await validate(("" as unknown) as VerifyAccountParams);
+			await validate("" as any);
 		} catch (e) {
 			result = e;
 		}
@@ -39,11 +37,11 @@ describe("VerifyAccountService > verify > validation", () => {
 		});
 	});
 
-	it("should throw an error without confirmationCode", async () => {
+	it("should throw an error without userId", async () => {
 		let result;
 
 		try {
-			await validate({} as VerifyAccountParams);
+			await validate({} as any);
 		} catch (e) {
 			result = e;
 		}
@@ -52,17 +50,17 @@ describe("VerifyAccountService > verify > validation", () => {
 		expect(result.response).toMatchObject({
 			code: "INVALID_PARAMS",
 			statusCode: 400,
-			errors: ["confirmationCode is a required field"],
+			errors: ["userId is a required field"],
 		});
 	});
 
-	it("should throw an error with invalid confirmationCode", async () => {
+	it("should throw an error with invalid userId", async () => {
 		let result;
 
 		try {
 			await validate({
-				confirmationCode: "123",
-			} as VerifyAccountParams);
+				userId: "123",
+			});
 		} catch (e) {
 			result = e;
 		}
@@ -71,17 +69,17 @@ describe("VerifyAccountService > verify > validation", () => {
 		expect(result.response).toMatchObject({
 			code: "INVALID_PARAMS",
 			statusCode: 400,
-			errors: ["confirmationCode must be a valid UUID"],
+			errors: ["userId must be a valid UUID"],
 		});
 	});
 
-	it("should throw an error with invalid confirmationCode type", async () => {
+	it("should throw an error with invalid userId type", async () => {
 		let result;
 
 		try {
 			await validate({
-				confirmationCode: 123 as any,
-			} as VerifyAccountParams);
+				userId: 123 as any,
+			});
 		} catch (e) {
 			result = e;
 		}
@@ -91,7 +89,7 @@ describe("VerifyAccountService > verify > validation", () => {
 			code: "INVALID_PARAMS",
 			statusCode: 400,
 			errors: [
-				"confirmationCode must be a `string` type, but the final value was: `123`.",
+				"userId must be a `string` type, but the final value was: `123`.",
 			],
 		});
 	});

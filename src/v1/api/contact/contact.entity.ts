@@ -25,6 +25,12 @@ import { DefaultOmitEntityFields } from "types/entity";
 @Entity("contacts")
 @Unique(["userId", "type", "primary"])
 export class ContactEntity extends BaseEntity {
+	/**
+	 * It can't be the same as value,
+	 * because if someone tries to add another
+	 * contact with the same value, it won't throw
+	 * an error, but updates the record
+	 */
 	@PrimaryColumn({
 		length: Limits.ids.uuid.length,
 	})

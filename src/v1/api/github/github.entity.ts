@@ -21,19 +21,17 @@ import { DefaultOmitEntityFields } from "types/entity";
 @Entity("githubs")
 export class GithubEntity extends BaseEntity {
 	@PrimaryColumn({
+		name: "user_id",
+	})
+	public userId: string;
+
+	@Column({
 		name: "github_user_id",
 		length: Limits.ids.random.length,
 		nullable: false,
 		unique: true,
 	})
 	public githubUserId?: string;
-
-	@Column({
-		name: "user_id",
-		nullable: false,
-		unique: true,
-	})
-	public userId: string;
 
 	@Column({
 		name: "github_username",
@@ -72,7 +70,9 @@ export class GithubEntity extends BaseEntity {
 	})
 	public updatedAt: Date;
 
-	@OneToOne(() => UserEntity, user => user.github)
+	@OneToOne(() => UserEntity, user => user.github, {
+		primary: true,
+	})
 	@JoinColumn({
 		name: "user_id",
 	})

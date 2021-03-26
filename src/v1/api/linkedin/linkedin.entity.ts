@@ -21,19 +21,17 @@ import { DefaultOmitEntityFields } from "types/entity";
 @Entity("linkedins")
 export class LinkedinEntity extends BaseEntity {
 	@PrimaryColumn({
+		name: "user_id",
+	})
+	public userId: string;
+
+	@Column({
 		name: "linkedin_user_id",
 		length: Limits.ids.random.length,
 		nullable: false,
 		unique: true,
 	})
 	public linkedinUserId?: string;
-
-	@Column({
-		name: "user_id",
-		nullable: false,
-		unique: true,
-	})
-	public userId: string;
 
 	@Column({
 		name: "linkedin_username",
@@ -72,7 +70,9 @@ export class LinkedinEntity extends BaseEntity {
 	})
 	public updatedAt: Date;
 
-	@OneToOne(() => UserEntity, user => user.linkedin)
+	@OneToOne(() => UserEntity, user => user.linkedin, {
+		primary: true,
+	})
 	@JoinColumn({
 		name: "user_id",
 	})

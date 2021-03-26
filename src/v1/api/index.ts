@@ -3,7 +3,6 @@ import { GithubModule } from "v1/api/github/github.module";
 import { GoogleModule } from "v1/api/google/google.module";
 import { LinkedinModule } from "v1/api/linkedin/linkedin.module";
 import { UserModule } from "v1/api/user/user.module";
-import { VerifyAccountModule } from "v1/api/verify-account/verify-account.module";
 
 export const Api = [
 	DiscordModule,
@@ -11,5 +10,4 @@ export const Api = [
 	GoogleModule,
 	LinkedinModule,
 	UserModule,
-	VerifyAccountModule,
 ];

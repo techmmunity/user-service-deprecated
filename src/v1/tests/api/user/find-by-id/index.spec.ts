@@ -2,8 +2,6 @@ import { v4 } from "uuid";
 
 import { UserService } from "v1/api/user/user.service";
 
-import { TimeUtil } from "v1/utils/time";
-
 import { HeadlineEnum } from "core/enums/headline";
 
 import { UserMock } from "v1/tests/mocks/user";
@@ -33,7 +31,7 @@ describe("UserService > find-by-id", () => {
 			name: "Example",
 			surnames: "Name",
 			headline: HeadlineEnum.ANIMATOR,
-			birthday: TimeUtil.newDate(),
+			birthday: new Date(),
 		});
 
 		UserMock.repository.findOne.mockReturnValue(doc);

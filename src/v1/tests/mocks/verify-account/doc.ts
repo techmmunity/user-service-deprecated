@@ -1,7 +1,5 @@
 import { v4 } from "uuid";
 
-import { TimeUtil } from "v1/utils/time";
-
 export interface GetVerifyAccountDocsParams {
 	userId: string;
 	verifiedAt?: Date;
@@ -16,5 +14,5 @@ export const doc = ({
 	userId,
 	verifiedAt,
 	verificationCode: v4(),
-	createdAt: createdAt || TimeUtil.newDate(),
+	createdAt: createdAt || new Date(),
 });

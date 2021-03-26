@@ -18,7 +18,6 @@ import { DiscordEntity } from "../discord/discord.entity";
 import { GithubEntity } from "../github/github.entity";
 import { GoogleEntity } from "../google/google.entity";
 import { LinkedinEntity } from "../linkedin/linkedin.entity";
-import { VerifyAccountEntity } from "../verify-account/verify-account.entity";
 
 import { HeadlineEnum, HeadlineValues } from "core/enums/headline";
 
@@ -40,17 +39,12 @@ export class UserEntity extends BaseEntity {
 	})
 	public username: string;
 
+	@Index()
 	@Column({
-		length: Limits.user.name.max,
-		nullable: false,
+		nullable: true,
+		enum: HeadlineValues(),
 	})
-	public name: string;
-
-	@Column({
-		length: Limits.user.surnames.max,
-		nullable: false,
-	})
-	public surnames: string;
+	public headline: HeadlineEnum;
 
 	@Column({
 		length: Limits.user.pin.length,
@@ -59,9 +53,22 @@ export class UserEntity extends BaseEntity {
 	public pin: string;
 
 	@Column({
+		name: "verified_at",
+		nullable: true,
+	})
+	public verifiedAt?: Date;
+
+	@Column({
+		name: "full_name",
+		length: Limits.user.fullName.max,
 		nullable: false,
 	})
-	public birthday: Date;
+	public fullName?: string;
+
+	@Column({
+		nullable: true,
+	})
+	public birthday?: Date;
 
 	@Column({
 		length: 200,
@@ -81,13 +88,6 @@ export class UserEntity extends BaseEntity {
 	})
 	public youtube?: string;
 
-	@Index()
-	@Column({
-		nullable: true,
-		enum: HeadlineValues(),
-	})
-	public headline?: HeadlineEnum;
-
 	@CreateDateColumn({
 		name: "created_at",
 		nullable: false,
@@ -100,22 +100,29 @@ export class UserEntity extends BaseEntity {
 	})
 	public updatedAt: Date;
 
-	@OneToOne(() => VerifyAccountEntity, verifyAccount => verifyAccount.user)
-	public verifyAccount: VerifyAccountEntity;
-
-	@OneToOne(() => DiscordEntity, discord => discord.user)
+	@OneToOne(() => DiscordEntity, discord => discord.user, {
+		cascade: true,
+	})
 	public discord: DiscordEntity;
 
-	@OneToOne(() => GithubEntity, github => github.user)
+	@OneToOne(() => GithubEntity, github => github.user, {
+		cascade: true,
+	})
 	public github: GithubEntity;
 
-	@OneToOne(() => GoogleEntity, google => google.user)
+	@OneToOne(() => GoogleEntity, google => google.user, {
+		cascade: true,
+	})
 	public google: GoogleEntity;
 
-	@OneToOne(() => LinkedinEntity, linkedin => linkedin.user)
+	@OneToOne(() => LinkedinEntity, linkedin => linkedin.user, {
+		cascade: true,
+	})
 	public linkedin: LinkedinEntity;
 
-	@OneToMany(() => ContactEntity, contact => contact.user)
+	@OneToMany(() => ContactEntity, contact => contact.user, {
+		cascade: true,
+	})
 	public contacts: Array<ContactEntity>;
 }
 
