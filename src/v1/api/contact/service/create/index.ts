@@ -15,7 +15,6 @@ export interface CreateParams {
 	contacts: Array<{
 		type: ContactTypeEnum;
 		value: string;
-		primary?: boolean;
 	}>;
 }
 
@@ -28,12 +27,12 @@ export const create = async (
 	const { userId, contacts } = params;
 
 	return ContactRepository.save(
-		contacts.map(({ type, value, primary }) => ({
+		contacts.map(({ type, value }) => ({
 			userId,
 			type,
 			value,
 			id: v4(),
-			primary: Boolean(primary),
+			primary: false,
 		})),
 	);
 };

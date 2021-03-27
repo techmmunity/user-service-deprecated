@@ -1,7 +1,6 @@
 import { yup } from "v1/utils/yup";
 
 import { HeadlineValues } from "core/enums/headline";
-import { LanguageValues } from "core/enums/language";
 
 import { Limits } from "v1/config/limits";
 
@@ -30,12 +29,6 @@ export const avatar = yup
 	.strict()
 	.max(Limits.user.avatar.max)
 	.url();
-
-export const suggestedLanguage = yup
-	.string()
-	.notRequired()
-	.strict()
-	.oneOf(LanguageValues());
 
 export const headline = yup
 	.string()

@@ -1,47 +1,24 @@
+import { CreateParams } from "v1/api/user/service/create/local";
 import { validate } from "v1/api/user/service/create/local/validate";
 
+import { TimeUtil } from "v1/utils/time";
 import { InvalidParamsErrorMessage } from "v1/utils/yup";
 
 import { HeadlineEnum, HeadlineValues } from "core/enums/headline";
-import { LanguageEnum, LanguageValues } from "core/enums/language";
 
 describe("UserService > create > local > validation", () => {
-	const headlineEnumAllowedValues = HeadlineValues().join(", ");
+	const birthday = new Date(new Date().getTime() - TimeUtil.ONE_YEAR * 10);
 
-	const languageEnumAllowedValues = LanguageValues().join(", ");
-
-	it("should do nothing with valid mandatory params", async () => {
+	it("should do nothing with valid params", async () => {
 		let result;
 
 		try {
 			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
+				birthday,
+				email: "foo@bar.com",
+				username: "example",
+				password: "p7qV%Ews",
 				headline: HeadlineEnum.ANIMATOR,
-			});
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result).toBeUndefined();
-	});
-
-	it("should do nothing with valid mandatory and opitional params", async () => {
-		let result;
-
-		try {
-			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
-				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
 			});
 		} catch (e) {
 			result = e;
@@ -54,16 +31,81 @@ describe("UserService > create > local > validation", () => {
 		let result;
 
 		try {
-			await validate("" as any);
+			await validate(("" as unknown) as CreateParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: [InvalidParamsErrorMessage],
+		});
+	});
+
+	it("should throw an error without birthday", async () => {
+		let result;
+
+		try {
+			await validate({
+				email: "foo@bar.com",
+				username: "example",
+				password: "p7qV%Ews",
+				headline: HeadlineEnum.ANIMATOR,
+			} as CreateParams);
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			errors: ["birthday is a required field"],
+		});
+	});
+
+	it("should throw an error with invalid birthday", async () => {
+		let result;
+
+		try {
+			await validate({
+				birthday: new Date(new Date().getTime() + TimeUtil.ONE_DAY),
+				email: "foo@bar.com",
+				username: "example",
+				password: "p7qV%Ews",
+				headline: HeadlineEnum.ANIMATOR,
+			});
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response.errors.length).toBe(1);
+		expect(
+			result.response.errors[0].startsWith(
+				"birthday field must be at earlier than ",
+			),
+		).toBeTruthy();
+	});
+
+	it("should throw an error with invalid birthday type", async () => {
+		let result;
+
+		try {
+			await validate({
+				birthday: 123 as any,
+				email: "foo@bar.com",
+				username: "example",
+				password: "p7qV%Ews",
+				headline: HeadlineEnum.ANIMATOR,
+			});
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toMatchObject({
+			errors: [
+				"birthday must be a `date` type, but the final value was: `123`.",
+			],
 		});
 	});
 
@@ -72,22 +114,17 @@ describe("UserService > create > local > validation", () => {
 
 		try {
 			await validate({
-				username: "test",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
+				birthday,
+				username: "example",
+				password: "p7qV%Ews",
 				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
-			} as any);
+			} as CreateParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: ["email is a required field"],
 		});
 	});
@@ -97,14 +134,11 @@ describe("UserService > create > local > validation", () => {
 
 		try {
 			await validate({
-				email: "invalidemail",
-				username: "test",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
+				birthday,
+				email: "invalid_email",
+				username: "example",
+				password: "p7qV%Ews",
 				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
 			});
 		} catch (e) {
 			result = e;
@@ -112,8 +146,6 @@ describe("UserService > create > local > validation", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: ["email must be a valid email"],
 		});
 	});
@@ -123,14 +155,11 @@ describe("UserService > create > local > validation", () => {
 
 		try {
 			await validate({
+				birthday,
 				email: 123 as any,
-				username: "test",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
+				username: "example",
+				password: "p7qV%Ews",
 				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
 			});
 		} catch (e) {
 			result = e;
@@ -138,8 +167,6 @@ describe("UserService > create > local > validation", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: [
 				"email must be a `string` type, but the final value was: `123`.",
 			],
@@ -151,22 +178,17 @@ describe("UserService > create > local > validation", () => {
 
 		try {
 			await validate({
-				email: "test@email.com",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
+				birthday,
+				email: "foo@bar.com",
+				password: "p7qV%Ews",
 				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
-			} as any);
+			} as CreateParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: ["username is a required field"],
 		});
 	});
@@ -176,14 +198,11 @@ describe("UserService > create > local > validation", () => {
 
 		try {
 			await validate({
-				email: "test@email.com",
-				username: "invalid@username",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
+				birthday,
+				email: "foo@bar.com",
+				username: "foo@bar.com",
+				password: "p7qV%Ews",
 				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
 			});
 		} catch (e) {
 			result = e;
@@ -191,8 +210,6 @@ describe("UserService > create > local > validation", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: ["username must be a valid username"],
 		});
 	});
@@ -202,14 +219,11 @@ describe("UserService > create > local > validation", () => {
 
 		try {
 			await validate({
-				email: "test@email.com",
+				birthday,
+				email: "foo@bar.com",
 				username: 123 as any,
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
+				password: "p7qV%Ews",
 				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
 			});
 		} catch (e) {
 			result = e;
@@ -217,89 +231,8 @@ describe("UserService > create > local > validation", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: [
 				"username must be a `string` type, but the final value was: `123`.",
-			],
-		});
-	});
-
-	it("should throw an error without full name", async () => {
-		let result;
-
-		try {
-			await validate({
-				email: "test@email.com",
-				username: "test",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
-				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
-			} as any);
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result.status).toBe(400);
-		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
-			errors: ["fullName is a required field"],
-		});
-	});
-
-	it("should throw an error with invalid full name", async () => {
-		let result;
-
-		try {
-			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
-				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
-			});
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result.status).toBe(400);
-		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
-			errors: ["fullName must have at least two words"],
-		});
-	});
-
-	it("should throw an error with invalid full name type", async () => {
-		let result;
-
-		try {
-			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: 123 as any,
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
-				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
-			});
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result.status).toBe(400);
-		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
-			errors: [
-				"fullName must be a `string` type, but the final value was: `123`.",
 			],
 		});
 	});
@@ -309,22 +242,17 @@ describe("UserService > create > local > validation", () => {
 
 		try {
 			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User",
-				birthday: new Date(2000, 4, 15),
+				birthday,
+				email: "foo@bar.com",
+				username: "example",
 				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
-			} as any);
+			} as CreateParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: ["password is a required field"],
 		});
 	});
@@ -334,14 +262,11 @@ describe("UserService > create > local > validation", () => {
 
 		try {
 			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User",
-				password: "weakpass",
-				birthday: new Date(2000, 4, 15),
+				birthday,
+				email: "foo@bar.com",
+				username: "example",
+				password: "123",
 				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
 			});
 		} catch (e) {
 			result = e;
@@ -349,8 +274,6 @@ describe("UserService > create > local > validation", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: [
 				"password must have at least 1 special character, 1 lower case character, 1 upper case character, 1 number and a lenght between 6 and 24 characters",
 			],
@@ -362,14 +285,11 @@ describe("UserService > create > local > validation", () => {
 
 		try {
 			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User",
+				birthday,
+				email: "foo@bar.com",
+				username: "example",
 				password: 123 as any,
-				birthday: new Date(2000, 4, 15),
 				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
 			});
 		} catch (e) {
 			result = e;
@@ -377,93 +297,8 @@ describe("UserService > create > local > validation", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: [
 				"password must be a `string` type, but the final value was: `123`.",
-			],
-		});
-	});
-
-	it("should throw an error without birthday", async () => {
-		let result;
-
-		try {
-			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User",
-				password: "$trongPass123",
-				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
-			} as any);
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result.status).toBe(400);
-		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
-			errors: ["birthday is a required field"],
-		});
-	});
-
-	it("should throw an error with invalid birthday", async () => {
-		let result;
-
-		try {
-			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2100, 4, 15),
-				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
-			});
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result.status).toBe(400);
-		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
-		});
-		expect(
-			result.response.errors[0].startsWith(
-				"birthday field must be at earlier than ",
-			),
-		).toBe(true);
-	});
-
-	it("should throw an error with invalid birthday type", async () => {
-		let result;
-
-		try {
-			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: 123 as any,
-				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
-			});
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result.status).toBe(400);
-		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
-			errors: [
-				"birthday must be a `date` type, but the final value was: `123`.",
 			],
 		});
 	});
@@ -473,22 +308,17 @@ describe("UserService > create > local > validation", () => {
 
 		try {
 			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
-			} as any);
+				birthday,
+				email: "foo@bar.com",
+				username: "example",
+				password: "p7qV%Ews",
+			} as CreateParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: ["headline is a required field"],
 		});
 	});
@@ -498,14 +328,11 @@ describe("UserService > create > local > validation", () => {
 
 		try {
 			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
-				headline: "invalid_headline" as any,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
+				birthday,
+				email: "foo@bar.com",
+				username: "example",
+				password: "p7qV%Ews",
+				headline: "123" as any,
 			});
 		} catch (e) {
 			result = e;
@@ -513,10 +340,10 @@ describe("UserService > create > local > validation", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: [
-				`headline must be one of the following values: ${headlineEnumAllowedValues}`,
+				`headline must be one of the following values: ${HeadlineValues().join(
+					", ",
+				)}`,
 			],
 		});
 	});
@@ -526,14 +353,11 @@ describe("UserService > create > local > validation", () => {
 
 		try {
 			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
+				birthday,
+				email: "foo@bar.com",
+				username: "example",
+				password: "p7qV%Ews",
 				headline: 123 as any,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "https://avatarurl.com",
 			});
 		} catch (e) {
 			result = e;
@@ -541,120 +365,8 @@ describe("UserService > create > local > validation", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: [
 				"headline must be a `string` type, but the final value was: `123`.",
-			],
-		});
-	});
-
-	it("should throw an error with invalid suggestedLanguage", async () => {
-		let result;
-
-		try {
-			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
-				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: "invalid_language" as any,
-				avatar: "https://avatarurl.com",
-			});
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result.status).toBe(400);
-		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
-			errors: [
-				`suggestedLanguage must be one of the following values: ${languageEnumAllowedValues}`,
-			],
-		});
-	});
-
-	it("should throw an error with invalid suggestedLanguage type", async () => {
-		let result;
-
-		try {
-			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
-				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: 123 as any,
-				avatar: "https://avatarurl.com",
-			});
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result.status).toBe(400);
-		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
-			errors: [
-				"suggestedLanguage must be a `string` type, but the final value was: `123`.",
-			],
-		});
-	});
-
-	it("should throw an error with invalid avatar", async () => {
-		let result;
-
-		try {
-			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
-				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: "invalid_url",
-			});
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result.status).toBe(400);
-		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
-			errors: ["avatar must be a valid URL"],
-		});
-	});
-
-	it("should throw an error with invalid avatar type", async () => {
-		let result;
-
-		try {
-			await validate({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User",
-				password: "$trongPass123",
-				birthday: new Date(2000, 4, 15),
-				headline: HeadlineEnum.ANIMATOR,
-				suggestedLanguage: LanguageEnum.EN,
-				avatar: 123 as any,
-			});
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result.status).toBe(400);
-		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
-			errors: [
-				"avatar must be a `string` type, but the final value was: `123`.",
 			],
 		});
 	});

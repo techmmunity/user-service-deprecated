@@ -1,18 +1,20 @@
-import { v4, validate } from "uuid";
+import { v4 } from "uuid";
 
 import { UserService } from "v1/api/user/user.service";
 
-import { HeadlineEnum } from "core/enums/headline";
-import { LanguageEnum } from "core/enums/language";
+import { TimeUtil } from "v1/utils/time";
 
+import { ContactTypeEnum } from "core/enums/contact-type";
+import { HeadlineEnum } from "core/enums/headline";
+
+import { ContactMock } from "v1/tests/mocks/contact";
 import { UserMock } from "v1/tests/mocks/user";
-import { UserTokenMock } from "v1/tests/mocks/user-token";
-import { VerifyAccountMock } from "v1/tests/mocks/verify-account";
 
 describe("UserService > create > local", () => {
 	let service: UserService;
 
-	const userId = v4();
+	const id = v4();
+	const birthday = new Date(new Date().getTime() - TimeUtil.ONE_YEAR * 10);
 
 	beforeAll(async () => {
 		service = await UserMock.service();
@@ -20,111 +22,45 @@ describe("UserService > create > local", () => {
 
 	beforeEach(() => {
 		UserMock.repository.resetMock();
-		UserTokenMock.repository.resetMock();
-		VerifyAccountMock.repository.resetMock();
 	});
 
 	it("should be defined", () => {
 		expect(service).toBeDefined();
 	});
 
-	it("should create user with mandatory valid params", async () => {
-		const userBirthDay = new Date([2000, 4, 15]);
-
+	it("should create user with valid params", async () => {
 		const userDoc = UserMock.doc({
-			userId,
-			birthday: userBirthDay,
-			email: "test@email.com",
-			username: "test",
-			name: "Test",
-			surnames: "User User",
-			headline: HeadlineEnum.BACK_END_DEV,
+			id,
+			birthday,
+			username: "example",
+			headline: HeadlineEnum.ANIMATOR,
+		});
+		const contactDoc = ContactMock.doc({
+			userId: id,
+			type: ContactTypeEnum.EMAIL,
+			value: "foo@bar.com",
+			primary: true,
 		});
 
-		UserMock.repository.save.mockReturnValue(userDoc);
+		UserMock.repository.save.mockReturnValue({
+			...userDoc,
+			contacts: [contactDoc],
+		});
 
-		let result;
+		const result = await service.create({
+			birthday,
+			email: "foo@bar.com",
+			username: "example",
+			password: "p7qV%Ews",
+			headline: HeadlineEnum.ANIMATOR,
+		});
 
-		try {
-			result = await service.createLocal({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User User",
-				birthday: userBirthDay,
-				password: "$trongPass123",
-				headline: HeadlineEnum.BACK_END_DEV,
-			});
-		} catch (err) {
-			result = err;
-		}
-
-		expect(UserMock.repository.findOne).toBeCalledTimes(1);
 		expect(UserMock.repository.save).toBeCalledTimes(1);
-		expect(UserTokenMock.repository.save).toBeCalledTimes(1);
-		expect(VerifyAccountMock.repository.insert).toBeCalledTimes(1);
-		expect(result).toMatchObject({
-			user: {
-				id: userId,
-				username: "test",
-				headline: HeadlineEnum.BACK_END_DEV,
-			},
+		expect(ContactMock.repository.save).toBeCalledTimes(0);
+		expect(ContactMock.repository.insert).toBeCalledTimes(0);
+		expect(result).toStrictEqual({
+			userId: id,
+			verificationCode: userDoc.pin,
 		});
-		expect(typeof result.user.pin).toBe("string");
-		expect(typeof parseInt(result.user.pin)).toBe("number");
-		expect(Number.isNaN(parseInt(result.user.pin))).toBe(false);
-		expect(typeof result.verificationCode).toBe("string");
-		expect(validate(result.verificationCode)).toBe(true);
-	});
-
-	it("should create user with mandatory and optional valid params", async () => {
-		const userBirthDay = new Date([2000, 4, 15]);
-
-		const userDoc = UserMock.doc({
-			userId,
-			birthday: userBirthDay,
-			email: "test@email.com",
-			username: "test",
-			name: "Test",
-			surnames: "User User",
-			headline: HeadlineEnum.BACK_END_DEV,
-			avatar: "https://avatarurl.com",
-		});
-
-		UserMock.repository.save.mockReturnValue(userDoc);
-
-		let result;
-
-		try {
-			result = await service.createLocal({
-				email: "test@email.com",
-				username: "test",
-				fullName: "Test User User",
-				birthday: userBirthDay,
-				password: "$trongPass123",
-				headline: HeadlineEnum.BACK_END_DEV,
-				suggestedLanguage: LanguageEnum.PT_BR,
-				avatar: "https://avatarurl.com",
-			});
-		} catch (err) {
-			result = err;
-		}
-
-		expect(UserMock.repository.findOne).toBeCalledTimes(1);
-		expect(UserMock.repository.save).toBeCalledTimes(1);
-		expect(UserTokenMock.repository.save).toBeCalledTimes(1);
-		expect(VerifyAccountMock.repository.insert).toBeCalledTimes(1);
-		expect(result).toMatchObject({
-			user: {
-				id: userId,
-				username: "test",
-				avatar: "https://avatarurl.com",
-				headline: HeadlineEnum.BACK_END_DEV,
-			},
-		});
-		expect(typeof result.user.pin).toBe("string");
-		expect(typeof parseInt(result.user.pin)).toBe("number");
-		expect(Number.isNaN(parseInt(result.user.pin))).toBe(false);
-		expect(typeof result.verificationCode).toBe("string");
-		expect(validate(result.verificationCode)).toBe(true);
 	});
 });

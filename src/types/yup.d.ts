@@ -2,7 +2,7 @@ import { StringSchema } from "yup";
 
 declare module "yup" {
 	interface StringSchema {
-		emailOrPhone(): StringSchema;
+		emailOrPhone(fieldName: string): StringSchema;
 		username(): StringSchema;
 		password(): StringSchema;
 		fullName(): StringSchema;

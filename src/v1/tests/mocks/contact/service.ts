@@ -3,20 +3,20 @@ import { getRepositoryToken } from "@nestjs/typeorm";
 
 import { MockRepository } from "../repository";
 
-import { UserTokenService } from "v1/api/user-token/user-token.service";
+import { ContactService } from "v1/api/contact/contact.service";
 
-import { UserTokenEntity } from "v1/api/user-token/user-token.entity";
+import { ContactEntity } from "v1/api/contact/contact.entity";
 
 export const service = (mockRepository: MockRepository) => async () => {
 	const module: TestingModule = await Test.createTestingModule({
 		providers: [
-			UserTokenService,
+			ContactService,
 			{
-				provide: getRepositoryToken(UserTokenEntity),
+				provide: getRepositoryToken(ContactEntity),
 				useValue: mockRepository,
 			},
 		],
 	}).compile();
 
-	return module.get<UserTokenService>(UserTokenService);
+	return module.get<ContactService>(ContactService);
 };

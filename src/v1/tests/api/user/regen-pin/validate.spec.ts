@@ -1,4 +1,5 @@
 import { v4 } from "uuid";
+import { RegenPinParams } from "v1/api/user/service/regen-pin";
 import { validate } from "v1/api/user/service/regen-pin/validate";
 
 import { InvalidParamsErrorMessage } from "v1/utils/yup";
@@ -24,15 +25,13 @@ describe("UserService > regen-pin > validation", () => {
 		let result;
 
 		try {
-			await validate("" as any);
+			await validate(("" as unknown) as RegenPinParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: [InvalidParamsErrorMessage],
 		});
 	});
@@ -41,15 +40,13 @@ describe("UserService > regen-pin > validation", () => {
 		let result;
 
 		try {
-			await validate({} as any);
+			await validate({} as RegenPinParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: ["userId is a required field"],
 		});
 	});
@@ -67,8 +64,6 @@ describe("UserService > regen-pin > validation", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: ["userId must be a valid UUID"],
 		});
 	});
@@ -86,8 +81,6 @@ describe("UserService > regen-pin > validation", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			code: "INVALID_PARAMS",
-			statusCode: 400,
 			errors: [
 				"userId must be a `string` type, but the final value was: `123`.",
 			],

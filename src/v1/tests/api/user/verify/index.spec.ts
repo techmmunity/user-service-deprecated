@@ -2,14 +2,15 @@ import { v4 } from "uuid";
 
 import { UserService } from "v1/api/user/user.service";
 
-import { Limits } from "v1/config/limits";
+import { PinUtil } from "v1/utils/pin";
 
 import { UserMock } from "v1/tests/mocks/user";
 
-describe("UserService > regen-pin", () => {
+describe("UserService > verify", () => {
 	let service: UserService;
 
 	const userId = v4();
+	const verificationCode = PinUtil.gen();
 
 	beforeAll(async () => {
 		service = await UserMock.service();
@@ -23,22 +24,22 @@ describe("UserService > regen-pin", () => {
 		expect(service).toBeDefined();
 	});
 
-	it("should regen user PIN with valid params", async () => {
+	it("should verify user with valid params", async () => {
 		UserMock.repository.update.mockReturnValue({
 			affected: 1,
 		});
 
-		const result = await service.regenPin({
+		const result = await service.verify({
 			userId,
+			verificationCode,
 		});
 
 		expect(UserMock.repository.update).toBeCalledTimes(1);
 		expect(UserMock.repository.find).toBeCalledTimes(0);
-		expect(typeof result).toBe("string");
-		expect(result.length).toBe(Limits.user.pin.length);
+		expect(result).toBeUndefined();
 	});
 
-	it("should throw error if user not exists", async () => {
+	it("should throw error if user not exists or invalid pin", async () => {
 		UserMock.repository.update.mockReturnValue({
 			affected: 0,
 		});
@@ -46,17 +47,18 @@ describe("UserService > regen-pin", () => {
 		let result;
 
 		try {
-			result = await service.regenPin({
+			result = await service.verify({
 				userId,
+				verificationCode,
 			});
 		} catch (err) {
 			result = err;
 		}
 
 		expect(UserMock.repository.update).toBeCalledTimes(1);
-		expect(result.status).toBe(404);
+		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: [`User with ID "${userId}" doesn't exist`],
+			errors: ["Invalid userId or verificationCode"],
 		});
 	});
 });

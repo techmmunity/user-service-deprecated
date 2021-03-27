@@ -17,8 +17,7 @@ const schema = yup.object().shape({
 		.of(
 			yup.object().shape({
 				type: yup.string().required().strict().oneOf(ContactTypeValues()),
-				value: yup.string().required().strict().emailOrPhone(),
-				primary: yup.boolean().notRequired().strict(),
+				value: yup.string().required().strict().emailOrPhone("value"),
 			}),
 		),
 });

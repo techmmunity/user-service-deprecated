@@ -2,20 +2,15 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Transactional } from "typeorm-transactional-cls-hooked";
 
-import { ContactService } from "../contact/contact.service";
-import { VerifyAccountService } from "../verify-account/verify-account.service";
-
 import { create, CreateParams } from "./service/create/local";
-import { findById, FindByIdParams } from "./service/find-by-id";
 import { regenPin, RegenPinParams } from "./service/regen-pin";
+import { verify, VerifyParams } from "./service/verify";
 
 import { UserEntity, UserRepository } from "v1/api/user/user.entity";
 
 @Injectable()
 export class UserService {
 	public constructor(
-		private ContactService: ContactService,
-		private VerifyAccountService: VerifyAccountService,
 		@InjectRepository(UserEntity)
 		private readonly UserRepository: UserRepository,
 	) {
@@ -26,8 +21,6 @@ export class UserService {
 	public create(params: CreateParams) {
 		return create(
 			{
-				ContactService: this.ContactService,
-				VerifyAccountService: this.VerifyAccountService,
 				UserRepository: this.UserRepository,
 			},
 			params,
@@ -35,8 +28,8 @@ export class UserService {
 	}
 
 	@Transactional()
-	public findById(params: FindByIdParams) {
-		return findById(
+	public verify(params: VerifyParams) {
+		return verify(
 			{
 				UserRepository: this.UserRepository,
 			},

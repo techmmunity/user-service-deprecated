@@ -9,27 +9,33 @@ interface Injectables {
 	UserRepository: UserRepository;
 }
 
-export interface RegenPinParams {
+export interface VerifyParams {
 	userId: string;
+	verificationCode: string;
 }
 
-export const regenPin = async (
+export const verify = async (
 	{ UserRepository }: Injectables,
-	params: RegenPinParams,
+	params: VerifyParams,
 ) => {
 	await validate(params);
 
-	const { userId } = params;
+	const { userId, verificationCode } = params;
 
 	const newPin = PinUtil.gen();
 
-	const result = await UserRepository.update(userId, {
-		pin: newPin,
-	});
+	const result = await UserRepository.update(
+		{
+			id: userId,
+			pin: verificationCode,
+		},
+		{
+			pin: newPin,
+			verifiedAt: new Date(),
+		},
+	);
 
 	if (result.affected !== 1) {
-		return ErrorUtil.notFound([`User with ID "${userId}" doesn't exist`]);
+		return ErrorUtil.badRequest(["Invalid userId or verificationCode"]);
 	}
-
-	return newPin;
 };

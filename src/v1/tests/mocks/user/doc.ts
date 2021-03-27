@@ -1,61 +1,44 @@
-import { UserType } from "v1/api/user/user.entity";
-
 import { PinUtil } from "v1/utils/pin";
 
 import { HeadlineEnum } from "core/enums/headline";
 
 export interface CreateUserDoc {
-	userId: string;
-	email: string;
+	id: string;
 	username: string;
-	name: string;
-	surnames: string;
 	headline: HeadlineEnum;
 	birthday: Date;
+	verifiedAt?: Date;
+	fullName?: string;
+	password?: string;
 	avatar?: string;
-	verified?: boolean;
-	discordUserId?: string;
-	googleUserId?: string;
-	githubUserId?: string;
-	linkedinUserId?: string;
+	youtube?: string;
+	createdAt?: Date;
+	updatedAt?: Date;
 }
 
 export const doc = ({
-	userId,
-	email,
+	id,
 	username,
-	name,
-	surnames,
-	verified,
 	headline,
 	birthday,
+	verifiedAt,
+	fullName,
+	password,
 	avatar,
-	discordUserId,
-	googleUserId,
-	githubUserId,
-	linkedinUserId,
-}: CreateUserDoc) => {
-	const date = new Date();
-
-	const userDoc = {
-		email,
-		username,
-		name,
-		surnames,
-		headline,
-		birthday,
-		createdAt: date,
-		updatedAt: date,
-		id: userId,
-		verified: verified ? true : false,
-		pin: PinUtil.gen(),
-	} as Partial<UserType>;
-
-	if (avatar) userDoc.avatar = avatar;
-	if (discordUserId) userDoc.discordUserId = discordUserId;
-	if (googleUserId) userDoc.googleUserId = googleUserId;
-	if (githubUserId) userDoc.githubUserId = githubUserId;
-	if (linkedinUserId) userDoc.linkedinUserId = linkedinUserId;
-
-	return userDoc;
-};
+	youtube,
+	createdAt,
+	updatedAt,
+}: CreateUserDoc) => ({
+	id,
+	username,
+	headline,
+	birthday,
+	verifiedAt,
+	fullName,
+	password,
+	avatar,
+	youtube,
+	pin: PinUtil.gen(),
+	createdAt: createdAt || new Date(),
+	updatedAt: updatedAt || new Date(),
+});

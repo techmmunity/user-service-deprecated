@@ -53,6 +53,11 @@ export class UserEntity extends BaseEntity {
 	public pin: string;
 
 	@Column({
+		nullable: false,
+	})
+	public birthday: Date;
+
+	@Column({
 		name: "verified_at",
 		nullable: true,
 	})
@@ -64,11 +69,6 @@ export class UserEntity extends BaseEntity {
 		nullable: false,
 	})
 	public fullName?: string;
-
-	@Column({
-		nullable: true,
-	})
-	public birthday?: Date;
 
 	@Column({
 		length: 200,

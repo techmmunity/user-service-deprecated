@@ -11,7 +11,6 @@ import {
 	Index,
 	ManyToOne,
 	JoinColumn,
-	Unique,
 } from "typeorm";
 
 import { UserEntity } from "../user/user.entity";
@@ -23,7 +22,6 @@ import { Limits } from "v1/config/limits";
 import { DefaultOmitEntityFields } from "types/entity";
 
 @Entity("contacts")
-@Unique(["userId", "type", "primary"])
 export class ContactEntity extends BaseEntity {
 	/**
 	 * It can't be the same as value,

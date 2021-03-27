@@ -2,8 +2,8 @@ export const Routes = {
 	version: "v1",
 	user: {
 		create: "/",
-		findById: "/:id",
-		regenPin: "/:id",
+		regenPin: "/:userId",
+		verify: "/verify",
 	},
 	contact: {
 		create: "/",
