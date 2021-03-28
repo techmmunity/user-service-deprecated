@@ -17,8 +17,8 @@
     - Retorna um 204
   - [x] Adicionar testes
 - [x] Adicionar testes a função de re-gen PIN no User Service
-- [ ] Criar rota de login local
-  - [ ] Adicionar testes
+- [x] Criar rota de login local
+  - [x] Adicionar testes
 - [ ] Criar função de criar um usuário via discord no serviço de User
   - [ ] Adicionar testes
 - [ ] Criar rota de login discord

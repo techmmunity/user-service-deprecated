@@ -3,7 +3,8 @@ import { ApiTags } from "@nestjs/swagger";
 
 import { UserService } from "./user.service";
 
-import { CreateParams } from "./service/create/local";
+import { CreateUserLocalSchema } from "./service/create/local/schema";
+import { LoginLocalSchema } from "./service/login/local/schema";
 import { VerifyUserSchema } from "./service/verify/schema";
 
 import { Routes } from "v1/config/routes";
@@ -15,9 +16,14 @@ export class UserController {
 		//
 	}
 
-	@Post(Routes.user.create)
-	public create(data: CreateParams) {
-		return this.UserService.create(data);
+	@Post(Routes.user.createLocal)
+	public createLocal(data: CreateUserLocalSchema) {
+		return this.UserService.createLocal(data);
+	}
+
+	@Post(Routes.user.loginLocal)
+	public loginLocal(data: LoginLocalSchema) {
+		return this.UserService.loginLocal(data);
 	}
 
 	@Put(Routes.user.regenPin)

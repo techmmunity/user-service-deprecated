@@ -1,47 +1,37 @@
-import * as bcrypt from "bcrypt";
 import { v4 } from "uuid";
 
 import { validate } from "./validate";
 
 import { UserType, UserRepository } from "v1/api/user/user.entity";
 
+import { PasswordUtil } from "v1/utils/password";
 import { PinUtil } from "v1/utils/pin";
 
 import { ContactTypeEnum } from "core/enums/contact-type";
-import { HeadlineEnum } from "core/enums/headline";
 
-export interface CreateParams {
+export interface CreateLocalParams {
 	email: string;
 	username: string;
 	password: string;
-	birthday: Date;
-	headline: HeadlineEnum;
 }
 
 export interface Injectables {
 	UserRepository: UserRepository;
 }
 
-const getPasswordEncrypted = (password: string) =>
-	bcrypt.hashSync(password, 10);
-
 export const formatData = ({
 	username,
-	birthday,
-	headline,
 	password,
-}: CreateParams): UserType => ({
+}: CreateLocalParams): UserType => ({
 	id: v4(),
-	password: getPasswordEncrypted(password),
+	password: PasswordUtil.encrypt(password),
 	pin: PinUtil.gen(),
-	birthday,
 	username,
-	headline,
 });
 
-export const create = async (
+export const createLocal = async (
 	{ UserRepository }: Injectables,
-	params: CreateParams,
+	params: CreateLocalParams,
 ) => {
 	await validate(params);
 

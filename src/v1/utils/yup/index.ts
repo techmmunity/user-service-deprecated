@@ -9,6 +9,7 @@
 import * as yup from "yup";
 
 import { emailOrPhone } from "./string/email-or-phone";
+import { emailOrUsername } from "./string/email-or-username";
 import { fullName } from "./string/full-name";
 import { password } from "./string/password";
 import { username } from "./string/username";
@@ -16,6 +17,7 @@ import { username } from "./string/username";
 export type Yup = typeof yup;
 
 emailOrPhone(yup);
+emailOrUsername(yup);
 username(yup);
 password(yup);
 fullName(yup);

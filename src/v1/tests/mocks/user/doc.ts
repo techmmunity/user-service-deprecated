@@ -1,3 +1,4 @@
+import { PasswordUtil } from "v1/utils/password";
 import { PinUtil } from "v1/utils/pin";
 
 import { HeadlineEnum } from "core/enums/headline";
@@ -5,8 +6,8 @@ import { HeadlineEnum } from "core/enums/headline";
 export interface CreateUserDoc {
 	id: string;
 	username: string;
-	headline: HeadlineEnum;
-	birthday: Date;
+	headline?: HeadlineEnum;
+	birthday?: Date;
 	verifiedAt?: Date;
 	fullName?: string;
 	password?: string;
@@ -35,7 +36,7 @@ export const doc = ({
 	birthday,
 	verifiedAt,
 	fullName,
-	password,
+	password: password ? PasswordUtil.encrypt(password) : undefined,
 	avatar,
 	youtube,
 	pin: PinUtil.gen(),

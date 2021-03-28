@@ -39,23 +39,23 @@ export class UserEntity extends BaseEntity {
 	})
 	public username: string;
 
-	@Index()
-	@Column({
-		nullable: true,
-		enum: HeadlineValues(),
-	})
-	public headline: HeadlineEnum;
-
 	@Column({
 		length: Limits.user.pin.length,
 		nullable: false,
 	})
 	public pin: string;
 
+	@Index()
 	@Column({
-		nullable: false,
+		nullable: true,
+		enum: HeadlineValues(),
 	})
-	public birthday: Date;
+	public headline?: HeadlineEnum;
+
+	@Column({
+		nullable: true,
+	})
+	public birthday?: Date;
 
 	@Column({
 		name: "verified_at",
