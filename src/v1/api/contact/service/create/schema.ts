@@ -14,12 +14,6 @@ class Contact {
 		example: "foobar@foo.com",
 	})
 	public value: string;
-
-	@ApiProperty({
-		description:
-			"Flag that determines if is a primary contact (only 1 for each type)",
-	})
-	public primary?: boolean;
 }
 
 export class CreateContactSchema {

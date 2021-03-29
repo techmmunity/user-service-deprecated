@@ -66,7 +66,7 @@ export class UserEntity extends BaseEntity {
 	@Column({
 		name: "full_name",
 		length: Limits.user.fullName.max,
-		nullable: false,
+		nullable: true,
 	})
 	public fullName?: string;
 
@@ -82,12 +82,6 @@ export class UserEntity extends BaseEntity {
 	})
 	public avatar?: string;
 
-	@Column({
-		length: Limits.user.youtube.max,
-		nullable: true,
-	})
-	public youtube?: string;
-
 	@CreateDateColumn({
 		name: "created_at",
 		nullable: false,
@@ -102,23 +96,27 @@ export class UserEntity extends BaseEntity {
 
 	@OneToOne(() => DiscordEntity, discord => discord.user, {
 		cascade: true,
+		nullable: true,
 	})
-	public discord: DiscordEntity;
+	public discord?: DiscordEntity;
 
 	@OneToOne(() => GithubEntity, github => github.user, {
 		cascade: true,
+		nullable: true,
 	})
-	public github: GithubEntity;
+	public github?: GithubEntity;
 
 	@OneToOne(() => GoogleEntity, google => google.user, {
 		cascade: true,
+		nullable: true,
 	})
-	public google: GoogleEntity;
+	public google?: GoogleEntity;
 
 	@OneToOne(() => LinkedinEntity, linkedin => linkedin.user, {
 		cascade: true,
+		nullable: true,
 	})
-	public linkedin: LinkedinEntity;
+	public linkedin?: LinkedinEntity;
 
 	@OneToMany(() => ContactEntity, contact => contact.user, {
 		cascade: true,

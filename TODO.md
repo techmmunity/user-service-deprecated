@@ -19,16 +19,16 @@
 - [x] Adicionar testes a função de re-gen PIN no User Service
 - [x] Criar rota de login local
   - [x] Adicionar testes
-- [ ] Criar função de criar um usuário via discord no serviço de User
-  - [ ] Adicionar testes
-- [ ] Criar rota de login discord
-  - [ ] Adicionar testes
-- [ ] Checar se a UI do Swagger da rota de criar um contato funciona, caso não funcione, passar uma função: `type: () => Contact`
-- [ ] Gerar migrations
+- [x] Checar se a UI do Swagger da rota de criar um contato funciona, caso não funcione, passar uma função: `type: () => Contact`
+- [x] Gerar migrations
 - [ ] Estudar a respeito de Kubernetes e começar a integração
 
 ## Todo Upgrades
 
+- [ ] Criar função de criar um usuário via discord no serviço de User
+  - [ ] Adicionar testes
+- [ ] Criar rota de login discord
+  - [ ] Adicionar testes
 - [ ] Criar uma função para alterar o contato primario do usuário.
   - [ ] Adicionar testes
 - [ ] Criar função e rota para alterar username

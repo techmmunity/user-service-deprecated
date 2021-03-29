@@ -34,14 +34,12 @@ export class ContactEntity extends BaseEntity {
 	})
 	public id: string;
 
-	@Index()
 	@Column({
 		length: Limits.ids.uuid.length,
 		nullable: false,
 	})
 	public userId: string;
 
-	@Index()
 	@Column({
 		nullable: false,
 		enum: ContactTypeValues(),
@@ -54,6 +52,7 @@ export class ContactEntity extends BaseEntity {
 	})
 	public primary: boolean;
 
+	@Index()
 	@Column({
 		nullable: false,
 		unique: true,
