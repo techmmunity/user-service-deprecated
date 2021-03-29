@@ -1,50 +1,56 @@
-import { createRelations } from "../helpers/create-relations";
-import { formatData } from "../helpers/format-data";
-import { removeSensiveDataFromUser } from "../helpers/remove-sensive-data-from-user";
+import { v4 } from "uuid";
 
-import { duplicatedValidation } from "../validation-duplicated";
-import { validate } from "./validation";
+import { validate } from "./validate";
 
-import { BaseCreateUser, BaseInjectables } from "../types";
+import { UserType, UserRepository } from "v1/api/user/user.entity";
 
-export type CreateLocalParams = BaseCreateUser;
+import { PasswordUtil } from "v1/utils/password";
+import { PinUtil } from "v1/utils/pin";
 
-type InjectablesLocal = BaseInjectables;
+import { ContactTypeEnum } from "core/enums/contact-type";
+
+export interface CreateLocalParams {
+	email: string;
+	username: string;
+	password: string;
+}
+
+export interface Injectables {
+	UserRepository: UserRepository;
+}
+
+export const formatData = ({
+	username,
+	password,
+}: CreateLocalParams): UserType => ({
+	id: v4(),
+	password: PasswordUtil.encrypt(password),
+	pin: PinUtil.gen(),
+	username,
+});
 
 export const createLocal = async (
-	params: CreateLocalParams & InjectablesLocal,
+	{ UserRepository }: Injectables,
+	params: CreateLocalParams,
 ) => {
 	await validate(params);
 
-	const {
-		UserRepository,
-		UserTokenService,
-		VerifyAccountService,
-		...unformattedData
-	} = params;
+	const userData = formatData(params);
 
-	await duplicatedValidation({
-		UserRepository,
-		username: unformattedData.username,
-		email: unformattedData.email,
+	const user = await UserRepository.save({
+		...userData,
+		contacts: [
+			{
+				id: v4(),
+				type: ContactTypeEnum.EMAIL,
+				value: params.email,
+				primary: true,
+			},
+		],
 	});
-
-	const userData = formatData(unformattedData);
-
-	const user = await UserRepository.save(userData);
-
-	const userId = user.id;
-
-	const { verificationCode } = await createRelations({
-		UserTokenService,
-		VerifyAccountService,
-		userId,
-	});
-
-	const userWithoutSensiveData = removeSensiveDataFromUser(user);
 
 	return {
-		user: userWithoutSensiveData,
-		verificationCode,
+		userId: user.id,
+		verificationCode: user.pin,
 	};
 };

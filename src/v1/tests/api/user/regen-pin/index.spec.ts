@@ -2,6 +2,8 @@ import { v4 } from "uuid";
 
 import { UserService } from "v1/api/user/user.service";
 
+import { Limits } from "v1/config/limits";
+
 import { UserMock } from "v1/tests/mocks/user";
 
 describe("UserService > regen-pin", () => {
@@ -21,9 +23,24 @@ describe("UserService > regen-pin", () => {
 		expect(service).toBeDefined();
 	});
 
-	it("should regen pin user with valid params", async () => {
+	it("should regen user PIN with valid params", async () => {
 		UserMock.repository.update.mockReturnValue({
-			raw: "UPDATE 1",
+			affected: 1,
+		});
+
+		const result = await service.regenPin({
+			userId,
+		});
+
+		expect(UserMock.repository.update).toBeCalledTimes(1);
+		expect(UserMock.repository.find).toBeCalledTimes(0);
+		expect(typeof result).toBe("string");
+		expect(result.length).toBe(Limits.user.pin.length);
+	});
+
+	it("should throw error if user not exists", async () => {
+		UserMock.repository.update.mockReturnValue({
+			affected: 0,
 		});
 
 		let result;
@@ -37,32 +54,9 @@ describe("UserService > regen-pin", () => {
 		}
 
 		expect(UserMock.repository.update).toBeCalledTimes(1);
-		expect(typeof result).toBe("string");
-		expect(typeof parseInt(result)).toBe("number");
-		expect(Number.isNaN(parseInt(result))).toBe(false);
-	});
-
-	it("should throw error when user not found", async () => {
-		UserMock.repository.update.mockReturnValue({
-			raw: "UPDATE 0",
-		});
-
-		let result;
-
-		try {
-			result = await service.regenPin({
-				userId,
-			});
-		} catch (e) {
-			result = e;
-		}
-
-		expect(UserMock.repository.update).toBeCalledTimes(1);
 		expect(result.status).toBe(404);
 		expect(result.response).toMatchObject({
-			code: "NOT_FOUND",
-			statusCode: 404,
-			errors: ["user not found"],
+			errors: [`User with ID "${userId}" doesn't exist`],
 		});
 	});
 });

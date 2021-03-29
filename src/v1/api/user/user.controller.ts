@@ -1,10 +1,11 @@
-import { Controller, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, HttpCode, Param, Post, Put } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 
 import { UserService } from "./user.service";
 
-import { CreateDiscordParams } from "./service/create/discord";
-import { CreateLocalParams } from "./service/create/local";
+import { CreateUserLocalSchema } from "./service/create/local/schema";
+import { LoginLocalSchema } from "./service/login/local/schema";
+import { VerifyUserSchema } from "./service/verify/schema";
 
 import { Routes } from "v1/config/routes";
 
@@ -16,26 +17,25 @@ export class UserController {
 	}
 
 	@Post(Routes.user.createLocal)
-	public createLocal(data: CreateLocalParams) {
+	public createLocal(data: CreateUserLocalSchema) {
 		return this.UserService.createLocal(data);
 	}
 
-	@Post(Routes.user.createDiscord)
-	public createDiscord(data: CreateDiscordParams) {
-		return this.UserService.createDiscord(data);
-	}
-
-	@Get(Routes.user.findById)
-	public findById(@Param("id") userId: string) {
-		return this.UserService.findById({
-			userId,
-		});
+	@Post(Routes.user.loginLocal)
+	public loginLocal(data: LoginLocalSchema) {
+		return this.UserService.loginLocal(data);
 	}
 
 	@Put(Routes.user.regenPin)
-	public regenPin(@Param("id") userId: string) {
+	public regenPin(@Param("userId") userId: string) {
 		return this.UserService.regenPin({
 			userId,
 		});
+	}
+
+	@HttpCode(204)
+	@Put(Routes.user.verify)
+	public verify(@Body() params: VerifyUserSchema) {
+		return this.UserService.verify(params);
 	}
 }

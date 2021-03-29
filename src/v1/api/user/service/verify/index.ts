@@ -1,32 +1,41 @@
-import { validate } from "./validation";
+import { validate } from "./validate";
 
 import { UserRepository } from "v1/api/user/user.entity";
 
 import { ErrorUtil } from "v1/utils/error";
+import { PinUtil } from "v1/utils/pin";
 
-export interface Injectables {
+interface Injectables {
 	UserRepository: UserRepository;
 }
 
 export interface VerifyParams {
 	userId: string;
+	verificationCode: string;
 }
 
-const getRowsUpdated = (raw: string) => raw.replace("UPDATE ", "");
+export const verify = async (
+	{ UserRepository }: Injectables,
+	params: VerifyParams,
+) => {
+	await validate(params);
 
-export const verify = async ({
-	UserRepository,
-	userId,
-}: VerifyParams & Injectables) => {
-	await validate({ userId });
+	const { userId, verificationCode } = params;
 
-	const result = await UserRepository.update(userId, {
-		verified: true,
-	});
+	const newPin = PinUtil.gen();
 
-	const updatedRows = getRowsUpdated(result.raw);
+	const result = await UserRepository.update(
+		{
+			id: userId,
+			pin: verificationCode,
+		},
+		{
+			pin: newPin,
+			verifiedAt: new Date(),
+		},
+	);
 
-	if (updatedRows !== "1") {
-		return ErrorUtil.notFound("NOT_FOUND", ["user not found"]);
+	if (result.affected !== 1) {
+		return ErrorUtil.badRequest(["Invalid userId or verificationCode"]);
 	}
 };

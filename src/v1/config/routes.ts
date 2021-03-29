@@ -1,10 +1,13 @@
 export const Routes = {
 	version: "v1",
 	user: {
-		createLocal: "/local",
-		createDiscord: "/discord",
-		findById: "/:id",
-		regenPin: "/:id",
+		createLocal: "/create-local",
+		loginLocal: "/login-local",
+		regenPin: "/regen-pin/:userId",
+		verify: "/verify",
+	},
+	contact: {
+		create: "/",
 	},
 	userToken: {
 		update: "/",

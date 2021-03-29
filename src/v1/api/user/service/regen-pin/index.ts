@@ -1,10 +1,9 @@
-import { generatePIN } from "../helpers/generate-pin";
-
-import { validate } from "./validation";
+import { validate } from "./validate";
 
 import { UserRepository } from "v1/api/user/user.entity";
 
 import { ErrorUtil } from "v1/utils/error";
+import { PinUtil } from "v1/utils/pin";
 
 interface Injectables {
 	UserRepository: UserRepository;
@@ -14,31 +13,22 @@ export interface RegenPinParams {
 	userId: string;
 }
 
-const getUpdatedRows = (raw: string) => raw.replace("UPDATE ", "");
-
-export const regenPin = async ({
-	UserRepository,
-	...params
-}: RegenPinParams & Injectables) => {
+export const regenPin = async (
+	{ UserRepository }: Injectables,
+	params: RegenPinParams,
+) => {
 	await validate(params);
 
 	const { userId } = params;
 
-	const newPin = generatePIN();
+	const newPin = PinUtil.gen();
 
-	const result = await UserRepository.update(
-		{
-			id: userId,
-		},
-		{
-			pin: newPin,
-		},
-	);
+	const result = await UserRepository.update(userId, {
+		pin: newPin,
+	});
 
-	const updatedRows = getUpdatedRows(result.raw);
-
-	if (updatedRows !== "1") {
-		return ErrorUtil.notFound("NOT_FOUND", ["user not found"]);
+	if (result.affected !== 1) {
+		return ErrorUtil.notFound([`User with ID "${userId}" doesn't exist`]);
 	}
 
 	return newPin;

@@ -9,93 +9,78 @@ import {
 	FindOneOptions,
 	PrimaryColumn,
 	Index,
+	OneToOne,
+	OneToMany,
 } from "typeorm";
+
+import { ContactEntity } from "../contact/contact.entity";
+import { DiscordEntity } from "../discord/discord.entity";
+import { GithubEntity } from "../github/github.entity";
+import { GoogleEntity } from "../google/google.entity";
+import { LinkedinEntity } from "../linkedin/linkedin.entity";
 
 import { HeadlineEnum, HeadlineValues } from "core/enums/headline";
 
-import { EntityType } from "types/entity";
+import { Limits } from "v1/config/limits";
 
-@Entity({ name: "users" })
+import { DefaultOmitEntityFields } from "types/entity";
+
+@Entity("users")
 export class UserEntity extends BaseEntity {
-	@PrimaryColumn()
+	@PrimaryColumn({
+		length: Limits.ids.uuid.length,
+	})
 	public id: string;
 
 	@Column({
-		name: "discord_user_id",
-		nullable: true,
-	})
-	public discordUserId?: string;
-
-	@Column({
-		name: "google_user_id",
-		nullable: true,
-	})
-	public googleUserId?: string;
-
-	@Column({
-		name: "github_user_id",
-		nullable: true,
-	})
-	public githubUserId?: string;
-
-	@Column({
-		name: "linkedin_user_id",
-		nullable: true,
-	})
-	public linkedinUserId?: string;
-
-	@Column({
+		length: Limits.user.username.max,
 		nullable: false,
-	})
-	public email: string;
-
-	@Column({
-		nullable: false,
-	})
-	public password: string;
-
-	@Column({
-		nullable: false,
+		unique: true,
 	})
 	public username: string;
 
 	@Column({
-		nullable: false,
-	})
-	public name: string;
-
-	@Column({
-		nullable: false,
-	})
-	public surnames: string;
-
-	@Column({
+		length: Limits.user.pin.length,
 		nullable: false,
 	})
 	public pin: string;
 
+	@Index()
+	@Column({
+		nullable: true,
+		enum: HeadlineValues(),
+	})
+	public headline?: HeadlineEnum;
+
 	@Column({
 		nullable: true,
 	})
+	public birthday?: Date;
+
+	@Column({
+		name: "verified_at",
+		nullable: true,
+	})
+	public verifiedAt?: Date;
+
+	@Column({
+		name: "full_name",
+		length: Limits.user.fullName.max,
+		nullable: true,
+	})
+	public fullName?: string;
+
+	@Column({
+		length: 200,
+		nullable: true,
+	})
+	public password?: string;
+
+	@Column({
+		length: Limits.user.avatar.max,
+		nullable: true,
+	})
 	public avatar?: string;
-
-	@Column({
-		nullable: false,
-		default: false,
-	})
-	public verified: boolean;
-
-	@Index()
-	@Column({
-		nullable: false,
-		enum: HeadlineValues(),
-	})
-	public headline: HeadlineEnum;
-
-	@Column({
-		nullable: false,
-	})
-	public birthday: Date;
 
 	@CreateDateColumn({
 		name: "created_at",
@@ -108,9 +93,47 @@ export class UserEntity extends BaseEntity {
 		nullable: false,
 	})
 	public updatedAt: Date;
+
+	@OneToOne(() => DiscordEntity, discord => discord.user, {
+		cascade: true,
+		nullable: true,
+	})
+	public discord?: DiscordEntity;
+
+	@OneToOne(() => GithubEntity, github => github.user, {
+		cascade: true,
+		nullable: true,
+	})
+	public github?: GithubEntity;
+
+	@OneToOne(() => GoogleEntity, google => google.user, {
+		cascade: true,
+		nullable: true,
+	})
+	public google?: GoogleEntity;
+
+	@OneToOne(() => LinkedinEntity, linkedin => linkedin.user, {
+		cascade: true,
+		nullable: true,
+	})
+	public linkedin?: LinkedinEntity;
+
+	@OneToMany(() => ContactEntity, contact => contact.user, {
+		cascade: true,
+	})
+	public contacts: Array<ContactEntity>;
 }
 
-export type UserType = EntityType<UserEntity>;
+export type UserType = Omit<
+	UserEntity,
+	| DefaultOmitEntityFields
+	| "verifyAccount"
+	| "discord"
+	| "github"
+	| "google"
+	| "linkedin"
+	| "contacts"
+>;
 
 export type UserRepository = Repository<UserEntity>;
 
