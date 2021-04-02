@@ -5,7 +5,7 @@ export class LoginLocalSchema {
 		description: "User email or username",
 		example: "foo@bar.com",
 	})
-	public emailOrUsername: string;
+	public identifier: string;
 
 	@ApiProperty({
 		description: "User strong password",

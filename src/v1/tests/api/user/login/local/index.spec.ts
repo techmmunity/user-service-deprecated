@@ -37,7 +37,7 @@ describe("UserService > login > local", () => {
 
 		const result = await service.loginLocal({
 			password,
-			emailOrUsername: email,
+			identifier: email,
 		});
 
 		expect(UserMock.repository.findOne).toBeCalledTimes(1);
@@ -60,7 +60,7 @@ describe("UserService > login > local", () => {
 
 		const result = await service.loginLocal({
 			password,
-			emailOrUsername: username,
+			identifier: username,
 		});
 
 		expect(UserMock.repository.findOne).toBeCalledTimes(1);
@@ -84,7 +84,7 @@ describe("UserService > login > local", () => {
 
 		const result = await service.loginLocal({
 			password,
-			emailOrUsername: username,
+			identifier: username,
 		});
 
 		expect(UserMock.repository.findOne).toBeCalledTimes(1);
@@ -110,7 +110,7 @@ describe("UserService > login > local", () => {
 		try {
 			result = await service.loginLocal({
 				password,
-				emailOrUsername: username,
+				identifier: username,
 			});
 		} catch (err) {
 			result = err;
@@ -138,7 +138,7 @@ describe("UserService > login > local", () => {
 		try {
 			result = await service.loginLocal({
 				password: "7&ufYzVB",
-				emailOrUsername: username,
+				identifier: username,
 			});
 		} catch (err) {
 			result = err;
@@ -159,7 +159,7 @@ describe("UserService > login > local", () => {
 		try {
 			result = await service.loginLocal({
 				password,
-				emailOrUsername: username,
+				identifier: username,
 			});
 		} catch (err) {
 			result = err;

@@ -6,7 +6,7 @@ import { ErrorUtil } from "v1/utils/error";
 import { PasswordUtil } from "v1/utils/password";
 
 export interface LoginLocalParams {
-	emailOrUsername: string;
+	identifier: string;
 	password: string;
 }
 
@@ -37,17 +37,17 @@ export const loginLocal = async (
 ) => {
 	await validate(params);
 
-	const { emailOrUsername, password } = params;
+	const { identifier, password } = params;
 
 	const user = await UserRepository.findOne({
 		where: [
 			{
-				username: emailOrUsername,
+				username: identifier,
 			},
 			{
 				contacts: [
 					{
-						value: emailOrUsername,
+						value: identifier,
 					},
 				],
 			},

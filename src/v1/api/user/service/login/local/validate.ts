@@ -4,11 +4,7 @@ import { ErrorUtil } from "v1/utils/error";
 import { yup } from "v1/utils/yup";
 
 const schema = yup.object().shape({
-	emailOrUsername: yup
-		.string()
-		.required()
-		.strict()
-		.emailOrUsername("emailOrUsername"),
+	identifier: yup.string().required().strict().identifier(),
 	password: yup.string().required().strict().password(),
 });
 

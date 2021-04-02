@@ -14,7 +14,7 @@ describe("UserService > login > local > validation", () => {
 		try {
 			await validate({
 				password,
-				emailOrUsername: email,
+				identifier: email,
 			});
 		} catch (e) {
 			result = e;
@@ -29,7 +29,7 @@ describe("UserService > login > local > validation", () => {
 		try {
 			await validate({
 				password,
-				emailOrUsername: username,
+				identifier: username,
 			});
 		} catch (e) {
 			result = e;
@@ -53,7 +53,7 @@ describe("UserService > login > local > validation", () => {
 		});
 	});
 
-	it("should throw an error without emailOrUsername", async () => {
+	it("should throw an error without identifier", async () => {
 		let result;
 
 		try {
@@ -66,17 +66,17 @@ describe("UserService > login > local > validation", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: ["emailOrUsername is a required field"],
+			errors: ["identifier is a required field"],
 		});
 	});
 
-	it("should throw an error with invalid emailOrUsername", async () => {
+	it("should throw an error with invalid identifier", async () => {
 		let result;
 
 		try {
 			await validate({
 				password,
-				emailOrUsername: "invalid@value",
+				identifier: "invalid@value",
 			});
 		} catch (e) {
 			result = e;
@@ -84,17 +84,17 @@ describe("UserService > login > local > validation", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: ["emailOrUsername must be a valid email or username"],
+			errors: ["identifier must be a valid email or username"],
 		});
 	});
 
-	it("should throw an error with invalid emailOrUsername type", async () => {
+	it("should throw an error with invalid identifier type", async () => {
 		let result;
 
 		try {
 			await validate({
 				password,
-				emailOrUsername: 123 as any,
+				identifier: 123 as any,
 			});
 		} catch (e) {
 			result = e;
@@ -103,7 +103,7 @@ describe("UserService > login > local > validation", () => {
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
 			errors: [
-				"emailOrUsername must be a `string` type, but the final value was: `123`.",
+				"identifier must be a `string` type, but the final value was: `123`.",
 			],
 		});
 	});
@@ -113,7 +113,7 @@ describe("UserService > login > local > validation", () => {
 
 		try {
 			await validate({
-				emailOrUsername: username,
+				identifier: username,
 			} as LoginLocalParams);
 		} catch (e) {
 			result = e;
@@ -130,7 +130,7 @@ describe("UserService > login > local > validation", () => {
 
 		try {
 			await validate({
-				emailOrUsername: username,
+				identifier: username,
 				password: "weak_password",
 			});
 		} catch (e) {
@@ -150,7 +150,7 @@ describe("UserService > login > local > validation", () => {
 
 		try {
 			await validate({
-				emailOrUsername: username,
+				identifier: username,
 				password: 123 as any,
 			});
 		} catch (e) {
