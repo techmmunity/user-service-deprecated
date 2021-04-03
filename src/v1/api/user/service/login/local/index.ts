@@ -1,6 +1,6 @@
 import { validate } from "./validate";
 
-import { UserEntity, UserRepository } from "v1/api/user/user.entity";
+import { UserRepository } from "v1/api/user/user.entity";
 
 import { ErrorUtil } from "v1/utils/error";
 import { PasswordUtil } from "v1/utils/password";
@@ -13,23 +13,6 @@ export interface LoginLocalParams {
 export interface Injectables {
 	UserRepository: UserRepository;
 }
-
-const formatReturn = (user: UserEntity) => {
-	const toReturn = {
-		id: user.id,
-		username: user.username,
-		pin: user.pin,
-	};
-
-	if (user.avatar) {
-		return {
-			...toReturn,
-			avatar: user.avatar,
-		};
-	}
-
-	return toReturn;
-};
 
 export const loginLocal = async (
 	{ UserRepository }: Injectables,
@@ -52,6 +35,7 @@ export const loginLocal = async (
 				],
 			},
 		],
+		select: ["id", "password", "pin"],
 	});
 
 	if (!user) {
@@ -71,5 +55,8 @@ export const loginLocal = async (
 		return ErrorUtil.forbidden(["Account unverified"]);
 	}
 
-	return formatReturn(user);
+	return {
+		id: user.id,
+		pin: user.pin,
+	};
 };

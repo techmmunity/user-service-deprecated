@@ -43,7 +43,6 @@ describe("UserService > login > local", () => {
 		expect(UserMock.repository.findOne).toBeCalledTimes(1);
 		expect(result).toStrictEqual({
 			id,
-			username,
 			pin: userDoc.pin,
 		});
 	});
@@ -66,7 +65,6 @@ describe("UserService > login > local", () => {
 		expect(UserMock.repository.findOne).toBeCalledTimes(1);
 		expect(result).toStrictEqual({
 			id,
-			username,
 			pin: userDoc.pin,
 		});
 	});
@@ -90,9 +88,7 @@ describe("UserService > login > local", () => {
 		expect(UserMock.repository.findOne).toBeCalledTimes(1);
 		expect(result).toStrictEqual({
 			id,
-			username,
 			pin: userDoc.pin,
-			avatar: "http://example-avatar.com",
 		});
 	});
 
