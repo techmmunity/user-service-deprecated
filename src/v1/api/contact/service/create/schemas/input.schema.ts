@@ -1,8 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { v4 } from "uuid";
 
 import { ContactTypeEnum, ContactTypeValues } from "core/enums/contact-type";
 
-class Contact {
+class ContactInput {
 	@ApiProperty({
 		description: "Contact type",
 		enum: ContactTypeValues(),
@@ -16,17 +17,17 @@ class Contact {
 	public value: string;
 }
 
-export class CreateContactSchema {
+export class CreateContactInputSchema {
 	@ApiProperty({
 		description: "User ID",
-		example: "e5600754-9684-4649-bb19-ea47cffeb6aa",
+		example: v4(),
 	})
 	public userId: string;
 
 	@ApiProperty({
 		description: "User contacts to add",
 		isArray: true,
-		type: Contact,
+		type: ContactInput,
 	})
-	public contacts: Array<Contact>;
+	public contacts: Array<ContactInput>;
 }

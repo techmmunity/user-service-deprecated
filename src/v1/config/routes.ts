@@ -1,8 +1,8 @@
 export const Routes = {
 	version: "v1",
 	user: {
-		createLocal: "/create-local",
-		loginLocal: "/login-local",
+		createLocal: "/create/local",
+		loginLocal: "/login/local",
 		regenPin: "/regen-pin/:userId",
 		verify: "/verify",
 	},

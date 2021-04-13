@@ -1,17 +1,18 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { v4 } from "uuid";
 
 import { PinUtil } from "v1/utils/pin";
 
-export class VerifyUserSchema {
+export class LoginLocalOutputSchema {
 	@ApiProperty({
 		description: "User ID",
-		example: "3773291c-3f30-46b7-b230-8180b5d8bf6d",
+		example: v4(),
 	})
 	public userId: string;
 
 	@ApiProperty({
-		description: "Verification code",
+		description: "User PIN",
 		example: PinUtil.gen(),
 	})
-	public verificationCode: string;
+	public pin: string;
 }

@@ -1,11 +1,20 @@
 import { Body, Controller, HttpCode, Param, Post, Put } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import {
+	ApiCreatedResponse,
+	ApiOkResponse,
+	ApiParam,
+	ApiTags,
+} from "@nestjs/swagger";
+import { v4 } from "uuid";
 
 import { UserService } from "./user.service";
 
-import { CreateUserLocalSchema } from "./service/create/local/schema";
-import { LoginLocalSchema } from "./service/login/local/schema";
-import { VerifyUserSchema } from "./service/verify/schema";
+import { CreateUserLocalInputSchema } from "./service/create/local/schemas/input.schema";
+import { CreateUserLocalOutputSchema } from "./service/create/local/schemas/output.schema";
+import { LoginLocalInputSchema } from "./service/login/local/schemas/input.schema";
+import { LoginLocalOutputSchema } from "./service/login/local/schemas/output.schema";
+import { RegenPinOutputSchema } from "./service/regen-pin/schemas/output.schema";
+import { VerifyUserInputSchema } from "./service/verify/schemas/input.schema";
 
 import { Routes } from "v1/config/routes";
 
@@ -17,16 +26,31 @@ export class UserController {
 	}
 
 	@Post(Routes.user.createLocal)
-	public createLocal(data: CreateUserLocalSchema) {
+	@ApiCreatedResponse({
+		type: CreateUserLocalOutputSchema,
+	})
+	public createLocal(@Body() data: CreateUserLocalInputSchema) {
 		return this.UserService.createLocal(data);
 	}
 
+	@HttpCode(200)
 	@Post(Routes.user.loginLocal)
-	public loginLocal(data: LoginLocalSchema) {
+	@ApiOkResponse({
+		type: LoginLocalOutputSchema,
+	})
+	public loginLocal(@Body() data: LoginLocalInputSchema) {
 		return this.UserService.loginLocal(data);
 	}
 
 	@Put(Routes.user.regenPin)
+	@ApiParam({
+		name: "userId",
+		description: "user ID",
+		example: v4(),
+	})
+	@ApiOkResponse({
+		type: RegenPinOutputSchema,
+	})
 	public regenPin(@Param("userId") userId: string) {
 		return this.UserService.regenPin({
 			userId,
@@ -35,7 +59,7 @@ export class UserController {
 
 	@HttpCode(204)
 	@Put(Routes.user.verify)
-	public verify(@Body() params: VerifyUserSchema) {
+	public verify(@Body() params: VerifyUserInputSchema) {
 		return this.UserService.verify(params);
 	}
 }

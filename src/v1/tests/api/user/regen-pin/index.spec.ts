@@ -34,8 +34,8 @@ describe("UserService > regen-pin", () => {
 
 		expect(UserMock.repository.update).toBeCalledTimes(1);
 		expect(UserMock.repository.find).toBeCalledTimes(0);
-		expect(typeof result).toBe("string");
-		expect(result.length).toBe(Limits.user.pin.length);
+		expect(typeof result.newPin).toBe("string");
+		expect(result.newPin.length).toBe(Limits.user.pin.length);
 	});
 
 	it("should throw error if user not exists", async () => {

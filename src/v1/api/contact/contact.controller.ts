@@ -1,9 +1,10 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiCreatedResponse, ApiTags } from "@nestjs/swagger";
 
 import { ContactService } from "./contact.service";
 
-import { CreateContactSchema } from "./service/create/schema";
+import { CreateContactInputSchema } from "./service/create/schemas/input.schema";
+import { CreateContactOutputSchema } from "./service/create/schemas/output.schema";
 
 import { Routes } from "v1/config/routes";
 
@@ -15,7 +16,11 @@ export class ContactController {
 	}
 
 	@Post(Routes.contact.create)
-	public create(@Body() data: CreateContactSchema) {
+	@ApiCreatedResponse({
+		type: CreateContactOutputSchema,
+		isArray: true,
+	})
+	public create(@Body() data: CreateContactInputSchema) {
 		return this.ContactService.create(data);
 	}
 }

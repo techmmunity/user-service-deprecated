@@ -1,17 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class CreateUserLocalSchema {
+export class LoginLocalInputSchema {
 	@ApiProperty({
-		description: "User email",
+		description: "User email or username",
 		example: "foo@bar.com",
 	})
-	public email: string;
-
-	@ApiProperty({
-		description: "User nickname",
-		example: "foo_bar",
-	})
-	public username: string;
+	public identifier: string;
 
 	@ApiProperty({
 		description: "User strong password",

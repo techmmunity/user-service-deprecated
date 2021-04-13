@@ -31,5 +31,7 @@ export const regenPin = async (
 		return ErrorUtil.notFound([`User with ID "${userId}" doesn't exist`]);
 	}
 
-	return newPin;
+	return {
+		newPin,
+	};
 };
