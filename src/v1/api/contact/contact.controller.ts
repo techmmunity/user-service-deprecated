@@ -13,16 +13,16 @@ import { CreateContactConflictSchema } from "./service/create/schemas/conflict.s
 import { CreateContactInputSchema } from "./service/create/schemas/input.schema";
 import { CreateContactOutputSchema } from "./service/create/schemas/output.schema";
 
-import { Routes } from "v1/config/routes";
+import { ApiConfig } from "v1/config";
 
 @ApiTags("Contact")
-@Controller(`${Routes.version}/contact`)
+@Controller(`${ApiConfig.version}/contact`)
 export class ContactController {
 	public constructor(private ContactService: ContactService) {
 		//
 	}
 
-	@Post(Routes.contact.create)
+	@Post()
 	@ApiCreatedResponse({
 		type: CreateContactOutputSchema,
 		isArray: true,

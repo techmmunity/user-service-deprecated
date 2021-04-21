@@ -29,16 +29,16 @@ import { VerifyUserBadRequestSchema } from "./service/verify/schemas/bad-request
 import { VerifyUserInputSchema } from "./service/verify/schemas/input.schema";
 import { VerifyUserNotFoundSchema } from "./service/verify/schemas/not-found.schema";
 
-import { Routes } from "v1/config/routes";
+import { ApiConfig } from "v1/config";
 
 @ApiTags("User")
-@Controller(`${Routes.version}/user`)
+@Controller(`${ApiConfig.version}/user`)
 export class UserController {
 	public constructor(private UserService: UserService) {
 		//
 	}
 
-	@Post(Routes.user.createLocal)
+	@Post("/create/local")
 	@ApiCreatedResponse({
 		type: CreateUserLocalOutputSchema,
 	})
@@ -53,7 +53,7 @@ export class UserController {
 	}
 
 	@HttpCode(200)
-	@Post(Routes.user.loginLocal)
+	@Post("/login/local")
 	@ApiOkResponse({
 		type: LoginLocalOutputSchema,
 	})
@@ -70,7 +70,7 @@ export class UserController {
 		return this.UserService.loginLocal(data);
 	}
 
-	@Put(Routes.user.regenPin)
+	@Put("/regen-pin/:userId")
 	@ApiParam({
 		name: "userId",
 		description: "user ID",
@@ -98,7 +98,7 @@ export class UserController {
 	@ApiNotFoundResponse({
 		type: VerifyUserNotFoundSchema,
 	})
-	@Put(Routes.user.verify)
+	@Put("/verify")
 	public verify(@Body() params: VerifyUserInputSchema) {
 		return this.UserService.verify(params);
 	}
