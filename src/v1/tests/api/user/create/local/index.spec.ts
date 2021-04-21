@@ -3,6 +3,7 @@ import { v4 } from "uuid";
 import { UserService } from "v1/api/user/user.service";
 
 import { ContactTypeEnum } from "core/enums/contact-type";
+import { DbErrorEnum } from "core/enums/db-error";
 
 import { ContactMock } from "v1/tests/mocks/contact";
 import { UserMock } from "v1/tests/mocks/user";
@@ -36,16 +37,22 @@ describe("UserService > create > local", () => {
 			primary: true,
 		});
 
-		UserMock.repository.save.mockReturnValue({
+		UserMock.repository.save.mockResolvedValue({
 			...userDoc,
 			contacts: [contactDoc],
 		});
 
-		const result = await service.createLocal({
-			email: "foo@bar.com",
-			username: "example",
-			password: "p7qV%Ews",
-		});
+		let result;
+
+		try {
+			result = await service.createLocal({
+				email: "foo@bar.com",
+				username: "example",
+				password: "p7qV%Ews",
+			});
+		} catch (e) {
+			result = e;
+		}
 
 		expect(UserMock.repository.save).toBeCalledTimes(1);
 		expect(ContactMock.repository.save).toBeCalledTimes(0);
@@ -53,6 +60,56 @@ describe("UserService > create > local", () => {
 		expect(result).toStrictEqual({
 			userId: id,
 			verificationCode: userDoc.pin,
+		});
+	});
+
+	it("should fail because duplicated username", async () => {
+		UserMock.repository.save.mockRejectedValue({
+			code: DbErrorEnum.UniqueViolation,
+			detail: "Key (username)=(example) already exists.",
+			table: "users",
+		});
+
+		let result;
+
+		try {
+			result = await service.createLocal({
+				email: "foo@bar.com",
+				username: "example",
+				password: "p7qV%Ews",
+			});
+		} catch (e) {
+			result = e;
+		}
+
+		expect(UserMock.repository.save).toBeCalledTimes(1);
+		expect(result.response).toStrictEqual({
+			errors: ['User with username "example" already exists'],
+		});
+	});
+
+	it("should fail because duplicated email", async () => {
+		UserMock.repository.save.mockRejectedValue({
+			code: DbErrorEnum.UniqueViolation,
+			detail: "Key (value)=(foo@bar.com) already exists.",
+			table: "contacts",
+		});
+
+		let result;
+
+		try {
+			result = await service.createLocal({
+				email: "foo@bar.com",
+				username: "example",
+				password: "p7qV%Ews",
+			});
+		} catch (e) {
+			result = e;
+		}
+
+		expect(UserMock.repository.save).toBeCalledTimes(1);
+		expect(result.response).toStrictEqual({
+			errors: ['Email "foo@bar.com" is already linked to an user'],
 		});
 	});
 });

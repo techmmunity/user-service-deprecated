@@ -33,7 +33,7 @@ describe("UserService > login > local", () => {
 			verifiedAt,
 		});
 
-		UserMock.repository.findOne.mockReturnValue(userDoc);
+		UserMock.repository.findOne.mockResolvedValue(userDoc);
 
 		const result = await service.loginLocal({
 			password,
@@ -55,7 +55,7 @@ describe("UserService > login > local", () => {
 			verifiedAt,
 		});
 
-		UserMock.repository.findOne.mockReturnValue(userDoc);
+		UserMock.repository.findOne.mockResolvedValue(userDoc);
 
 		const result = await service.loginLocal({
 			password,
@@ -78,7 +78,7 @@ describe("UserService > login > local", () => {
 			avatar: "http://example-avatar.com",
 		});
 
-		UserMock.repository.findOne.mockReturnValue(userDoc);
+		UserMock.repository.findOne.mockResolvedValue(userDoc);
 
 		const result = await service.loginLocal({
 			password,
@@ -99,7 +99,7 @@ describe("UserService > login > local", () => {
 			username,
 		});
 
-		UserMock.repository.findOne.mockReturnValue(userDoc);
+		UserMock.repository.findOne.mockResolvedValue(userDoc);
 
 		let result;
 
@@ -127,7 +127,7 @@ describe("UserService > login > local", () => {
 			verifiedAt,
 		});
 
-		UserMock.repository.findOne.mockReturnValue(userDoc);
+		UserMock.repository.findOne.mockResolvedValue(userDoc);
 
 		let result;
 
@@ -148,7 +148,7 @@ describe("UserService > login > local", () => {
 	});
 
 	it("should throw an error if not found user", async () => {
-		UserMock.repository.findOne.mockReturnValue(undefined);
+		UserMock.repository.findOne.mockResolvedValue(undefined);
 
 		let result;
 

@@ -25,7 +25,7 @@ describe("UserService > verify", () => {
 	});
 
 	it("should verify user with valid params", async () => {
-		UserMock.repository.update.mockReturnValue({
+		UserMock.repository.update.mockResolvedValue({
 			affected: 1,
 		});
 
@@ -40,7 +40,7 @@ describe("UserService > verify", () => {
 	});
 
 	it("should throw error if user not exists or invalid pin", async () => {
-		UserMock.repository.update.mockReturnValue({
+		UserMock.repository.update.mockResolvedValue({
 			affected: 0,
 		});
 

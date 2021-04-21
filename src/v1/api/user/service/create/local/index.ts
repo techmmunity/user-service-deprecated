@@ -1,13 +1,16 @@
+import { check } from "@techmmunity/easy-check";
 import { v4 } from "uuid";
 
 import { validate } from "./validate";
 
 import { UserType, UserRepository } from "v1/api/user/user.entity";
 
+import { DbHandler } from "v1/utils/db-handler";
 import { PasswordUtil } from "v1/utils/password";
 import { PinUtil } from "v1/utils/pin";
 
 import { ContactTypeEnum } from "core/enums/contact-type";
+import { DbErrorEnum } from "core/enums/db-error";
 
 export interface CreateLocalParams {
 	email: string;
@@ -37,20 +40,40 @@ export const createLocal = async (
 
 	const userData = formatData(params);
 
-	const user = await UserRepository.save({
+	return UserRepository.save({
 		...userData,
 		contacts: [
 			{
 				id: v4(),
+				userId: userData.id,
 				type: ContactTypeEnum.EMAIL,
 				value: params.email,
 				primary: true,
 			},
 		],
-	});
-
-	return {
-		userId: user.id,
-		verificationCode: user.pin,
-	};
+	})
+		.then(user => ({
+			userId: user.id,
+			verificationCode: user.pin,
+		}))
+		.catch(
+			DbHandler([
+				{
+					error: DbErrorEnum.UniqueViolation,
+					table: "users",
+					column: "username",
+					handleWith: "conflict",
+					message: username =>
+						`User with username "${username}" already exists`,
+				},
+				{
+					error: DbErrorEnum.UniqueViolation,
+					table: "contacts",
+					column: "value",
+					handleWith: "conflict",
+					validate: check.isEmail,
+					message: email => `Email "${email}" is already linked to an user`,
+				},
+			]),
+		);
 };

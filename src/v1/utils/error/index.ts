@@ -1,3 +1,4 @@
+import { badGateway } from "./bad-gateway";
 import { badRequest } from "./bad-request";
 import { conflict } from "./conflict";
 import { forbidden } from "./forbidden";
@@ -6,6 +7,7 @@ import { notFound } from "./not-found";
 import { unauthorized } from "./unauthorized";
 
 export const ErrorUtil = {
+	badGateway,
 	badRequest,
 	conflict,
 	forbidden,

@@ -24,7 +24,7 @@ describe("UserService > regen-pin", () => {
 	});
 
 	it("should regen user PIN with valid params", async () => {
-		UserMock.repository.update.mockReturnValue({
+		UserMock.repository.update.mockResolvedValue({
 			affected: 1,
 		});
 
@@ -39,7 +39,7 @@ describe("UserService > regen-pin", () => {
 	});
 
 	it("should throw error if user not exists", async () => {
-		UserMock.repository.update.mockReturnValue({
+		UserMock.repository.update.mockResolvedValue({
 			affected: 0,
 		});
 
