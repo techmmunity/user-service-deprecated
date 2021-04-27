@@ -2,8 +2,8 @@
 
 rm -rf src/core
 
-git clone git@github.com:razal-discord-bot/core-backend.git src/core
+git clone git@github.com:techmmunity/core.git
 
-cd src/core
+mv core/src src/core
 
-yarn --cwd src/core --production=true
+rm -rf core

@@ -18,7 +18,7 @@ import { ApiConfig } from "v1/config";
 @ApiTags("Contact")
 @Controller(`${ApiConfig.version}/contact`)
 export class ContactController {
-	public constructor(private ContactService: ContactService) {
+	public constructor(private readonly ContactService: ContactService) {
 		//
 	}
 

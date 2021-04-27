@@ -1,0 +1,40 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Add SSH Key
+        uses: webfactory/ssh-agent@v0.5.2
+        with:
+          ssh-private-key: ${{ secrets.CORE_REPOSITORY_SSH_KEY }}
+
+      - name: Clone Core Repository
+        run: |
+          git clone git@github.com:techmmunity/core.git
+          mv core/src src/core
+          rm -rf core
+
+      - name: Install Dependencies
+        run: |
+          yarn
+
+      - name: Run Tests
+        run: |
+          yarn test:cov
+
+      - name: Colect Coverage
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: coverallsapp/github-action@v1.1.2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

@@ -34,7 +34,7 @@ import { ApiConfig } from "v1/config";
 @ApiTags("User")
 @Controller(`${ApiConfig.version}/user`)
 export class UserController {
-	public constructor(private UserService: UserService) {
+	public constructor(private readonly UserService: UserService) {
 		//
 	}
 
