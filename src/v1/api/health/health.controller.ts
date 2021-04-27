@@ -14,9 +14,9 @@ import { ApiConfig } from "v1/config";
 @Controller(`${ApiConfig.version}/health`)
 export class HealthController {
 	public constructor(
-		private health: HealthCheckService,
-		private db: TypeOrmHealthIndicator,
-		private api: ApiHealthIndicator,
+		private readonly health: HealthCheckService,
+		private readonly db: TypeOrmHealthIndicator,
+		private readonly api: ApiHealthIndicator,
 	) {
 		//
 	}

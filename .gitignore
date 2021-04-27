@@ -35,7 +35,6 @@ lerna-debug.log*
 
 # Enviroment
 *.env*
-!.env.sample
 !.env.docker
 
 # Core
