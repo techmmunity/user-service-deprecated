@@ -46,4 +46,9 @@ export const Limits = {
 			max: 100,
 		},
 	},
+	confirmationToken: {
+		token: {
+			length: 6,
+		},
+	},
 };

@@ -13,6 +13,7 @@ import {
 	OneToMany,
 } from "typeorm";
 
+import { ConfirmationTokenEntity } from "../confirmation-token/confirmation-token.entity";
 import { ContactEntity } from "../contact/contact.entity";
 import { DiscordEntity } from "../discord/discord.entity";
 import { GithubEntity } from "../github/github.entity";
@@ -122,6 +123,15 @@ export class UserEntity extends BaseEntity {
 		cascade: true,
 	})
 	public contacts: Array<ContactEntity>;
+
+	@OneToMany(
+		() => ConfirmationTokenEntity,
+		confirmationToken => confirmationToken.user,
+		{
+			cascade: true,
+		},
+	)
+	public confirmationTokens: Array<ConfirmationTokenEntity>;
 }
 
 export type UserType = Omit<
@@ -133,6 +143,7 @@ export type UserType = Omit<
 	| "google"
 	| "linkedin"
 	| "contacts"
+	| "confirmationTokens"
 >;
 
 export type UserRepository = Repository<UserEntity>;
