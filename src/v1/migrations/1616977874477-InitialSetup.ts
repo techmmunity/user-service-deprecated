@@ -23,7 +23,7 @@ export class InitialSetup1616977874477 implements MigrationInterface {
 			`CREATE INDEX "IDX_7c2493a5545d9e8ce310b8791b" ON "users" ("headline") `,
 		);
 		await queryRunner.query(
-			`CREATE TABLE "contacts" ("id" character varying(36) NOT NULL, "userId" character varying(36) NOT NULL, "type" character varying NOT NULL, "primary" boolean NOT NULL DEFAULT false, "value" character varying NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "user_id" character varying(36), CONSTRAINT "UQ_4dedebe8fcf567a11712a7a3165" UNIQUE ("value"), CONSTRAINT "PK_b99cd40cfd66a99f1571f4f72e6" PRIMARY KEY ("id"))`,
+			`CREATE TABLE "contacts" ("id" character varying(36) NOT NULL, "user_id" character varying(36) NOT NULL, "type" character varying NOT NULL, "primary" boolean NOT NULL DEFAULT false, "value" character varying NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "UQ_4dedebe8fcf567a11712a7a3165" UNIQUE ("value"), CONSTRAINT "PK_b99cd40cfd66a99f1571f4f72e6" PRIMARY KEY ("id"))`,
 		);
 		await queryRunner.query(
 			`CREATE INDEX "IDX_4dedebe8fcf567a11712a7a316" ON "contacts" ("value") `,

@@ -35,6 +35,7 @@ export class ContactEntity extends BaseEntity {
 	public id: string;
 
 	@Column({
+		name: "user_id",
 		length: Limits.ids.uuid.length,
 		nullable: false,
 	})
