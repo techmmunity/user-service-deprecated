@@ -6,7 +6,8 @@ import { ConfirmationTokenTypeEnum } from "core/enums/confirmation-token-type";
 
 export interface CreateConfirmationTokenDoc {
 	id?: string;
-	userId: string;
+	userId?: string;
+	contactId?: string;
 	type: ConfirmationTokenTypeEnum;
 	token?: string;
 	usedAt?: Date;
@@ -16,15 +17,17 @@ export interface CreateConfirmationTokenDoc {
 export const doc = ({
 	id,
 	userId,
+	contactId,
 	type,
 	token,
 	usedAt,
 	createdAt,
 }: CreateConfirmationTokenDoc) => ({
 	userId,
+	contactId,
 	type,
 	usedAt,
-	createdAt,
 	id: id || v4(),
 	token: token || PinUtil.gen(6),
+	createdAt: createdAt || new Date(),
 });

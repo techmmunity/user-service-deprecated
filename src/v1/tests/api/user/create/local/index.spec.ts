@@ -46,8 +46,12 @@ describe("UserService > create > local", () => {
 
 		UserMock.repository.save.mockResolvedValue({
 			...userDoc,
-			confirmationTokens: [confirmationTokenDoc],
-			contacts: [contactDoc],
+			contacts: [
+				{
+					...contactDoc,
+					confirmationTokens: [confirmationTokenDoc],
+				},
+			],
 		});
 
 		let result;
@@ -69,6 +73,7 @@ describe("UserService > create > local", () => {
 		expect(ConfirmationTokenMock.repository.insert).toBeCalledTimes(0);
 		expect(result).toStrictEqual({
 			userId: id,
+			contactId: contactDoc.id,
 			username: userDoc.username,
 			email: contactDoc.value,
 			verificationCode: confirmationTokenDoc.token,

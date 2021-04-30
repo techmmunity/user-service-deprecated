@@ -25,9 +25,6 @@ import { LoginLocalOutputSchema } from "./service/login/local/schemas/output.sch
 import { RegenPinBadRequestSchema } from "./service/regen-pin/schemas/bad-request.schema";
 import { RegenPinNotFoundSchema } from "./service/regen-pin/schemas/not-found.schema";
 import { RegenPinOutputSchema } from "./service/regen-pin/schemas/output.schema";
-import { VerifyUserBadRequestSchema } from "./service/verify/schemas/bad-request.schema";
-import { VerifyUserInputSchema } from "./service/verify/schemas/input.schema";
-import { VerifyUserNotFoundSchema } from "./service/verify/schemas/not-found.schema";
 
 import { ApiConfig } from "v1/config";
 
@@ -89,17 +86,5 @@ export class UserController {
 		return this.UserService.regenPin({
 			userId,
 		});
-	}
-
-	@HttpCode(204)
-	@ApiBadRequestResponse({
-		type: VerifyUserBadRequestSchema,
-	})
-	@ApiNotFoundResponse({
-		type: VerifyUserNotFoundSchema,
-	})
-	@Put("/verify")
-	public verify(@Body() params: VerifyUserInputSchema) {
-		return this.UserService.verify(params);
 	}
 }

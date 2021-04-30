@@ -11,8 +11,10 @@ import {
 	Index,
 	ManyToOne,
 	JoinColumn,
+	OneToMany,
 } from "typeorm";
 
+import { ConfirmationTokenEntity } from "../confirmation-token/confirmation-token.entity";
 import { UserEntity } from "../user/user.entity";
 
 import { ContactTypeEnum, ContactTypeValues } from "core/enums/contact-type";
@@ -53,6 +55,12 @@ export class ContactEntity extends BaseEntity {
 	})
 	public primary: boolean;
 
+	@Column({
+		nullable: false,
+		default: false,
+	})
+	public verified: boolean;
+
 	@Index()
 	@Column({
 		nullable: false,
@@ -77,6 +85,15 @@ export class ContactEntity extends BaseEntity {
 		name: "user_id",
 	})
 	public user: UserEntity;
+
+	@OneToMany(
+		() => ConfirmationTokenEntity,
+		confirmationToken => confirmationToken.user,
+		{
+			cascade: true,
+		},
+	)
+	public confirmationTokens: Array<ConfirmationTokenEntity>;
 }
 
 export type ContactType = Omit<ContactEntity, DefaultOmitEntityFields | "user">;

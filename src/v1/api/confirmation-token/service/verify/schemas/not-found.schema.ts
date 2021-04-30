@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class VerifyUserNotFoundSchema {
+export class VerifyConfirmationTokenNotFoundSchema {
 	@ApiProperty({
 		description: "Errors",
 		example: ["Invalid userId or verificationCode"],

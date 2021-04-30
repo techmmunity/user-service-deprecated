@@ -9,6 +9,11 @@ export class CreateUserLocalOutputSchema {
 		example: v4(),
 	})
 	public userId: string;
+	@ApiProperty({
+		description: "Contact to verify ID",
+		example: v4(),
+	})
+	public contactId: string;
 
 	@ApiProperty({
 		description: "username",
