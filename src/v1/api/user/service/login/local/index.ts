@@ -51,9 +51,9 @@ export const loginLocal = async (
 		return ErrorUtil.badRequest(["Invalid username, email or password"]);
 	}
 
-	if (!user.verifiedAt) {
-		return ErrorUtil.forbidden(["Account unverified"]);
-	}
+	// if (!user.verifiedAt) {
+	// 	return ErrorUtil.forbidden(["Account unverified"]);
+	// }
 
 	return {
 		id: user.id,

@@ -5,7 +5,6 @@ import { Transactional } from "typeorm-transactional-cls-hooked";
 import { createLocal, CreateLocalParams } from "./service/create/local";
 import { loginLocal, LoginLocalParams } from "./service/login/local";
 import { regenPin, RegenPinParams } from "./service/regen-pin";
-import { verify, VerifyParams } from "./service/verify";
 
 import { UserEntity, UserRepository } from "v1/api/user/user.entity";
 
@@ -31,16 +30,6 @@ export class UserService {
 	@Transactional()
 	public loginLocal(params: LoginLocalParams) {
 		return loginLocal(
-			{
-				UserRepository: this.UserRepository,
-			},
-			params,
-		);
-	}
-
-	@Transactional()
-	public verify(params: VerifyParams) {
-		return verify(
 			{
 				UserRepository: this.UserRepository,
 			},

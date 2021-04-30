@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 
 import { InvalidParamsErrorMessage } from "v1/utils/yup";
 
-export class VerifyUserBadRequestSchema {
+export class VerifyConfirmationTokenBadRequestSchema {
 	@ApiProperty({
 		description: "Errors",
 		example: [
@@ -11,7 +11,7 @@ export class VerifyUserBadRequestSchema {
 			"userId must be a valid UUID",
 			"userId must be a `string` type, but the final value was: `123`.",
 			"verificationCode is a required field",
-			"verificationCode must be exactly 4 characters",
+			"verificationCode must be exactly 6 characters",
 			"verificationCode must be a `string` type, but the final value was: `123`.",
 		],
 	})

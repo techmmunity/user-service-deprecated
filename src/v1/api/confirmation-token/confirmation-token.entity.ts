@@ -12,6 +12,7 @@ import {
 	JoinColumn,
 } from "typeorm";
 
+import { ContactEntity } from "../contact/contact.entity";
 import { UserEntity } from "../user/user.entity";
 
 import {
@@ -37,9 +38,16 @@ export class ConfirmationTokenEntity extends BaseEntity {
 	@Column({
 		name: "user_id",
 		length: Limits.ids.uuid.length,
-		nullable: false,
+		nullable: true,
 	})
-	public userId: string;
+	public userId?: string;
+
+	@Column({
+		name: "contact_id",
+		length: Limits.ids.uuid.length,
+		nullable: true,
+	})
+	public contactId?: string;
 
 	@Column({
 		nullable: false,
@@ -66,11 +74,21 @@ export class ConfirmationTokenEntity extends BaseEntity {
 	})
 	public createdAt: Date;
 
-	@ManyToOne(() => UserEntity, user => user.confirmationTokens)
+	@ManyToOne(() => UserEntity, user => user.confirmationTokens, {
+		nullable: true,
+	})
 	@JoinColumn({
 		name: "user_id",
 	})
-	public user: UserEntity;
+	public user?: UserEntity;
+
+	@ManyToOne(() => ContactEntity, contact => contact.confirmationTokens, {
+		nullable: true,
+	})
+	@JoinColumn({
+		name: "contact_id",
+	})
+	public contact?: ContactEntity;
 }
 
 export type ConfirmationTokenType = Omit<

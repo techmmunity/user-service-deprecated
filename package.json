@@ -14,6 +14,7 @@
 		"@nestjs/typeorm": "^7.1.5",
 		"@techmmunity/easy-check": "^2.4.1",
 		"bcrypt": "^5.0.1",
+		"moment": "^2.29.1",
 		"node-fetch": "^2.6.1",
 		"pg": "^8.6.0",
 		"reflect-metadata": "^0.1.13",
@@ -100,7 +101,7 @@
 		"clone:core": "./scripts/clone-core.sh",
 		"copy:core": "./scripts/copy-core.sh",
 		"docker": "docker-compose up",
-		"docker:clear": "docker container rm user_api && docker image rm user_api && docker volume rm user_nodemodules",
+		"docker:clear": "docker container rm user-service_api && docker image rm user-service_api && docker volume rm user-service_nodemodules",
 		"migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config ormconfig.migrations.json migration:generate -d src/v1/migrations -n",
 		"husky:pre-commit": "tsc && lint-staged"
 	}

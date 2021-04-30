@@ -41,31 +41,34 @@ export const createLocal = async (
 
 	const userData = formatData(params);
 
+	const contactId = v4();
+
 	return UserRepository.save({
 		...userData,
-		confirmationTokens: [
-			{
-				id: v4(),
-				userId: userData.id,
-				type: ConfirmationTokenTypeEnum.VERIFY_CONTACT,
-				token: PinUtil.gen(6),
-			},
-		],
 		contacts: [
 			{
-				id: v4(),
+				id: contactId,
 				userId: userData.id,
 				type: ContactTypeEnum.EMAIL,
 				value: params.email,
 				primary: true,
+				confirmationTokens: [
+					{
+						id: v4(),
+						type: ConfirmationTokenTypeEnum.VERIFY_CONTACT,
+						token: PinUtil.gen(6),
+						contactId,
+					},
+				],
 			},
 		],
 	})
 		.then(user => ({
 			userId: user.id,
+			contactId: user.contacts[0].id,
 			username: user.username,
 			email: user.contacts[0].value,
-			verificationCode: user.confirmationTokens[0].token,
+			verificationCode: user.contacts[0].confirmationTokens[0].token,
 		}))
 		.catch(
 			DbHandler([

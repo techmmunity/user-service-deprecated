@@ -1,20 +1,20 @@
 import { v4 } from "uuid";
-import { VerifyParams } from "v1/api/user/service/verify";
-import { validate } from "v1/api/user/service/verify/validate";
+import { VerifyParams } from "v1/api/confirmation-token/service/verify";
+import { validate } from "v1/api/confirmation-token/service/verify/validate";
 
 import { PinUtil } from "v1/utils/pin";
 import { InvalidParamsErrorMessage } from "v1/utils/yup";
 
-describe("UserService > verify > validation", () => {
-	const userId = v4();
-	const verificationCode = PinUtil.gen();
+describe("ConfirmationTokenService > verify > validation", () => {
+	const contactId = v4();
+	const verificationCode = PinUtil.gen(6);
 
 	it("should do nothing with valid params", async () => {
 		let result;
 
 		try {
 			await validate({
-				userId,
+				contactId,
 				verificationCode,
 			});
 		} catch (e) {
@@ -39,7 +39,7 @@ describe("UserService > verify > validation", () => {
 		});
 	});
 
-	it("should throw an error without userId", async () => {
+	it("should throw an error without contactId", async () => {
 		let result;
 
 		try {
@@ -52,16 +52,16 @@ describe("UserService > verify > validation", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: ["userId is a required field"],
+			errors: ["contactId is a required field"],
 		});
 	});
 
-	it("should throw an error with invalid userId", async () => {
+	it("should throw an error with invalid contactId", async () => {
 		let result;
 
 		try {
 			await validate({
-				userId: "123",
+				contactId: "123",
 				verificationCode,
 			});
 		} catch (e) {
@@ -70,16 +70,16 @@ describe("UserService > verify > validation", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: ["userId must be a valid UUID"],
+			errors: ["contactId must be a valid UUID"],
 		});
 	});
 
-	it("should throw an error with invalid userId type", async () => {
+	it("should throw an error with invalid contactId type", async () => {
 		let result;
 
 		try {
 			await validate({
-				userId: 123 as any,
+				contactId: 123 as any,
 				verificationCode,
 			});
 		} catch (e) {
@@ -89,7 +89,7 @@ describe("UserService > verify > validation", () => {
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
 			errors: [
-				"userId must be a `string` type, but the final value was: `123`.",
+				"contactId must be a `string` type, but the final value was: `123`.",
 			],
 		});
 	});
@@ -99,7 +99,7 @@ describe("UserService > verify > validation", () => {
 
 		try {
 			await validate({
-				userId,
+				contactId,
 			} as VerifyParams);
 		} catch (e) {
 			result = e;
@@ -116,7 +116,7 @@ describe("UserService > verify > validation", () => {
 
 		try {
 			await validate({
-				userId,
+				contactId,
 				verificationCode: "13212321",
 			});
 		} catch (e) {
@@ -125,7 +125,7 @@ describe("UserService > verify > validation", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: ["verificationCode must be exactly 4 characters"],
+			errors: ["verificationCode must be exactly 6 characters"],
 		});
 	});
 
@@ -134,7 +134,7 @@ describe("UserService > verify > validation", () => {
 
 		try {
 			await validate({
-				userId,
+				contactId,
 				verificationCode: 123 as any,
 			});
 		} catch (e) {

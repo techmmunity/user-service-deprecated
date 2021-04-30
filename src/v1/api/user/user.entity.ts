@@ -59,12 +59,6 @@ export class UserEntity extends BaseEntity {
 	public birthday?: Date;
 
 	@Column({
-		name: "verified_at",
-		nullable: true,
-	})
-	public verifiedAt?: Date;
-
-	@Column({
 		name: "full_name",
 		length: Limits.user.fullName.max,
 		nullable: true,
