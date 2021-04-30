@@ -21,6 +21,7 @@ describe("UserService > create > local", () => {
 
 	beforeEach(() => {
 		UserMock.repository.resetMock();
+		ContactMock.repository.resetMock();
 		ConfirmationTokenMock.repository.resetMock();
 	});
 
@@ -44,15 +45,11 @@ describe("UserService > create > local", () => {
 			type: ConfirmationTokenTypeEnum.VERIFY_CONTACT,
 		});
 
-		UserMock.repository.save.mockResolvedValue({
-			...userDoc,
-			contacts: [
-				{
-					...contactDoc,
-					confirmationTokens: [confirmationTokenDoc],
-				},
-			],
-		});
+		UserMock.repository.save.mockResolvedValue(userDoc);
+		ContactMock.repository.save.mockResolvedValue(contactDoc);
+		ConfirmationTokenMock.repository.save.mockResolvedValue(
+			confirmationTokenDoc,
+		);
 
 		let result;
 
@@ -67,10 +64,8 @@ describe("UserService > create > local", () => {
 		}
 
 		expect(UserMock.repository.save).toBeCalledTimes(1);
-		expect(ContactMock.repository.save).toBeCalledTimes(0);
-		expect(ContactMock.repository.insert).toBeCalledTimes(0);
-		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(0);
-		expect(ConfirmationTokenMock.repository.insert).toBeCalledTimes(0);
+		expect(ContactMock.repository.save).toBeCalledTimes(1);
+		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(1);
 		expect(result).toStrictEqual({
 			userId: id,
 			contactId: contactDoc.id,
@@ -100,13 +95,22 @@ describe("UserService > create > local", () => {
 		}
 
 		expect(UserMock.repository.save).toBeCalledTimes(1);
+		expect(ContactMock.repository.save).toBeCalledTimes(0);
+		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(0);
 		expect(result.response).toStrictEqual({
 			errors: ['User with username "example" already exists'],
 		});
 	});
 
 	it("should fail because duplicated email", async () => {
-		UserMock.repository.save.mockRejectedValue({
+		const userDoc = UserMock.doc({
+			id,
+			username: "example",
+		});
+
+		UserMock.repository.save.mockResolvedValue(userDoc);
+
+		ContactMock.repository.save.mockRejectedValue({
 			code: DbErrorEnum.UniqueViolation,
 			detail: "Key (value)=(foo@bar.com) already exists.",
 			table: "contacts",
@@ -125,6 +129,8 @@ describe("UserService > create > local", () => {
 		}
 
 		expect(UserMock.repository.save).toBeCalledTimes(1);
+		expect(ContactMock.repository.save).toBeCalledTimes(1);
+		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(0);
 		expect(result.response).toStrictEqual({
 			errors: ['Email "foo@bar.com" is already linked to an user'],
 		});

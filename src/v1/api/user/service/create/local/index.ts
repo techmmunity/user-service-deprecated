@@ -3,6 +3,8 @@ import { v4 } from "uuid";
 
 import { validate } from "./validate";
 
+import { ConfirmationTokenRepository } from "v1/api/confirmation-token/confirmation-token.entity";
+import { ContactRepository } from "v1/api/contact/contact.entity";
 import { UserType, UserRepository } from "v1/api/user/user.entity";
 
 import { DbHandler } from "v1/utils/db-handler";
@@ -21,6 +23,8 @@ export interface CreateLocalParams {
 
 export interface Injectables {
 	UserRepository: UserRepository;
+	ContactRepository: ContactRepository;
+	ConfirmationTokenRepository: ConfirmationTokenRepository;
 }
 
 export const formatData = ({
@@ -34,60 +38,60 @@ export const formatData = ({
 });
 
 export const createLocal = async (
-	{ UserRepository }: Injectables,
+	{
+		UserRepository,
+		ContactRepository,
+		ConfirmationTokenRepository,
+	}: Injectables,
 	params: CreateLocalParams,
 ) => {
 	await validate(params);
 
 	const userData = formatData(params);
 
-	const contactId = v4();
-
-	return UserRepository.save({
-		...userData,
-		contacts: [
+	const user = await UserRepository.save(userData).catch(
+		DbHandler([
 			{
-				id: contactId,
-				userId: userData.id,
-				type: ContactTypeEnum.EMAIL,
-				value: params.email,
-				primary: true,
-				confirmationTokens: [
-					{
-						id: v4(),
-						type: ConfirmationTokenTypeEnum.VERIFY_CONTACT,
-						token: PinUtil.gen(6),
-						contactId,
-					},
-				],
+				error: DbErrorEnum.UniqueViolation,
+				table: "users",
+				column: "username",
+				handleWith: "conflict",
+				message: username => `User with username "${username}" already exists`,
 			},
-		],
-	})
-		.then(user => ({
-			userId: user.id,
-			contactId: user.contacts[0].id,
-			username: user.username,
-			email: user.contacts[0].value,
-			verificationCode: user.contacts[0].confirmationTokens[0].token,
-		}))
-		.catch(
-			DbHandler([
-				{
-					error: DbErrorEnum.UniqueViolation,
-					table: "users",
-					column: "username",
-					handleWith: "conflict",
-					message: username =>
-						`User with username "${username}" already exists`,
-				},
-				{
-					error: DbErrorEnum.UniqueViolation,
-					table: "contacts",
-					column: "value",
-					handleWith: "conflict",
-					validate: check.isEmail,
-					message: email => `Email "${email}" is already linked to an user`,
-				},
-			]),
-		);
+		]),
+	);
+
+	const contact = await ContactRepository.save({
+		id: v4(),
+		userId: userData.id,
+		type: ContactTypeEnum.EMAIL,
+		value: params.email,
+		primary: true,
+	}).catch(
+		DbHandler([
+			{
+				error: DbErrorEnum.UniqueViolation,
+				table: "contacts",
+				column: "value",
+				handleWith: "conflict",
+				validate: check.isEmail,
+				message: email => `Email "${email}" is already linked to an user`,
+			},
+		]),
+	);
+
+	const confirmationToken = await ConfirmationTokenRepository.save({
+		id: v4(),
+		type: ConfirmationTokenTypeEnum.VERIFY_CONTACT,
+		token: PinUtil.gen(6),
+		contactId: contact.id,
+	});
+
+	return {
+		userId: user.id,
+		contactId: contact.id,
+		username: user.username,
+		email: contact.value,
+		verificationCode: confirmationToken.token,
+	};
 };

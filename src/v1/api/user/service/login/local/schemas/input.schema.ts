@@ -9,7 +9,7 @@ export class LoginLocalInputSchema {
 
 	@ApiProperty({
 		description: "User strong password",
-		example: "(T6^CKCR",
+		example: "t6@CKCR",
 	})
 	public password: string;
 }

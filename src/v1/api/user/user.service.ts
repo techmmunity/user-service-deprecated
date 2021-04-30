@@ -6,11 +6,20 @@ import { createLocal, CreateLocalParams } from "./service/create/local";
 import { loginLocal, LoginLocalParams } from "./service/login/local";
 import { regenPin, RegenPinParams } from "./service/regen-pin";
 
+import {
+	ConfirmationTokenEntity,
+	ConfirmationTokenRepository,
+} from "../confirmation-token/confirmation-token.entity";
+import { ContactEntity, ContactRepository } from "../contact/contact.entity";
 import { UserEntity, UserRepository } from "v1/api/user/user.entity";
 
 @Injectable()
 export class UserService {
 	public constructor(
+		@InjectRepository(ConfirmationTokenEntity)
+		private readonly ConfirmationTokenRepository: ConfirmationTokenRepository,
+		@InjectRepository(ContactEntity)
+		private readonly ContactRepository: ContactRepository,
 		@InjectRepository(UserEntity)
 		private readonly UserRepository: UserRepository,
 	) {
@@ -21,6 +30,8 @@ export class UserService {
 	public createLocal(params: CreateLocalParams) {
 		return createLocal(
 			{
+				ConfirmationTokenRepository: this.ConfirmationTokenRepository,
+				ContactRepository: this.ContactRepository,
 				UserRepository: this.UserRepository,
 			},
 			params,

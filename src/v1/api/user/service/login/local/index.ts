@@ -1,9 +1,11 @@
 import { validate } from "./validate";
 
+import { getUser } from "./helpers/get-user";
+import { verifyPassword } from "./helpers/verify-password";
+
 import { UserRepository } from "v1/api/user/user.entity";
 
 import { ErrorUtil } from "v1/utils/error";
-import { PasswordUtil } from "v1/utils/password";
 
 export interface LoginLocalParams {
 	identifier: string;
@@ -20,40 +22,23 @@ export const loginLocal = async (
 ) => {
 	await validate(params);
 
-	const { identifier, password } = params;
-
-	const user = await UserRepository.findOne({
-		where: [
-			{
-				username: identifier,
-			},
-			{
-				contacts: [
-					{
-						value: identifier,
-					},
-				],
-			},
-		],
-		select: ["id", "password", "pin"],
+	const user = await getUser({
+		UserRepository,
+		...params,
 	});
 
-	if (!user) {
-		return ErrorUtil.notFound(["User not found"]);
+	await verifyPassword({
+		password: params.password,
+		passwordHash: user.password as string,
+	});
+
+	/**
+	 * The verified field of contact comes in the user entity,
+	 * because of the raw query. USER DOESN'T HAVE A VERIFIED FIELD!
+	 */
+	if (!user.verified) {
+		return ErrorUtil.forbidden(["Contact unverified"]);
 	}
-
-	const isValidPassword = await PasswordUtil.verify(
-		password,
-		user.password as string,
-	);
-
-	if (!isValidPassword) {
-		return ErrorUtil.badRequest(["Invalid username, email or password"]);
-	}
-
-	// if (!user.verifiedAt) {
-	// 	return ErrorUtil.forbidden(["Account unverified"]);
-	// }
 
 	return {
 		id: user.id,

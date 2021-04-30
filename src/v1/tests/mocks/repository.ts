@@ -4,6 +4,7 @@ export interface MockRepository {
 	save: jest.Mock<any, any>;
 	insert: jest.Mock<any, any>;
 	update: jest.Mock<any, any>;
+	query: jest.Mock<any, any>;
 }
 
 export const makeMockRepository = () => {
@@ -13,6 +14,7 @@ export const makeMockRepository = () => {
 		save: jest.fn(),
 		insert: jest.fn(),
 		update: jest.fn(),
+		query: jest.fn(),
 	};
 
 	const resetMock = () => {
@@ -21,6 +23,7 @@ export const makeMockRepository = () => {
 		mock.save.mockReset();
 		mock.insert.mockReset();
 		mock.update.mockReset();
+		mock.query.mockReset();
 	};
 
 	return {

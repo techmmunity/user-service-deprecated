@@ -1,5 +1,9 @@
 import { Body, Controller, HttpCode, Patch } from "@nestjs/common";
-import { ApiBadRequestResponse, ApiNotFoundResponse } from "@nestjs/swagger";
+import {
+	ApiBadRequestResponse,
+	ApiNotFoundResponse,
+	ApiTags,
+} from "@nestjs/swagger";
 
 import { ConfirmationTokenService } from "./confirmation-token.service";
 
@@ -9,6 +13,7 @@ import { VerifyConfirmationTokenNotFoundSchema } from "./service/verify/schemas/
 
 import { ApiConfig } from "v1/config";
 
+@ApiTags("Confirmation Token")
 @Controller(`${ApiConfig.version}/confirmation-token`)
 export class ConfirmationTokenController {
 	public constructor(
