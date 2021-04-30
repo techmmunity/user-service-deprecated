@@ -11,8 +11,20 @@ export class CreateUserLocalOutputSchema {
 	public userId: string;
 
 	@ApiProperty({
+		description: "username",
+		example: "foo_bar",
+	})
+	public username: string;
+
+	@ApiProperty({
+		description: "User email",
+		example: "foo@bar.com",
+	})
+	public email: string;
+
+	@ApiProperty({
 		description: "Verification Code",
-		example: PinUtil.gen(),
+		example: PinUtil.gen(6),
 	})
 	public verificationCode: string;
 }

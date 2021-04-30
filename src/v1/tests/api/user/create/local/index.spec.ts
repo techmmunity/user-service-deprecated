@@ -2,9 +2,11 @@ import { v4 } from "uuid";
 
 import { UserService } from "v1/api/user/user.service";
 
+import { ConfirmationTokenTypeEnum } from "core/enums/confirmation-token-type";
 import { ContactTypeEnum } from "core/enums/contact-type";
 import { DbErrorEnum } from "core/enums/db-error";
 
+import { ConfirmationTokenMock } from "v1/tests/mocks/confirmation-token";
 import { ContactMock } from "v1/tests/mocks/contact";
 import { UserMock } from "v1/tests/mocks/user";
 
@@ -19,6 +21,7 @@ describe("UserService > create > local", () => {
 
 	beforeEach(() => {
 		UserMock.repository.resetMock();
+		ConfirmationTokenMock.repository.resetMock();
 	});
 
 	it("should be defined", () => {
@@ -36,9 +39,14 @@ describe("UserService > create > local", () => {
 			value: "foo@bar.com",
 			primary: true,
 		});
+		const confirmationTokenDoc = ConfirmationTokenMock.doc({
+			userId: id,
+			type: ConfirmationTokenTypeEnum.VERIFY_CONTACT,
+		});
 
 		UserMock.repository.save.mockResolvedValue({
 			...userDoc,
+			confirmationTokens: [confirmationTokenDoc],
 			contacts: [contactDoc],
 		});
 
@@ -57,9 +65,13 @@ describe("UserService > create > local", () => {
 		expect(UserMock.repository.save).toBeCalledTimes(1);
 		expect(ContactMock.repository.save).toBeCalledTimes(0);
 		expect(ContactMock.repository.insert).toBeCalledTimes(0);
+		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(0);
+		expect(ConfirmationTokenMock.repository.insert).toBeCalledTimes(0);
 		expect(result).toStrictEqual({
 			userId: id,
-			verificationCode: userDoc.pin,
+			username: userDoc.username,
+			email: contactDoc.value,
+			verificationCode: confirmationTokenDoc.token,
 		});
 	});
 
