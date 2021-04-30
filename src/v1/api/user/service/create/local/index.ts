@@ -9,6 +9,7 @@ import { DbHandler } from "v1/utils/db-handler";
 import { PasswordUtil } from "v1/utils/password";
 import { PinUtil } from "v1/utils/pin";
 
+import { ConfirmationTokenTypeEnum } from "core/enums/confirmation-token-type";
 import { ContactTypeEnum } from "core/enums/contact-type";
 import { DbErrorEnum } from "core/enums/db-error";
 
@@ -42,6 +43,14 @@ export const createLocal = async (
 
 	return UserRepository.save({
 		...userData,
+		confirmationTokens: [
+			{
+				id: v4(),
+				userId: userData.id,
+				type: ConfirmationTokenTypeEnum.VERIFY_CONTACT,
+				token: PinUtil.gen(6),
+			},
+		],
 		contacts: [
 			{
 				id: v4(),
@@ -54,7 +63,9 @@ export const createLocal = async (
 	})
 		.then(user => ({
 			userId: user.id,
-			verificationCode: user.pin,
+			username: user.username,
+			email: user.contacts[0].value,
+			verificationCode: user.confirmationTokens[0].token,
 		}))
 		.catch(
 			DbHandler([
