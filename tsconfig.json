@@ -5,7 +5,6 @@
 		"outDir": "dist",
 		"rootDir": "src",
 		"lib": ["ES2020", "ES2020.String"],
-		"typeRoots": ["./node_modules/@types", "./src/@types"],
 		"strict": true,
 		"declaration": true,
 		"noUnusedLocals": true,

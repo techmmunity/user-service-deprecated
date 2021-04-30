@@ -5,10 +5,18 @@ import { UserService } from "./user.service";
 
 import { UserController } from "./user.controller";
 
+import { ConfirmationTokenEntity } from "../confirmation-token/confirmation-token.entity";
+import { ContactEntity } from "../contact/contact.entity";
 import { UserEntity } from "v1/api/user/user.entity";
 
 @Module({
-	imports: [TypeOrmModule.forFeature([UserEntity])],
+	imports: [
+		TypeOrmModule.forFeature([
+			ConfirmationTokenEntity,
+			ContactEntity,
+			UserEntity,
+		]),
+	],
 	providers: [UserService],
 	controllers: [UserController],
 	exports: [UserService],
