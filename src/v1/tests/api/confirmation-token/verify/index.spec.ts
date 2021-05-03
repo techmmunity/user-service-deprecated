@@ -19,10 +19,6 @@ describe("ConfirmationTokenService > verify", () => {
 		service = await ConfirmationTokenMock.service();
 	});
 
-	beforeEach(() => {
-		ConfirmationTokenMock.repository.resetMock();
-	});
-
 	it("should be defined", () => {
 		expect(service).toBeDefined();
 	});

@@ -3,7 +3,7 @@ import { validate } from "v1/api/user/service/login/local/validate";
 
 import { InvalidParamsErrorMessage } from "v1/utils/yup";
 
-describe("UserService > login > local > validation", () => {
+describe("UserService > login > local > validate", () => {
 	const email = "foo@bar.com";
 	const username = "foo_bar";
 	const password = "54GbrFz%";

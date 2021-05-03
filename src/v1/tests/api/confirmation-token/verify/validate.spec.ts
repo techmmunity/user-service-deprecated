@@ -1,11 +1,12 @@
 import { v4 } from "uuid";
 import { VerifyParams } from "v1/api/confirmation-token/service/verify";
+
 import { validate } from "v1/api/confirmation-token/service/verify/validate";
 
 import { PinUtil } from "v1/utils/pin";
 import { InvalidParamsErrorMessage } from "v1/utils/yup";
 
-describe("ConfirmationTokenService > verify > validation", () => {
+describe("ConfirmationTokenService > verify > validate", () => {
 	const contactId = v4();
 	const verificationCode = PinUtil.gen(6);
 

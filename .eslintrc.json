@@ -49,7 +49,7 @@
 					"/shared/",
 					"/job/",
 					"/helpers/",
-					"/validation/",
+					"/validate/",
 					"/module/",
 					"/controller/",
 					"/\\.entity/",
