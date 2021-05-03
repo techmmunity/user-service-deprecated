@@ -6,7 +6,7 @@ import { InvalidParamsErrorMessage } from "v1/utils/yup";
 
 import { ContactTypeEnum, ContactTypeValues } from "core/enums/contact-type";
 
-describe("ContactService > create > validation", () => {
+describe("ContactService > create > validate", () => {
 	const userId = v4();
 
 	it("should do nothing with valid params", async () => {

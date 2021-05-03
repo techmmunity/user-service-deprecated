@@ -20,11 +20,6 @@ describe("ContactService > create", () => {
 		service = await ContactMock.service();
 	});
 
-	beforeEach(() => {
-		ContactMock.repository.resetMock();
-		ConfirmationTokenMock.repository.resetMock();
-	});
-
 	it("should be defined", () => {
 		expect(service).toBeDefined();
 	});

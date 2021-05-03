@@ -21,10 +21,6 @@ describe("UserService > login > local", () => {
 		service = await UserMock.service();
 	});
 
-	beforeEach(() => {
-		UserMock.repository.resetMock();
-	});
-
 	it("should be defined", () => {
 		expect(service).toBeDefined();
 	});

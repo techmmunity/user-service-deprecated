@@ -19,12 +19,6 @@ describe("UserService > create > local", () => {
 		service = await UserMock.service();
 	});
 
-	beforeEach(() => {
-		UserMock.repository.resetMock();
-		ContactMock.repository.resetMock();
-		ConfirmationTokenMock.repository.resetMock();
-	});
-
 	it("should be defined", () => {
 		expect(service).toBeDefined();
 	});

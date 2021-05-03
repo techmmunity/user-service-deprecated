@@ -15,10 +15,6 @@ describe("UserService > regen-pin", () => {
 		service = await UserMock.service();
 	});
 
-	beforeEach(() => {
-		UserMock.repository.resetMock();
-	});
-
 	it("should be defined", () => {
 		expect(service).toBeDefined();
 	});

@@ -4,7 +4,7 @@ import { validate } from "v1/api/user/service/regen-pin/validate";
 
 import { InvalidParamsErrorMessage } from "v1/utils/yup";
 
-describe("UserService > regen-pin > validation", () => {
+describe("UserService > regen-pin > validate", () => {
 	const userId = v4();
 
 	it("should do nothing with valid params", async () => {
