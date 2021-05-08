@@ -1,7 +1,7 @@
-import { validate } from "./validate";
-
 import { getUser } from "./helpers/get-user";
 import { verifyPassword } from "./helpers/verify-password";
+
+import { validate } from "./validate";
 
 import { UserRepository } from "v1/api/user/user.entity";
 
@@ -41,7 +41,7 @@ export const loginLocal = async (
 	}
 
 	return {
-		id: user.id,
+		userId: user.id,
 		pin: user.pin,
 	};
 };

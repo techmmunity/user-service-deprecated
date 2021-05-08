@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, HttpCode, Param, Patch, Post } from "@nestjs/common";
 import {
 	ApiBadRequestResponse,
 	ApiConflictResponse,
@@ -67,7 +67,7 @@ export class UserController {
 		return this.UserService.loginLocal(data);
 	}
 
-	@Put("/regen-pin/:userId")
+	@Patch("/regen-pin/:userId")
 	@ApiParam({
 		name: "userId",
 		description: "user ID",

@@ -90,8 +90,6 @@ export const createLocal = async (
 	return {
 		userId: user.id,
 		contactId: contact.id,
-		username: user.username,
-		email: contact.value,
 		verificationCode: confirmationToken.token,
 	};
 };
