@@ -13,7 +13,7 @@ import { UserMock } from "v1/tests/mocks/user";
 describe("UserService > create > local", () => {
 	let service: UserService;
 
-	const id = v4();
+	const userId = v4();
 
 	beforeAll(async () => {
 		service = await UserMock.service();
@@ -25,17 +25,17 @@ describe("UserService > create > local", () => {
 
 	it("should create user with valid params", async () => {
 		const userDoc = UserMock.doc({
-			id,
+			id: userId,
 			username: "example",
 		});
 		const contactDoc = ContactMock.doc({
-			userId: id,
+			userId: userId,
 			type: ContactTypeEnum.EMAIL,
 			value: "foo@bar.com",
 			primary: true,
 		});
 		const confirmationTokenDoc = ConfirmationTokenMock.doc({
-			userId: id,
+			userId: userId,
 			type: ConfirmationTokenTypeEnum.VERIFY_CONTACT,
 		});
 
@@ -61,10 +61,8 @@ describe("UserService > create > local", () => {
 		expect(ContactMock.repository.save).toBeCalledTimes(1);
 		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(1);
 		expect(result).toStrictEqual({
-			userId: id,
+			userId,
 			contactId: contactDoc.id,
-			username: userDoc.username,
-			email: contactDoc.value,
 			verificationCode: confirmationTokenDoc.token,
 		});
 	});
@@ -98,7 +96,7 @@ describe("UserService > create > local", () => {
 
 	it("should fail because duplicated email", async () => {
 		const userDoc = UserMock.doc({
-			id,
+			id: userId,
 			username: "example",
 		});
 

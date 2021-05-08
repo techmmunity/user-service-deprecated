@@ -10,7 +10,7 @@ import { UserMock } from "v1/tests/mocks/user";
 describe("UserService > login > local", () => {
 	let service: UserService;
 
-	const id = v4();
+	const userId = v4();
 	const pin = PinUtil.gen();
 	const email = "foo@bar.com";
 	const username = "foo_bar";
@@ -27,7 +27,7 @@ describe("UserService > login > local", () => {
 
 	it("should do login with valid params (email)", async () => {
 		const userDoc = {
-			id,
+			id: userId,
 			pin,
 			password: passwordEncrypted,
 			verified: true,
@@ -42,14 +42,14 @@ describe("UserService > login > local", () => {
 
 		expect(UserMock.repository.query).toBeCalledTimes(1);
 		expect(result).toStrictEqual({
-			id,
+			userId,
 			pin: userDoc.pin,
 		});
 	});
 
 	it("should do login with valid params (username)", async () => {
 		const userDoc = {
-			id,
+			id: userId,
 			pin,
 			password: passwordEncrypted,
 			verified: true,
@@ -64,14 +64,14 @@ describe("UserService > login > local", () => {
 
 		expect(UserMock.repository.query).toBeCalledTimes(1);
 		expect(result).toStrictEqual({
-			id,
+			userId,
 			pin: userDoc.pin,
 		});
 	});
 
 	it("should throw an error with unverified user", async () => {
 		const userDoc = {
-			id,
+			id: userId,
 			pin,
 			password: passwordEncrypted,
 			verified: false,
@@ -99,7 +99,7 @@ describe("UserService > login > local", () => {
 
 	it("should throw an error with invalid password", async () => {
 		const userDoc = {
-			id,
+			id: userId,
 			pin,
 			password: passwordEncrypted,
 			verified: true,
