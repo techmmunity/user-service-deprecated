@@ -44,6 +44,12 @@ export const create = async (
 	).catch(
 		DbHandler([
 			{
+				error: DbErrorEnum.ForeignKeyViolation,
+				table: "contacts",
+				handleWith: "conflict",
+				message: () => `User with id "${userId}" not found`,
+			},
+			{
 				error: DbErrorEnum.UniqueViolation,
 				table: "contacts",
 				column: "value",
