@@ -1,10 +1,10 @@
 import * as moment from "moment";
 
-import { validate } from "./validate";
-
 import { getConfirmationToken } from "./helpers/get-confirmation-token";
 import { validateExpired } from "./helpers/validate-expired";
 import { validateUsed } from "./helpers/validate-used";
+
+import { validate } from "./validate";
 
 import { ConfirmationTokenRepository } from "v1/api/confirmation-token/confirmation-token.entity";
 

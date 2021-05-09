@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Transactional } from "typeorm-transactional-cls-hooked";
 
+import { create, CreateParams } from "./service/create";
 import { verify, VerifyParams } from "./service/verify";
 
 import {
@@ -16,6 +17,16 @@ export class ConfirmationTokenService {
 		private readonly ConfirmationTokenRepository: ConfirmationTokenRepository,
 	) {
 		//
+	}
+
+	@Transactional()
+	public create(params: CreateParams) {
+		return create(
+			{
+				ConfirmationTokenRepository: this.ConfirmationTokenRepository,
+			},
+			params,
+		);
 	}
 
 	@Transactional()
