@@ -159,4 +159,36 @@ describe("ContactService > create", () => {
 			errors: ['Phone "19999904610" is already linked to an user'],
 		});
 	});
+
+	it("should fail user not exists", async () => {
+		ContactMock.repository.save.mockRejectedValue({
+			code: DbErrorEnum.ForeignKeyViolation,
+			detail:
+				'Key (user_id)=(0b36f77b-5f24-40bc-8823-e19cf502292e) is not present in table "users".',
+			table: "contacts",
+		});
+
+		let result;
+
+		try {
+			result = await service.create({
+				userId,
+				contacts: [
+					{
+						type: ContactTypeEnum.PHONE_NUMBER,
+						value: "19999904610",
+					},
+				],
+			});
+		} catch (e) {
+			result = e;
+		}
+
+		expect(ContactMock.repository.save).toBeCalledTimes(1);
+		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(0);
+		expect(result.status).toBe(409);
+		expect(result.response).toStrictEqual({
+			errors: [`User with id "${userId}" not found`],
+		});
+	});
 });

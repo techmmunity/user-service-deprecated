@@ -16,7 +16,7 @@ const isCorrectTable = (err: any, handler: DbComplexErrorMessage) =>
 	err.table === handler.table;
 
 const isCorrectColumn = (err: any, handler: DbComplexErrorMessage) =>
-	err.detail.includes(handler.column);
+	!handler.column || (handler.column && err.detail.includes(handler.column));
 
 const passesValidation = (err: any, handler: DbComplexErrorMessage) => {
 	if (!handler.validate) return true;
