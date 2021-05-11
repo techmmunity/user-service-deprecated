@@ -42,4 +42,8 @@ export const changePassword = async (
 	if (result.affected !== 1) {
 		return ErrorUtil.notFound(["User not found"]);
 	}
+
+	return {
+		userId: confirmationToken.userId,
+	};
 };

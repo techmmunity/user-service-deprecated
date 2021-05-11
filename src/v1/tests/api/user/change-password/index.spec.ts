@@ -49,7 +49,9 @@ describe("UserService > changePassword", () => {
 
 		expect(ConfirmationTokenMock.repository.findOne).toBeCalledTimes(1);
 		expect(UserMock.repository.update).toBeCalledTimes(1);
-		expect(result).toBeUndefined();
+		expect(result).toStrictEqual({
+			userId: confirmationTokenDoc.userId,
+		});
 	});
 
 	it("should throw an error if confirmationToken not found", async () => {
