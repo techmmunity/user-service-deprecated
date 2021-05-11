@@ -12,7 +12,6 @@ import {
 	ApiConflictResponse,
 	ApiCreatedResponse,
 	ApiForbiddenResponse,
-	ApiNoContentResponse,
 	ApiNotFoundResponse,
 	ApiOkResponse,
 	ApiParam,
@@ -26,6 +25,7 @@ import { ChangePasswordBadRequestSchema } from "./service/change-password/schema
 import { ChangePasswordConflictSchema } from "./service/change-password/schemas/conflict.schema";
 import { ChangePasswordInputSchema } from "./service/change-password/schemas/input.schema";
 import { ChangePasswordNotFoundSchema } from "./service/change-password/schemas/not-found.schema";
+import { ChangePasswordOutputSchema } from "./service/change-password/schemas/output.schema";
 import { CreateUserLocalBadRequestSchema } from "./service/create/local/schemas/bad-request.schema";
 import { CreateUserLocalConflictSchema } from "./service/create/local/schemas/conflict.schema";
 import { CreateUserLocalInputSchema } from "./service/create/local/schemas/input.schema";
@@ -126,7 +126,10 @@ export class UserController {
 	}
 
 	@Post("/change-password")
-	@ApiNoContentResponse()
+	@HttpCode(200)
+	@ApiOkResponse({
+		type: ChangePasswordOutputSchema,
+	})
 	@ApiBadRequestResponse({
 		type: ChangePasswordBadRequestSchema,
 	})
