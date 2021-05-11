@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Transactional } from "typeorm-transactional-cls-hooked";
 
 import { createLocal, CreateLocalParams } from "./service/create/local";
+import { find, FindParams } from "./service/find";
 import { loginLocal, LoginLocalParams } from "./service/login/local";
 import { regenPin, RegenPinParams } from "./service/regen-pin";
 
@@ -52,6 +53,17 @@ export class UserService {
 	public regenPin(params: RegenPinParams) {
 		return regenPin(
 			{
+				UserRepository: this.UserRepository,
+			},
+			params,
+		);
+	}
+
+	@Transactional()
+	public find(params: FindParams) {
+		return find(
+			{
+				ContactRepository: this.ContactRepository,
 				UserRepository: this.UserRepository,
 			},
 			params,

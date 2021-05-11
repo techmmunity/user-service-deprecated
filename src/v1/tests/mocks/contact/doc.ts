@@ -9,10 +9,15 @@ export interface CreateContactDoc {
 	primary?: boolean;
 }
 
-export const doc = ({ userId, type, value, primary }: CreateContactDoc) => ({
+export const doc = ({
+	userId,
+	type,
+	value,
+	primary = false,
+}: CreateContactDoc) => ({
 	id: v4(),
 	userId,
 	type,
 	value,
-	primary: primary || false,
+	primary,
 });
