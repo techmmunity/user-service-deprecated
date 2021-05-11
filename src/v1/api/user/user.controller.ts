@@ -1,4 +1,12 @@
-import { Body, Controller, HttpCode, Param, Patch, Post } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Get,
+	HttpCode,
+	Param,
+	Patch,
+	Post,
+} from "@nestjs/common";
 import {
 	ApiBadRequestResponse,
 	ApiConflictResponse,
@@ -17,6 +25,9 @@ import { CreateUserLocalBadRequestSchema } from "./service/create/local/schemas/
 import { CreateUserLocalConflictSchema } from "./service/create/local/schemas/conflict.schema";
 import { CreateUserLocalInputSchema } from "./service/create/local/schemas/input.schema";
 import { CreateUserLocalOutputSchema } from "./service/create/local/schemas/output.schema";
+import { FindUserBadRequestSchema } from "./service/find/schemas/bad-request.schema";
+import { FindUserNotFoundSchema } from "./service/find/schemas/not-found.schema";
+import { FindUserOutputSchema } from "./service/find/schemas/output.schema";
 import { LoginLocalBadRequestSchema } from "./service/login/local/schemas/bad-request.schema";
 import { LoginLocalForbiddenSchema } from "./service/login/local/schemas/forbidden.schema";
 import { LoginLocalInputSchema } from "./service/login/local/schemas/input.schema";
@@ -85,6 +96,27 @@ export class UserController {
 	public regenPin(@Param("userId") userId: string) {
 		return this.UserService.regenPin({
 			userId,
+		});
+	}
+
+	@Get("/:identifier")
+	@ApiParam({
+		name: "identifier",
+		description: "User identifier (id, username, email, phone number)",
+		example: v4(),
+	})
+	@ApiOkResponse({
+		type: FindUserOutputSchema,
+	})
+	@ApiBadRequestResponse({
+		type: FindUserBadRequestSchema,
+	})
+	@ApiNotFoundResponse({
+		type: FindUserNotFoundSchema,
+	})
+	public find(@Param("identifier") identifier: string) {
+		return this.UserService.find({
+			identifier,
 		});
 	}
 }

@@ -1,4 +1,5 @@
 import { LoginLocalParams } from "v1/api/user/service/login/local";
+
 import { validate } from "v1/api/user/service/login/local/validate";
 
 import { InvalidParamsErrorMessage } from "v1/utils/yup";
