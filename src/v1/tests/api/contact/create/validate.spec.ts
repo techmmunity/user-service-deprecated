@@ -1,5 +1,6 @@
 import { v4 } from "uuid";
 import { CreateParams } from "v1/api/contact/service/create";
+
 import { validate } from "v1/api/contact/service/create/validate";
 
 import { InvalidParamsErrorMessage } from "v1/utils/yup";
@@ -332,7 +333,7 @@ describe("ContactService > create > validate", () => {
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: ["value must be a valid email or phone number"],
+			errors: ["contacts[0].value must be a valid email or phone number"],
 		});
 	});
 

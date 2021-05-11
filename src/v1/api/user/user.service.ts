@@ -2,6 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Transactional } from "typeorm-transactional-cls-hooked";
 
+import {
+	changePassword,
+	ChangePasswordParams,
+} from "./service/change-password";
 import { createLocal, CreateLocalParams } from "./service/create/local";
 import { find, FindParams } from "./service/find";
 import { loginLocal, LoginLocalParams } from "./service/login/local";
@@ -64,6 +68,17 @@ export class UserService {
 		return find(
 			{
 				ContactRepository: this.ContactRepository,
+				UserRepository: this.UserRepository,
+			},
+			params,
+		);
+	}
+
+	@Transactional()
+	public changePassword(params: ChangePasswordParams) {
+		return changePassword(
+			{
+				ConfirmationTokenRepository: this.ConfirmationTokenRepository,
 				UserRepository: this.UserRepository,
 			},
 			params,

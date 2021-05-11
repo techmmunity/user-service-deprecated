@@ -12,6 +12,7 @@ import {
 	ApiConflictResponse,
 	ApiCreatedResponse,
 	ApiForbiddenResponse,
+	ApiNoContentResponse,
 	ApiNotFoundResponse,
 	ApiOkResponse,
 	ApiParam,
@@ -21,6 +22,10 @@ import { v4 } from "uuid";
 
 import { UserService } from "./user.service";
 
+import { ChangePasswordBadRequestSchema } from "./service/change-password/schemas/bad-request.schema";
+import { ChangePasswordConflictSchema } from "./service/change-password/schemas/conflict.schema";
+import { ChangePasswordInputSchema } from "./service/change-password/schemas/input.schema";
+import { ChangePasswordNotFoundSchema } from "./service/change-password/schemas/not-found.schema";
 import { CreateUserLocalBadRequestSchema } from "./service/create/local/schemas/bad-request.schema";
 import { CreateUserLocalConflictSchema } from "./service/create/local/schemas/conflict.schema";
 import { CreateUserLocalInputSchema } from "./service/create/local/schemas/input.schema";
@@ -118,5 +123,20 @@ export class UserController {
 		return this.UserService.find({
 			identifier,
 		});
+	}
+
+	@Post("/change-password")
+	@ApiNoContentResponse()
+	@ApiBadRequestResponse({
+		type: ChangePasswordBadRequestSchema,
+	})
+	@ApiNotFoundResponse({
+		type: ChangePasswordNotFoundSchema,
+	})
+	@ApiConflictResponse({
+		type: ChangePasswordConflictSchema,
+	})
+	public changePassword(@Body() params: ChangePasswordInputSchema) {
+		return this.UserService.changePassword(params);
 	}
 }

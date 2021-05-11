@@ -4,7 +4,7 @@ export const fullName = (yup: Yup) => {
 	yup.addMethod(yup.string, "fullName", function () {
 		return this.test({
 			name: "fullName",
-			message: "fullName must have at least two words",
+			message: "${path} must have at least two words",
 			test: fullName => {
 				if (!fullName) return true;
 

@@ -20,7 +20,7 @@ export class CreateContactBadRequestSchema {
 				", ",
 			)}`,
 			"contacts[0].type must be a `string` type, but the final value was: `123`.",
-			"value must be a valid email or phone number",
+			"contacts[0].value must be a valid email or phone number",
 			"contacts[0].value must be a `string` type, but the final value was: `123`.",
 			"contacts[0].value must be a `string` type, but the final value was: `123`.",
 			"contacts[0].value must be a valid phone number",
