@@ -35,21 +35,10 @@
 
 	// TypeScript
 	"typescript.updateImportsOnFileMove.enabled": "always",
-	"typescript.tsserver.log": "verbose",
 	"typescript.suggest.autoImports": true,
-	"[typescript]": {
-		"editor.defaultFormatter": "vscode.typescript-language-features"
-	},
 	// JavaScript
 	"javascript.updateImportsOnFileMove.enabled": "always",
 	"javascript.suggest.autoImports": true,
-	"[javascript]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	// JSON
-	"[json]": {
-		"editor.defaultFormatter": "vscode.json-language-features"
-	},
 
 	// =========== Plugins & Extensions General Config ===============
 
@@ -71,7 +60,6 @@
 	"material-icon-theme.folders.associations": {
 		"types": "typescript",
 		"interfaces": "typescript",
-		"redux": "redux-actions",
 		"modules": "generator",
 		"entities": "class",
 		"migrations": "database"
