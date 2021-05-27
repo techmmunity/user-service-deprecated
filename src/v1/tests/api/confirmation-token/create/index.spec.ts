@@ -1,3 +1,4 @@
+import { PgErrorEnum } from "@techmmunity/database-error-handler";
 import { v4 } from "uuid";
 
 import { ConfirmationTokenService } from "v1/api/confirmation-token/confirmation-token.service";
@@ -5,7 +6,6 @@ import { ConfirmationTokenService } from "v1/api/confirmation-token/confirmation
 import { PinUtil } from "v1/utils/pin";
 
 import { ConfirmationTokenTypeEnum } from "core/enums/confirmation-token-type";
-import { DbErrorEnum } from "core/enums/db-error";
 
 import { ConfirmationTokenMock } from "v1/tests/mocks/confirmation-token";
 
@@ -74,9 +74,8 @@ describe("ConfirmationTokenService > create", () => {
 
 	it("should fail user not exists", async () => {
 		ConfirmationTokenMock.repository.save.mockRejectedValue({
-			code: DbErrorEnum.ForeignKeyViolation,
-			detail:
-				'Key (user_id)=(0b36f77b-5f24-40bc-8823-e19cf502292e) is not present in table "users".',
+			code: PgErrorEnum.ForeignKeyViolation,
+			detail: `Key (user_id)=(${userId}) is not present in table "users".`,
 			table: "confirmation_tokens",
 		});
 
@@ -93,15 +92,14 @@ describe("ConfirmationTokenService > create", () => {
 
 		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(1);
 		expect(result.response).toStrictEqual({
-			errors: [`User or contact with id "${userId}" not found`],
+			errors: [`User with id "${userId}" not found`],
 		});
 	});
 
 	it("should fail contact not exists", async () => {
 		ConfirmationTokenMock.repository.save.mockRejectedValue({
-			code: DbErrorEnum.ForeignKeyViolation,
-			detail:
-				'Key (user_id)=(0b36f77b-5f24-40bc-8823-e19cf502292e) is not present in table "users".',
+			code: PgErrorEnum.ForeignKeyViolation,
+			detail: `Key (contact_id)=(${contactId}) is not present in table "users".`,
 			table: "confirmation_tokens",
 		});
 
@@ -118,7 +116,7 @@ describe("ConfirmationTokenService > create", () => {
 
 		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(1);
 		expect(result.response).toStrictEqual({
-			errors: [`User or contact with id "${contactId}" not found`],
+			errors: [`Contact with id "${contactId}" not found`],
 		});
 	});
 });

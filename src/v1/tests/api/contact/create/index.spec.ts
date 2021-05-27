@@ -1,3 +1,4 @@
+import { PgErrorEnum } from "@techmmunity/database-error-handler";
 import { v4 } from "uuid";
 
 import { ContactService } from "v1/api/contact/contact.service";
@@ -6,7 +7,6 @@ import { PinUtil } from "v1/utils/pin";
 
 import { ConfirmationTokenTypeEnum } from "core/enums/confirmation-token-type";
 import { ContactTypeEnum } from "core/enums/contact-type";
-import { DbErrorEnum } from "core/enums/db-error";
 
 import { ConfirmationTokenMock } from "v1/tests/mocks/confirmation-token";
 import { ContactMock } from "v1/tests/mocks/contact";
@@ -102,7 +102,7 @@ describe("ContactService > create", () => {
 
 	it("should fail because duplicated value (email)", async () => {
 		ContactMock.repository.save.mockRejectedValue({
-			code: DbErrorEnum.UniqueViolation,
+			code: PgErrorEnum.UniqueViolation,
 			detail: "Key (value)=(foo@bar.com) already exists.",
 			table: "contacts",
 		});
@@ -132,7 +132,7 @@ describe("ContactService > create", () => {
 
 	it("should fail because duplicated value (brazzilian cellphone)", async () => {
 		ContactMock.repository.save.mockRejectedValue({
-			code: DbErrorEnum.UniqueViolation,
+			code: PgErrorEnum.UniqueViolation,
 			detail: "Key (value)=(19999904610) already exists.",
 			table: "contacts",
 		});
@@ -162,9 +162,8 @@ describe("ContactService > create", () => {
 
 	it("should fail user not exists", async () => {
 		ContactMock.repository.save.mockRejectedValue({
-			code: DbErrorEnum.ForeignKeyViolation,
-			detail:
-				'Key (user_id)=(0b36f77b-5f24-40bc-8823-e19cf502292e) is not present in table "users".',
+			code: PgErrorEnum.ForeignKeyViolation,
+			detail: `Key (user_id)=(${userId}) is not present in table "users".`,
 			table: "contacts",
 		});
 

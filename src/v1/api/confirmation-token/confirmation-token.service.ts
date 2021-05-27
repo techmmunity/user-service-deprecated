@@ -15,9 +15,7 @@ export class ConfirmationTokenService {
 	public constructor(
 		@InjectRepository(ConfirmationTokenEntity)
 		private readonly ConfirmationTokenRepository: ConfirmationTokenRepository,
-	) {
-		//
-	}
+	) {}
 
 	@Transactional()
 	public create(params: CreateParams) {

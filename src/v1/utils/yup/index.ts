@@ -8,17 +8,23 @@
 
 import * as yup from "yup";
 
+import { afterNow } from "./number/after-now";
+import { uniqueValues } from "./object/unique-values";
 import { emailOrPhone } from "./string/email-or-phone";
 import { fullName } from "./string/full-name";
 import { identifier } from "./string/identifier";
+import { isDiscordSnowflake } from "./string/is-discord-snowflake";
 import { password } from "./string/password";
 import { username } from "./string/username";
 
 export type Yup = typeof yup;
 
+afterNow(yup);
+uniqueValues(yup);
 emailOrPhone(yup);
 fullName(yup);
 identifier(yup);
+isDiscordSnowflake(yup);
 password(yup);
 username(yup);
 

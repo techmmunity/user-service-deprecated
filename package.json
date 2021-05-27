@@ -1,5 +1,5 @@
 {
-	"name": "user",
+	"name": "user-service",
 	"version": "0.0.1",
 	"description": "",
 	"author": "Techmmunity",
@@ -12,7 +12,8 @@
 		"@nestjs/swagger": "^4.8.0",
 		"@nestjs/terminus": "^7.1.2",
 		"@nestjs/typeorm": "^7.1.5",
-		"@techmmunity/easy-check": "^2.4.1",
+		"@techmmunity/database-error-handler": "0.0.5",
+		"@techmmunity/easy-check": "^3.2.0",
 		"bcrypt": "^5.0.1",
 		"moment": "^2.29.1",
 		"node-fetch": "^2.6.1",
@@ -55,12 +56,6 @@
 		"ts-node": "^9.0.0",
 		"tsconfig-paths": "^3.9.0",
 		"typescript": "^4.2.4"
-	},
-	"lint-staged": {
-		"*.{ts,tsx}": [
-			"npx prettier --write src",
-			"eslint src/**/*.ts --fix-dry-run"
-		]
 	},
 	"scripts": {
 		"clear": "rimraf dist && rimraf tsconfig.build.tsbuildinfo && rimraf tsconfig.tsbuildinfo",

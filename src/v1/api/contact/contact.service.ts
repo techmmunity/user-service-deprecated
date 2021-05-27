@@ -17,9 +17,7 @@ export class ContactService {
 		private readonly ConfirmationTokenRepository: ConfirmationTokenRepository,
 		@InjectRepository(ContactEntity)
 		private readonly ContactRepository: ContactRepository,
-	) {
-		//
-	}
+	) {}
 
 	@Transactional()
 	public create(params: CreateParams) {

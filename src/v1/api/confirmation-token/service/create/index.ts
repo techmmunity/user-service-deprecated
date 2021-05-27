@@ -1,3 +1,4 @@
+import { HttpCodeEnum, PgErrorEnum } from "@techmmunity/database-error-handler";
 import { v4 } from "uuid";
 
 import { validate } from "./validate";
@@ -8,7 +9,6 @@ import { DbHandler } from "v1/utils/db-handler";
 import { PinUtil } from "v1/utils/pin";
 
 import { ConfirmationTokenTypeEnum } from "core/enums/confirmation-token-type";
-import { DbErrorEnum } from "core/enums/db-error";
 
 interface Injectables {
 	ConfirmationTokenRepository: ConfirmationTokenRepository;
@@ -37,11 +37,22 @@ export const create = async (
 	}).catch(
 		DbHandler([
 			{
-				error: DbErrorEnum.ForeignKeyViolation,
 				table: "confirmation_tokens",
-				handleWith: "conflict",
-				message: () =>
-					`User or contact with id "${userId || contactId}" not found`,
+				columns: ["user_id"],
+				error: PgErrorEnum.ForeignKeyViolation,
+				responseCode: HttpCodeEnum.Conflict,
+				makeError: ({ user_id }) => ({
+					errors: [`User with id "${user_id}" not found`],
+				}),
+			},
+			{
+				table: "confirmation_tokens",
+				columns: ["contact_id"],
+				error: PgErrorEnum.ForeignKeyViolation,
+				responseCode: HttpCodeEnum.Conflict,
+				makeError: ({ contact_id }) => ({
+					errors: [`Contact with id "${contact_id}" not found`],
+				}),
 			},
 		]),
 	);

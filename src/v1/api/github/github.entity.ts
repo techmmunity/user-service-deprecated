@@ -31,7 +31,7 @@ export class GithubEntity extends BaseEntity {
 		nullable: false,
 		unique: true,
 	})
-	public githubUserId?: string;
+	public githubUserId: string;
 
 	@Column({
 		name: "github_username",
@@ -44,19 +44,19 @@ export class GithubEntity extends BaseEntity {
 		name: "github_access_token",
 		nullable: false,
 	})
-	public githubAccessToken?: string;
+	public githubAccessToken: string;
 
 	@Column({
 		name: "github_refresh_token",
 		nullable: false,
 	})
-	public githubRefreshToken?: string;
+	public githubRefreshToken: string;
 
 	@Column({
 		name: "github_expiration_date",
 		nullable: false,
 	})
-	public githubExpirationDate?: Date;
+	public githubExpirationDate: Date;
 
 	@CreateDateColumn({
 		name: "created_at",
