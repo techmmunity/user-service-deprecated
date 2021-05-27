@@ -22,9 +22,7 @@ import { ApiConfig } from "v1/config";
 export class ConfirmationTokenController {
 	public constructor(
 		private readonly ConfirmationTokenService: ConfirmationTokenService,
-	) {
-		//
-	}
+	) {}
 
 	@Post()
 	@ApiCreatedResponse({

@@ -10,6 +10,7 @@ import {
 	PrimaryColumn,
 	OneToOne,
 	JoinColumn,
+	Unique,
 } from "typeorm";
 
 import { UserEntity } from "../user/user.entity";
@@ -19,6 +20,7 @@ import { Limits } from "v1/config/limits";
 import { DefaultOmitEntityFields } from "types/entity";
 
 @Entity("discords")
+@Unique(["discordUserId"])
 export class DiscordEntity extends BaseEntity {
 	@PrimaryColumn({
 		name: "user_id",
@@ -27,36 +29,28 @@ export class DiscordEntity extends BaseEntity {
 
 	@Column({
 		name: "discord_user_id",
-		length: Limits.ids.random.length,
-		nullable: false,
-		unique: true,
-	})
-	public discordUserId?: string;
-
-	@Column({
-		name: "discord_username",
-		length: Limits.discord.username.max,
+		length: Limits.ids.discordSnowflake.length,
 		nullable: false,
 	})
-	public discordUsername: string;
+	public discordUserId: string;
 
 	@Column({
 		name: "discord_access_token",
 		nullable: false,
 	})
-	public discordAccessToken?: string;
+	public discordAccessToken: string;
 
 	@Column({
 		name: "discord_refresh_token",
 		nullable: false,
 	})
-	public discordRefreshToken?: string;
+	public discordRefreshToken: string;
 
 	@Column({
 		name: "discord_expiration_date",
 		nullable: false,
 	})
-	public discordExpirationDate?: Date;
+	public discordExpirationDate: Date;
 
 	@CreateDateColumn({
 		name: "created_at",
@@ -70,7 +64,7 @@ export class DiscordEntity extends BaseEntity {
 	})
 	public updatedAt: Date;
 
-	@OneToOne(() => UserEntity, user => user.github, {
+	@OneToOne(() => UserEntity, user => user.discord, {
 		primary: true,
 	})
 	@JoinColumn({

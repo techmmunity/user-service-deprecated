@@ -7,6 +7,4 @@ import { PostgresConnect } from "v1/config/postgres";
 @Module({
 	imports: [PostgresConnect, ...Api],
 })
-export class V1Module {
-	//
-}
+export class V1Module {}

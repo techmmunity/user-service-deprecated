@@ -1,4 +1,4 @@
-import { check } from "@techmmunity/easy-check";
+import { isEmail, isBrazillianPhone } from "@techmmunity/easy-check";
 
 import { CreateParams } from ".";
 
@@ -26,14 +26,14 @@ const validateIfTypesAndValuesMatch = (contacts: CreateParams["contacts"]) =>
 	contacts.forEach((contact, index) => {
 		switch (contact.type) {
 			case ContactTypeEnum.EMAIL:
-				if (!check.isEmail(contact.value)) {
+				if (!isEmail(contact.value)) {
 					ErrorUtil.badRequest([
 						`contacts[${index}].value must be a valid email`,
 					]);
 				}
 				break;
 			case ContactTypeEnum.PHONE_NUMBER:
-				if (!check.isBrazillianPhone(contact.value)) {
+				if (!isBrazillianPhone(contact.value)) {
 					ErrorUtil.badRequest([
 						`contacts[${index}].value must be a valid phone number`,
 					]);

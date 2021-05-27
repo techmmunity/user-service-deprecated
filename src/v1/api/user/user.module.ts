@@ -21,6 +21,4 @@ import { UserEntity } from "v1/api/user/user.entity";
 	controllers: [UserController],
 	exports: [UserService],
 })
-export class UserModule {
-	//
-}
+export class UserModule {}

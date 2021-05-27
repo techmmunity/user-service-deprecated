@@ -1,4 +1,5 @@
-import { check } from "@techmmunity/easy-check";
+import { HttpCodeEnum, PgErrorEnum } from "@techmmunity/database-error-handler";
+import { isEmail, isBrazillianPhone } from "@techmmunity/easy-check";
 import { v4 } from "uuid";
 
 import { validate } from "./validate";
@@ -11,7 +12,6 @@ import { PinUtil } from "v1/utils/pin";
 
 import { ConfirmationTokenTypeEnum } from "core/enums/confirmation-token-type";
 import { ContactTypeEnum } from "core/enums/contact-type";
-import { DbErrorEnum } from "core/enums/db-error";
 
 interface Injectables {
 	ConfirmationTokenRepository: ConfirmationTokenRepository;
@@ -36,34 +36,41 @@ export const create = async (
 
 	const contacts = await ContactRepository.save(
 		contactsToCreate.map(({ type, value }) => ({
+			id: v4(),
 			userId,
 			type,
 			value,
-			id: v4(),
 		})),
 	).catch(
 		DbHandler([
 			{
-				error: DbErrorEnum.ForeignKeyViolation,
 				table: "contacts",
-				handleWith: "conflict",
-				message: () => `User with id "${userId}" not found`,
+				columns: ["user_id"],
+				error: PgErrorEnum.ForeignKeyViolation,
+				responseCode: HttpCodeEnum.Conflict,
+				makeError: ({ user_id }) => ({
+					errors: [`User with id "${user_id}" not found`],
+				}),
 			},
 			{
-				error: DbErrorEnum.UniqueViolation,
 				table: "contacts",
-				column: "value",
-				handleWith: "conflict",
-				validate: check.isEmail,
-				message: email => `Email "${email}" is already linked to an user`,
+				columns: ["value"],
+				error: PgErrorEnum.UniqueViolation,
+				responseCode: HttpCodeEnum.Conflict,
+				validate: ({ value }) => isEmail(value),
+				makeError: ({ value }) => ({
+					errors: [`Email "${value}" is already linked to an user`],
+				}),
 			},
 			{
-				error: DbErrorEnum.UniqueViolation,
 				table: "contacts",
-				column: "value",
-				handleWith: "conflict",
-				validate: check.isBrazillianPhone,
-				message: phone => `Phone "${phone}" is already linked to an user`,
+				columns: ["value"],
+				error: PgErrorEnum.UniqueViolation,
+				responseCode: HttpCodeEnum.Conflict,
+				validate: ({ value }) => isBrazillianPhone(value),
+				makeError: ({ value }) => ({
+					errors: [`Phone "${value}" is already linked to an user`],
+				}),
 			},
 		]),
 	);

@@ -1,10 +1,10 @@
-import { check } from "@techmmunity/easy-check";
+import { HttpCodeEnum, PgErrorEnum } from "@techmmunity/database-error-handler";
+import { isEmail } from "@techmmunity/easy-check";
 import { v4 } from "uuid";
 
 import { validate } from "./validate";
 
 import { ConfirmationTokenRepository } from "v1/api/confirmation-token/confirmation-token.entity";
-import { ContactRepository } from "v1/api/contact/contact.entity";
 import { UserType, UserRepository } from "v1/api/user/user.entity";
 
 import { DbHandler } from "v1/utils/db-handler";
@@ -13,7 +13,6 @@ import { PinUtil } from "v1/utils/pin";
 
 import { ConfirmationTokenTypeEnum } from "core/enums/confirmation-token-type";
 import { ContactTypeEnum } from "core/enums/contact-type";
-import { DbErrorEnum } from "core/enums/db-error";
 
 export interface CreateLocalParams {
 	email: string;
@@ -23,7 +22,6 @@ export interface CreateLocalParams {
 
 export interface Injectables {
 	UserRepository: UserRepository;
-	ContactRepository: ContactRepository;
 	ConfirmationTokenRepository: ConfirmationTokenRepository;
 }
 
@@ -38,47 +36,49 @@ export const formatData = ({
 });
 
 export const createLocal = async (
-	{
-		UserRepository,
-		ContactRepository,
-		ConfirmationTokenRepository,
-	}: Injectables,
+	{ UserRepository, ConfirmationTokenRepository }: Injectables,
 	params: CreateLocalParams,
 ) => {
 	await validate(params);
 
 	const userData = formatData(params);
 
-	const user = await UserRepository.save(userData).catch(
+	const user = await UserRepository.save({
+		...userData,
+		contacts: [
+			{
+				id: v4(),
+				userId: userData.id,
+				type: ContactTypeEnum.EMAIL,
+				value: params.email,
+				primary: true,
+			},
+		],
+	}).catch(
 		DbHandler([
 			{
-				error: DbErrorEnum.UniqueViolation,
+				error: PgErrorEnum.UniqueViolation,
 				table: "users",
-				column: "username",
-				handleWith: "conflict",
-				message: username => `User with username "${username}" already exists`,
+				columns: ["username"],
+				responseCode: HttpCodeEnum.Conflict,
+				makeError: ({ username }) => ({
+					errors: [`User with username "${username}" already exists`],
+				}),
+			},
+			{
+				error: PgErrorEnum.UniqueViolation,
+				table: "contacts",
+				columns: ["value"],
+				responseCode: HttpCodeEnum.Conflict,
+				validate: ({ value }) => isEmail(value),
+				makeError: ({ value }) => ({
+					errors: [`Email "${value}" is already linked to an user`],
+				}),
 			},
 		]),
 	);
 
-	const contact = await ContactRepository.save({
-		id: v4(),
-		userId: userData.id,
-		type: ContactTypeEnum.EMAIL,
-		value: params.email,
-		primary: true,
-	}).catch(
-		DbHandler([
-			{
-				error: DbErrorEnum.UniqueViolation,
-				table: "contacts",
-				column: "value",
-				handleWith: "conflict",
-				validate: check.isEmail,
-				message: email => `Email "${email}" is already linked to an user`,
-			},
-		]),
-	);
+	const contact = user.contacts.shift();
 
 	const confirmationToken = await ConfirmationTokenRepository.save({
 		id: v4(),
@@ -88,6 +88,8 @@ export const createLocal = async (
 	});
 
 	return {
+		username: user.username,
+		email: contact.value,
 		userId: user.id,
 		contactId: contact.id,
 		verificationCode: confirmationToken.token,

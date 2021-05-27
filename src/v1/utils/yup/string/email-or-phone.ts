@@ -1,4 +1,4 @@
-import { check } from "@techmmunity/easy-check";
+import { isEmail, isBrazillianPhone } from "@techmmunity/easy-check";
 
 import { Yup } from "..";
 
@@ -7,12 +7,9 @@ export const emailOrPhone = (yup: Yup) => {
 		return this.test({
 			name: "emailOrPhone",
 			message: "${path} must be a valid email or phone number",
-			test: emailOrPhone => {
-				const isPhone = check.isBrazillianPhone(emailOrPhone as string);
-				const isEmail = check.isEmail(emailOrPhone as string);
-
-				return isPhone || isEmail;
-			},
+			test: emailOrPhone =>
+				isBrazillianPhone(emailOrPhone as string) ||
+				isEmail(emailOrPhone as string),
 		});
 	});
 };

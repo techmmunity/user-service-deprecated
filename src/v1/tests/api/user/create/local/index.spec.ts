@@ -1,10 +1,10 @@
+import { PgErrorEnum } from "@techmmunity/database-error-handler";
 import { v4 } from "uuid";
 
 import { UserService } from "v1/api/user/user.service";
 
 import { ConfirmationTokenTypeEnum } from "core/enums/confirmation-token-type";
 import { ContactTypeEnum } from "core/enums/contact-type";
-import { DbErrorEnum } from "core/enums/db-error";
 
 import { ConfirmationTokenMock } from "v1/tests/mocks/confirmation-token";
 import { ContactMock } from "v1/tests/mocks/contact";
@@ -39,8 +39,10 @@ describe("UserService > create > local", () => {
 			type: ConfirmationTokenTypeEnum.VERIFY_CONTACT,
 		});
 
-		UserMock.repository.save.mockResolvedValue(userDoc);
-		ContactMock.repository.save.mockResolvedValue(contactDoc);
+		UserMock.repository.save.mockResolvedValue({
+			...userDoc,
+			contacts: [contactDoc],
+		});
 		ConfirmationTokenMock.repository.save.mockResolvedValue(
 			confirmationTokenDoc,
 		);
@@ -58,18 +60,19 @@ describe("UserService > create > local", () => {
 		}
 
 		expect(UserMock.repository.save).toBeCalledTimes(1);
-		expect(ContactMock.repository.save).toBeCalledTimes(1);
 		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(1);
 		expect(result).toStrictEqual({
 			userId,
 			contactId: contactDoc.id,
 			verificationCode: confirmationTokenDoc.token,
+			email: "foo@bar.com",
+			username: "example",
 		});
 	});
 
 	it("should fail because duplicated username", async () => {
 		UserMock.repository.save.mockRejectedValue({
-			code: DbErrorEnum.UniqueViolation,
+			code: PgErrorEnum.UniqueViolation,
 			detail: "Key (username)=(example) already exists.",
 			table: "users",
 		});
@@ -87,7 +90,6 @@ describe("UserService > create > local", () => {
 		}
 
 		expect(UserMock.repository.save).toBeCalledTimes(1);
-		expect(ContactMock.repository.save).toBeCalledTimes(0);
 		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(0);
 		expect(result.response).toStrictEqual({
 			errors: ['User with username "example" already exists'],
@@ -95,15 +97,8 @@ describe("UserService > create > local", () => {
 	});
 
 	it("should fail because duplicated email", async () => {
-		const userDoc = UserMock.doc({
-			id: userId,
-			username: "example",
-		});
-
-		UserMock.repository.save.mockResolvedValue(userDoc);
-
-		ContactMock.repository.save.mockRejectedValue({
-			code: DbErrorEnum.UniqueViolation,
+		UserMock.repository.save.mockRejectedValue({
+			code: PgErrorEnum.UniqueViolation,
 			detail: "Key (value)=(foo@bar.com) already exists.",
 			table: "contacts",
 		});
@@ -121,7 +116,6 @@ describe("UserService > create > local", () => {
 		}
 
 		expect(UserMock.repository.save).toBeCalledTimes(1);
-		expect(ContactMock.repository.save).toBeCalledTimes(1);
 		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(0);
 		expect(result.response).toStrictEqual({
 			errors: ['Email "foo@bar.com" is already linked to an user'],
