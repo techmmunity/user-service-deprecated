@@ -1,4 +1,4 @@
-import { check } from "@techmmunity/easy-check";
+import { isSimpleUsername } from "@techmmunity/easy-check";
 
 import { Yup } from "..";
 
@@ -7,7 +7,7 @@ export const username = (yup: Yup) => {
 		return this.test({
 			name: "username",
 			message: "${path} must be a valid username",
-			test: username => (username ? check.isSimpleUsername(username) : true),
+			test: username => (username ? isSimpleUsername(username) : true),
 		});
 	});
 };

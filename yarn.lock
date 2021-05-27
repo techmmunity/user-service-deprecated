@@ -721,10 +721,15 @@
   resolved "https://registry.yarnpkg.com/@sqltools/formatter/-/formatter-1.2.3.tgz#1185726610acc37317ddab11c3c7f9066966bd20"
   integrity sha512-O3uyB/JbkAEMZaP3YqyHH7TMnex7tWyCbCI4EfJdOCoN6HIhqdJBWTM6aCCiWQ/5f5wxjgU735QAIpJbjDvmzg==
 
-"@techmmunity/easy-check@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@techmmunity/easy-check/-/easy-check-2.4.1.tgz#f45e4bd9982f75bf2a399768f5624e21c1d330ed"
-  integrity sha512-4PYPosY9J3bkSLxgdZh/eSdWMCGtWN6Gr8XrDaIhS9taFKIANvEeuZVO8YAZWbCjqTDO8KaQD2sgrauM/VGWpQ==
+"@techmmunity/database-error-handler@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@techmmunity/database-error-handler/-/database-error-handler-0.0.5.tgz#bddf45ad65e88d15c27d245ce4efd75616ed4293"
+  integrity sha512-FEumaHRdyG0tzZcZZ9y5xDvm51ceBnfZaPyBymij4aPQja5pB0GPOE0huA+DMSBU8RRRJG/7cdYY/3Vnv9/f7A==
+
+"@techmmunity/easy-check@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@techmmunity/easy-check/-/easy-check-3.2.0.tgz#ef39df09fd0de4c58c428922cf1032b2118872e9"
+  integrity sha512-rMlaqER+emZ8+G40whMZNQqXChDy9nahlRvCsFOyv6Fq1RFlocDGxzllZPVRhDA8dwkLTRN1ZqmOxjVT3ZjR0Q==
 
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.7":
   version "7.1.12"

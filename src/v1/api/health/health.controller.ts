@@ -17,9 +17,7 @@ export class HealthController {
 		private readonly health: HealthCheckService,
 		private readonly db: TypeOrmHealthIndicator,
 		private readonly api: ApiHealthIndicator,
-	) {
-		//
-	}
+	) {}
 
 	@Get()
 	@HealthCheck()

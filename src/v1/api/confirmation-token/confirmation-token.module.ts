@@ -12,6 +12,4 @@ import { ConfirmationTokenEntity } from "./confirmation-token.entity";
 	controllers: [ConfirmationTokenController],
 	providers: [ConfirmationTokenService],
 })
-export class ConfirmationTokenModule {
-	//
-}
+export class ConfirmationTokenModule {}

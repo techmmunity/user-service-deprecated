@@ -3,6 +3,9 @@ export const Limits = {
 		uuid: {
 			length: 36,
 		},
+		discordSnowflake: {
+			length: 18,
+		},
 		random: {
 			length: 25,
 		},
@@ -32,11 +35,6 @@ export const Limits = {
 		},
 	},
 	github: {
-		username: {
-			max: 100,
-		},
-	},
-	discord: {
 		username: {
 			max: 100,
 		},

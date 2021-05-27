@@ -10,6 +10,4 @@ import { HealthController } from "./health.controller";
 	controllers: [HealthController],
 	providers: [ApiHealthIndicator],
 })
-export class HealthModule {
-	//
-}
+export class HealthModule {}

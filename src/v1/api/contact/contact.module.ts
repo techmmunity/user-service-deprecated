@@ -13,6 +13,4 @@ import { ContactEntity } from "./contact.entity";
 	controllers: [ContactController],
 	providers: [ContactService],
 })
-export class ContactModule {
-	//
-}
+export class ContactModule {}

@@ -5,6 +5,18 @@ import { PinUtil } from "v1/utils/pin";
 
 export class CreateUserLocalOutputSchema {
 	@ApiProperty({
+		description: "User username",
+		example: "foo_bar",
+	})
+	public username: string;
+
+	@ApiProperty({
+		description: "User email",
+		example: "foo@bar.com",
+	})
+	public email: string;
+
+	@ApiProperty({
 		description: "User ID",
 		example: v4(),
 	})

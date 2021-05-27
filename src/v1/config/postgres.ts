@@ -1,6 +1,7 @@
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 const {
+	NODE_ENV,
 	POSTGRES_HOST,
 	POSTGRES_PASSWORD,
 	POSTGRES_DATABSE,
@@ -14,7 +15,7 @@ export const PostgresConnect = TypeOrmModule.forRoot({
 	database: POSTGRES_DATABSE,
 	password: POSTGRES_PASSWORD,
 	synchronize: false,
-	logging: true,
+	logging: NODE_ENV !== "production",
 	migrationsRun: true,
 	entities: ["dist/v1/api/**/*.entity.js"],
 	migrations: ["dist/v1/migrations/*.js"],
