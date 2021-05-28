@@ -66,6 +66,7 @@ export class DiscordEntity extends BaseEntity {
 
 	@OneToOne(() => UserEntity, user => user.discord, {
 		primary: true,
+		cascade: true,
 	})
 	@JoinColumn({
 		name: "user_id",

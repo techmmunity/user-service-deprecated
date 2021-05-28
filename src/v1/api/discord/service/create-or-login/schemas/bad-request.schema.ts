@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 
 import { InvalidParamsErrorMessage } from "v1/utils/yup";
 
-export class CreateUserDiscordBadRequestSchema {
+export class CreateOrLoginBadRequestSchema {
 	@ApiProperty({
 		description: "Errors",
 		example: [

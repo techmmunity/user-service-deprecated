@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import * as moment from "moment";
 
-export class CreateUserDiscordInputSchema {
+export class CreateOrLoginInputSchema {
 	@ApiProperty({
 		description:
 			"User nickname, for when the suggested user nickname was already being used",
@@ -22,20 +22,14 @@ export class CreateUserDiscordInputSchema {
 	public discordUserId: string;
 
 	@ApiProperty({
-		description: "Discord user username with discriminator",
-		example: "razal#0042",
-	})
-	public discordUsername: string;
-
-	@ApiProperty({
 		description: "Discord user access token",
-		example: "dcbadcbadcbadcbadcba",
+		example: "3bcrVOWjlrzlJWu240yODtJRHcZB1l",
 	})
 	public discordAccessToken: string;
 
 	@ApiProperty({
 		description: "Discord user refresh token",
-		example: "abcdabcdabcdabcdabcd",
+		example: "CZhtkLDpNYXgPH9Ml6shqh2OwykChw",
 	})
 	public discordRefreshToken: string;
 

@@ -26,10 +26,6 @@ import { ChangePasswordConflictSchema } from "./service/change-password/schemas/
 import { ChangePasswordInputSchema } from "./service/change-password/schemas/input.schema";
 import { ChangePasswordNotFoundSchema } from "./service/change-password/schemas/not-found.schema";
 import { ChangePasswordOutputSchema } from "./service/change-password/schemas/output.schema";
-import { CreateUserDiscordBadRequestSchema } from "./service/create/discord/schemas/bad-request.schema";
-import { CreateUserDiscordConflictSchema } from "./service/create/discord/schemas/conflict.schema";
-import { CreateUserDiscordInputSchema } from "./service/create/discord/schemas/input.schema";
-import { CreateUserDiscordOutputSchema } from "./service/create/discord/schemas/output.schema";
 import { CreateUserLocalBadRequestSchema } from "./service/create/local/schemas/bad-request.schema";
 import { CreateUserLocalConflictSchema } from "./service/create/local/schemas/conflict.schema";
 import { CreateUserLocalInputSchema } from "./service/create/local/schemas/input.schema";
@@ -65,20 +61,6 @@ export class UserController {
 	})
 	public createLocal(@Body() data: CreateUserLocalInputSchema) {
 		return this.UserService.createLocal(data);
-	}
-
-	@Post("/create/discord")
-	@ApiCreatedResponse({
-		type: CreateUserDiscordOutputSchema,
-	})
-	@ApiBadRequestResponse({
-		type: CreateUserDiscordBadRequestSchema,
-	})
-	@ApiConflictResponse({
-		type: CreateUserDiscordConflictSchema,
-	})
-	public createDiscord(@Body() data: CreateUserDiscordInputSchema) {
-		return this.UserService.createDiscord(data);
 	}
 
 	@HttpCode(200)

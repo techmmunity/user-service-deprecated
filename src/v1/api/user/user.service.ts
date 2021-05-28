@@ -6,7 +6,6 @@ import {
 	changePassword,
 	ChangePasswordParams,
 } from "./service/change-password";
-import { createDiscord, CreateDiscordParams } from "./service/create/discord";
 import { createLocal, CreateLocalParams } from "./service/create/local";
 import { find, FindParams } from "./service/find";
 import { loginLocal, LoginLocalParams } from "./service/login/local";
@@ -35,16 +34,6 @@ export class UserService {
 		return createLocal(
 			{
 				ConfirmationTokenRepository: this.ConfirmationTokenRepository,
-				UserRepository: this.UserRepository,
-			},
-			params,
-		);
-	}
-
-	@Transactional()
-	public createDiscord(params: CreateDiscordParams) {
-		return createDiscord(
-			{
 				UserRepository: this.UserRepository,
 			},
 			params,
