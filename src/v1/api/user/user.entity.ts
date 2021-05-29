@@ -90,7 +90,6 @@ export class UserEntity extends BaseEntity {
 	public updatedAt: Date;
 
 	@OneToOne(() => DiscordEntity, discord => discord.user, {
-		cascade: true,
 		nullable: true,
 	})
 	public discord?: DiscordEntity;

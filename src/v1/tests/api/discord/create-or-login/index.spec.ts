@@ -2,16 +2,17 @@ import { PgErrorEnum } from "@techmmunity/database-error-handler";
 import * as moment from "moment";
 import { v4 } from "uuid";
 
-import { UserService } from "v1/api/user/user.service";
+import { DiscordService } from "v1/api/discord/discord.service";
 
 import { ContactTypeEnum } from "core/enums/contact-type";
 
+import { ConfirmationTokenMock } from "v1/tests/mocks/confirmation-token";
 import { ContactMock } from "v1/tests/mocks/contact";
 import { DiscordMock } from "v1/tests/mocks/discord";
 import { UserMock } from "v1/tests/mocks/user";
 
-describe("UserService > create > discord", () => {
-	let service: UserService;
+describe("DiscordService > create-or-login", () => {
+	let service: DiscordService;
 
 	const userId = v4();
 	const username = "foo_bar";
@@ -22,7 +23,7 @@ describe("UserService > create > discord", () => {
 	const discordExpirationDate = moment().add(3, "days");
 
 	beforeAll(async () => {
-		service = await UserMock.service();
+		service = await DiscordMock.service();
 	});
 
 	it("should be defined", () => {
@@ -48,16 +49,20 @@ describe("UserService > create > discord", () => {
 			discordExpirationDate: discordExpirationDate.toDate(),
 		});
 
-		UserMock.repository.save.mockResolvedValue({
-			...userDoc,
-			contacts: [contactDoc],
-			discord: discordDoc,
+		DiscordMock.repository.findOne.mockResolvedValue(undefined);
+
+		DiscordMock.repository.save.mockResolvedValue({
+			...discordDoc,
+			user: {
+				...userDoc,
+				contacts: [contactDoc],
+			},
 		});
 
 		let result;
 
 		try {
-			result = await service.createDiscord({
+			result = await service.createOrLogin({
 				username,
 				email,
 				discordUserId,
@@ -69,7 +74,59 @@ describe("UserService > create > discord", () => {
 			result = e;
 		}
 
-		expect(UserMock.repository.save).toBeCalledTimes(1);
+		expect(DiscordMock.repository.findOne).toBeCalledTimes(1);
+		expect(DiscordMock.repository.save).toBeCalledTimes(1);
+		expect(DiscordMock.repository.update).toBeCalledTimes(0);
+		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(1);
+		expect(result).toHaveProperty("userId");
+		expect(result).toHaveProperty("pin");
+		expect(result.userId).toBe(userId);
+		expect(typeof result.pin).toBe("string");
+		expect(result.pin.length).toBe(4);
+		expect(/^\d+$/.test(result.pin)).toBeTruthy();
+	});
+
+	it("should login user with valid params", async () => {
+		const userDoc = UserMock.doc({
+			id: userId,
+			username,
+		});
+		const discordDoc = DiscordMock.doc({
+			userId,
+			discordUserId,
+			discordAccessToken,
+			discordRefreshToken,
+			discordExpirationDate: discordExpirationDate.toDate(),
+		});
+
+		const save = jest.fn();
+
+		DiscordMock.repository.findOne.mockResolvedValue({
+			...discordDoc,
+			user: userDoc,
+			save,
+		});
+
+		let result;
+
+		try {
+			result = await service.createOrLogin({
+				username,
+				email,
+				discordUserId,
+				discordAccessToken,
+				discordRefreshToken,
+				discordExpirationDateMillis: discordExpirationDate.valueOf(),
+			});
+		} catch (e) {
+			result = e;
+		}
+
+		expect(DiscordMock.repository.findOne).toBeCalledTimes(1);
+		expect(DiscordMock.repository.save).toBeCalledTimes(0);
+		expect(DiscordMock.repository.update).toBeCalledTimes(0);
+		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(0);
+		expect(save).toBeCalledTimes(1);
 		expect(result).toHaveProperty("userId");
 		expect(result).toHaveProperty("pin");
 		expect(result.userId).toBe(userId);
@@ -79,7 +136,7 @@ describe("UserService > create > discord", () => {
 	});
 
 	it("should fail because duplicated username", async () => {
-		UserMock.repository.save.mockRejectedValue({
+		DiscordMock.repository.save.mockRejectedValue({
 			code: PgErrorEnum.UniqueViolation,
 			detail: `Key (username)=(${username}) already exists.`,
 			table: "users",
@@ -88,7 +145,7 @@ describe("UserService > create > discord", () => {
 		let result;
 
 		try {
-			result = await service.createDiscord({
+			result = await service.createOrLogin({
 				username,
 				email,
 				discordUserId,
@@ -100,14 +157,14 @@ describe("UserService > create > discord", () => {
 			result = e;
 		}
 
-		expect(UserMock.repository.save).toBeCalledTimes(1);
+		expect(DiscordMock.repository.save).toBeCalledTimes(1);
 		expect(result.response).toStrictEqual({
 			errors: [`User with username "${username}" already exists`],
 		});
 	});
 
 	it("should fail because duplicated email", async () => {
-		UserMock.repository.save.mockRejectedValue({
+		DiscordMock.repository.save.mockRejectedValue({
 			code: PgErrorEnum.UniqueViolation,
 			detail: `Key (value)=(${email}) already exists.`,
 			table: "contacts",
@@ -116,7 +173,7 @@ describe("UserService > create > discord", () => {
 		let result;
 
 		try {
-			result = await service.createDiscord({
+			result = await service.createOrLogin({
 				username,
 				email,
 				discordUserId,
@@ -128,14 +185,14 @@ describe("UserService > create > discord", () => {
 			result = e;
 		}
 
-		expect(UserMock.repository.save).toBeCalledTimes(1);
+		expect(DiscordMock.repository.save).toBeCalledTimes(1);
 		expect(result.response).toStrictEqual({
 			errors: [`Email "${email}" is already linked to an user`],
 		});
 	});
 
 	it("should fail because duplicated discordUserId", async () => {
-		UserMock.repository.save.mockRejectedValue({
+		DiscordMock.repository.save.mockRejectedValue({
 			code: PgErrorEnum.UniqueViolation,
 			detail: `Key (discord_user_id)=(${discordUserId}) already exists.`,
 			table: "discords",
@@ -144,7 +201,7 @@ describe("UserService > create > discord", () => {
 		let result;
 
 		try {
-			result = await service.createDiscord({
+			result = await service.createOrLogin({
 				username,
 				email,
 				discordUserId,
@@ -156,7 +213,7 @@ describe("UserService > create > discord", () => {
 			result = e;
 		}
 
-		expect(UserMock.repository.save).toBeCalledTimes(1);
+		expect(DiscordMock.repository.save).toBeCalledTimes(1);
 		expect(result.response).toStrictEqual({
 			errors: [`Discord user with ID "${discordUserId}" is already registred`],
 		});

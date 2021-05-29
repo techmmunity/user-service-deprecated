@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class CreateUserDiscordConflictSchema {
+export class CreateOrLoginConflictSchema {
 	@ApiProperty({
 		description: "Errors",
 		example: [

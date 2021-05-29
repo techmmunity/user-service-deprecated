@@ -1,5 +1,8 @@
-import { CreateDiscordParams } from ".";
-import { email, username } from "../fields-validation";
+import { CreateOrLoginParams } from ".";
+import {
+	email,
+	username,
+} from "../../../user/service/create/fields-validation";
 
 import { ErrorUtil } from "v1/utils/error";
 import { yup } from "v1/utils/yup";
@@ -19,5 +22,5 @@ const schema = yup
 	})
 	.uniqueValues(["discordAccessToken", "discordRefreshToken"]);
 
-export const validate = async (params: CreateDiscordParams) =>
+export const validate = async (params: CreateOrLoginParams) =>
 	schema.validate(params).catch(err => ErrorUtil.badRequest(err.errors));

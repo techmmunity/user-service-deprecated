@@ -1,7 +1,7 @@
 import * as moment from "moment";
-import { CreateDiscordParams } from "v1/api/user/service/create/discord";
+import { CreateOrLoginParams } from "v1/api/discord/service/create-or-login";
 
-import { validate } from "v1/api/user/service/create/discord/validate";
+import { validate } from "v1/api/discord/service/create-or-login/validate";
 
 import { InvalidParamsErrorMessage } from "v1/utils/yup";
 
@@ -36,7 +36,7 @@ describe("UserService > create > discord > validate", () => {
 		let result;
 
 		try {
-			await validate(("" as unknown) as CreateDiscordParams);
+			await validate(("" as unknown) as CreateOrLoginParams);
 		} catch (e) {
 			result = e;
 		}
@@ -57,7 +57,7 @@ describe("UserService > create > discord > validate", () => {
 				discordAccessToken,
 				discordRefreshToken,
 				discordExpirationDateMillis,
-			} as CreateDiscordParams);
+			} as CreateOrLoginParams);
 		} catch (e) {
 			result = e;
 		}
@@ -124,7 +124,7 @@ describe("UserService > create > discord > validate", () => {
 				discordAccessToken,
 				discordRefreshToken,
 				discordExpirationDateMillis,
-			} as CreateDiscordParams);
+			} as CreateOrLoginParams);
 		} catch (e) {
 			result = e;
 		}
@@ -191,7 +191,7 @@ describe("UserService > create > discord > validate", () => {
 				discordAccessToken,
 				discordRefreshToken,
 				discordExpirationDateMillis,
-			} as CreateDiscordParams);
+			} as CreateOrLoginParams);
 		} catch (e) {
 			result = e;
 		}
@@ -258,7 +258,7 @@ describe("UserService > create > discord > validate", () => {
 				discordUserId,
 				discordRefreshToken,
 				discordExpirationDateMillis,
-			} as CreateDiscordParams);
+			} as CreateOrLoginParams);
 		} catch (e) {
 			result = e;
 		}
@@ -303,7 +303,7 @@ describe("UserService > create > discord > validate", () => {
 				discordUserId,
 				discordAccessToken,
 				discordExpirationDateMillis,
-			} as CreateDiscordParams);
+			} as CreateOrLoginParams);
 		} catch (e) {
 			result = e;
 		}
@@ -372,7 +372,7 @@ describe("UserService > create > discord > validate", () => {
 				discordUserId,
 				discordAccessToken,
 				discordRefreshToken,
-			} as CreateDiscordParams);
+			} as CreateOrLoginParams);
 		} catch (e) {
 			result = e;
 		}

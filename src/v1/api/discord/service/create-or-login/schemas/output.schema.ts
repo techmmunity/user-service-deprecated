@@ -3,7 +3,7 @@ import { v4 } from "uuid";
 
 import { PinUtil } from "v1/utils/pin";
 
-export class CreateUserDiscordOutputSchema {
+export class CreateOrLoginOutputSchema {
 	@ApiProperty({
 		description: "User ID",
 		example: v4(),

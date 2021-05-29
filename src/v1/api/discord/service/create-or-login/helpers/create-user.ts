@@ -3,64 +3,53 @@ import { isEmail } from "@techmmunity/easy-check";
 import * as moment from "moment";
 import { v4 } from "uuid";
 
-import { validate } from "./validate";
-
-import { UserRepository } from "v1/api/user/user.entity";
+import { ConfirmationTokenRepository } from "v1/api/confirmation-token/confirmation-token.entity";
+import { DiscordRepository } from "v1/api/discord/discord.entity";
 
 import { DbHandler } from "v1/utils/db-handler";
 import { PinUtil } from "v1/utils/pin";
 
+import { ConfirmationTokenTypeEnum } from "core/enums/confirmation-token-type";
 import { ContactTypeEnum } from "core/enums/contact-type";
 
-interface Injectables {
-	UserRepository: UserRepository;
-}
-
-export interface CreateDiscordParams {
-	username: string;
+interface CreateUserParams {
+	DiscordRepository: DiscordRepository;
+	ConfirmationTokenRepository: ConfirmationTokenRepository;
 	email: string;
+	username: string;
 	discordUserId: string;
 	discordAccessToken: string;
 	discordRefreshToken: string;
 	discordExpirationDateMillis: number;
 }
 
-export const createDiscord = async (
-	{ UserRepository }: Injectables,
-	params: CreateDiscordParams,
-) => {
-	await validate(params);
-
-	const {
-		username,
-		email,
+export const createUser = async ({
+	DiscordRepository,
+	ConfirmationTokenRepository,
+	email,
+	username,
+	discordUserId,
+	discordAccessToken,
+	discordRefreshToken,
+	discordExpirationDateMillis,
+}: CreateUserParams) => {
+	const discordUser = await DiscordRepository.save({
 		discordUserId,
 		discordAccessToken,
 		discordRefreshToken,
-		discordExpirationDateMillis,
-	} = params;
-
-	const userId = v4();
-	const contactId = v4();
-
-	const user = await UserRepository.save({
-		username,
-		id: userId,
-		pin: PinUtil.gen(),
-		contacts: [
-			{
-				id: contactId,
-				type: ContactTypeEnum.EMAIL,
-				value: email,
-				primary: true,
-				userId,
-			},
-		],
-		discord: {
-			discordUserId,
-			discordAccessToken,
-			discordRefreshToken,
-			discordExpirationDate: moment(discordExpirationDateMillis).toDate(),
+		discordExpirationDate: moment(discordExpirationDateMillis).toDate(),
+		user: {
+			username,
+			id: v4(),
+			pin: PinUtil.gen(),
+			contacts: [
+				{
+					id: v4(),
+					type: ContactTypeEnum.EMAIL,
+					value: email,
+					primary: true,
+				},
+			],
 		},
 	}).catch(
 		DbHandler([
@@ -97,8 +86,16 @@ export const createDiscord = async (
 		]),
 	);
 
+	await ConfirmationTokenRepository.save({
+		id: v4(),
+		contactId: discordUser.user.contacts.shift().id,
+		type: ConfirmationTokenTypeEnum.VERIFY_CONTACT,
+		token: "N/A",
+		usedAt: moment().toDate(),
+	});
+
 	return {
-		userId: user.id,
-		pin: user.pin,
+		userId: discordUser.user.id,
+		pin: discordUser.user.pin,
 	};
 };
