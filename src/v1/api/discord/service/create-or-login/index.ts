@@ -7,8 +7,8 @@ import { DiscordRepository } from "../../discord.entity";
 import { ConfirmationTokenRepository } from "v1/api/confirmation-token/confirmation-token.entity";
 
 interface Injectables {
-	DiscordRepository: DiscordRepository;
-	ConfirmationTokenRepository: ConfirmationTokenRepository;
+	discordRepository: DiscordRepository;
+	confirmationTokenRepository: ConfirmationTokenRepository;
 }
 
 export interface CreateOrLoginParams {
@@ -21,7 +21,7 @@ export interface CreateOrLoginParams {
 }
 
 export const createOrLogin = async (
-	{ DiscordRepository, ConfirmationTokenRepository }: Injectables,
+	{ discordRepository, confirmationTokenRepository }: Injectables,
 	params: CreateOrLoginParams,
 ) => {
 	await validate(params);
@@ -35,7 +35,7 @@ export const createOrLogin = async (
 		discordExpirationDateMillis,
 	} = params;
 
-	const userExistant = await DiscordRepository.findOne({
+	const userExistant = await discordRepository.findOne({
 		where: {
 			discordUserId,
 		},
@@ -52,8 +52,8 @@ export const createOrLogin = async (
 	}
 
 	return createUser({
-		DiscordRepository,
-		ConfirmationTokenRepository,
+		discordRepository,
+		confirmationTokenRepository,
 		email,
 		username,
 		discordUserId,

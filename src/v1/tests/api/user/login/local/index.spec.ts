@@ -2,23 +2,23 @@ import { v4 } from "uuid";
 
 import { UserService } from "v1/api/user/user.service";
 
-import { PasswordUtil } from "v1/utils/password";
-import { PinUtil } from "v1/utils/pin";
+import { passwordUtil } from "v1/utils/password";
+import { pinUtil } from "v1/utils/pin";
 
-import { UserMock } from "v1/tests/mocks/user";
+import { userMock } from "v1/tests/mocks/user";
 
 describe("UserService > login > local", () => {
 	let service: UserService;
 
 	const userId = v4();
-	const pin = PinUtil.gen();
+	const pin = pinUtil.gen();
 	const email = "foo@bar.com";
 	const username = "foo_bar";
-	const passwordEncrypted = PasswordUtil.encrypt("54GbrFz%");
+	const passwordEncrypted = passwordUtil.encrypt("54GbrFz%");
 	const passwordDecrypted = "54GbrFz%";
 
 	beforeAll(async () => {
-		service = await UserMock.service();
+		service = await userMock.service();
 	});
 
 	it("should be defined", () => {
@@ -33,14 +33,14 @@ describe("UserService > login > local", () => {
 			verified: true,
 		};
 
-		UserMock.repository.query.mockResolvedValue([userDoc]);
+		userMock.repository.query.mockResolvedValue([userDoc]);
 
 		const result = await service.loginLocal({
 			password: passwordDecrypted,
 			identifier: email,
 		});
 
-		expect(UserMock.repository.query).toBeCalledTimes(1);
+		expect(userMock.repository.query).toBeCalledTimes(1);
 		expect(result).toStrictEqual({
 			userId,
 			pin: userDoc.pin,
@@ -55,14 +55,14 @@ describe("UserService > login > local", () => {
 			verified: true,
 		};
 
-		UserMock.repository.query.mockResolvedValue([userDoc]);
+		userMock.repository.query.mockResolvedValue([userDoc]);
 
 		const result = await service.loginLocal({
 			password: passwordDecrypted,
 			identifier: username,
 		});
 
-		expect(UserMock.repository.query).toBeCalledTimes(1);
+		expect(userMock.repository.query).toBeCalledTimes(1);
 		expect(result).toStrictEqual({
 			userId,
 			pin: userDoc.pin,
@@ -77,7 +77,7 @@ describe("UserService > login > local", () => {
 			verified: false,
 		};
 
-		UserMock.repository.query.mockResolvedValue([userDoc]);
+		userMock.repository.query.mockResolvedValue([userDoc]);
 
 		let result;
 
@@ -90,7 +90,7 @@ describe("UserService > login > local", () => {
 			result = err;
 		}
 
-		expect(UserMock.repository.query).toBeCalledTimes(1);
+		expect(userMock.repository.query).toBeCalledTimes(1);
 		expect(result.status).toBe(403);
 		expect(result.response).toStrictEqual({
 			errors: ["Contact unverified"],
@@ -105,7 +105,7 @@ describe("UserService > login > local", () => {
 			verified: true,
 		};
 
-		UserMock.repository.query.mockResolvedValue([userDoc]);
+		userMock.repository.query.mockResolvedValue([userDoc]);
 
 		let result;
 
@@ -118,7 +118,7 @@ describe("UserService > login > local", () => {
 			result = err;
 		}
 
-		expect(UserMock.repository.query).toBeCalledTimes(1);
+		expect(userMock.repository.query).toBeCalledTimes(1);
 		expect(result.status).toBe(400);
 		expect(result.response).toStrictEqual({
 			errors: ["Invalid username, email or password"],
@@ -126,7 +126,7 @@ describe("UserService > login > local", () => {
 	});
 
 	it("should throw an error if not found user", async () => {
-		UserMock.repository.query.mockResolvedValue([]);
+		userMock.repository.query.mockResolvedValue([]);
 
 		let result;
 
@@ -139,7 +139,7 @@ describe("UserService > login > local", () => {
 			result = err;
 		}
 
-		expect(UserMock.repository.query).toBeCalledTimes(1);
+		expect(userMock.repository.query).toBeCalledTimes(1);
 		expect(result.status).toBe(404);
 		expect(result.response).toStrictEqual({
 			errors: ["User not found"],

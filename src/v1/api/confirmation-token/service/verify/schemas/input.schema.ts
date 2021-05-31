@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { v4 } from "uuid";
 
-import { PinUtil } from "v1/utils/pin";
+import { pinUtil } from "v1/utils/pin";
 
 export class VerifyConfirmationTokenInputSchema {
 	@ApiProperty({
@@ -12,7 +12,7 @@ export class VerifyConfirmationTokenInputSchema {
 
 	@ApiProperty({
 		description: "Verification code",
-		example: PinUtil.gen(6),
+		example: pinUtil.gen(6),
 	})
 	public verificationCode: string;
 }

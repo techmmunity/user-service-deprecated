@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 
-import { ConfirmationTokenMock } from "../confirmation-token";
+import { confirmationTokenMock } from "../confirmation-token";
 import { MockRepository } from "../repository";
 
 import { DiscordService } from "v1/api/discord/discord.service";
@@ -19,7 +19,7 @@ export const service = (mockRepository: MockRepository) => async () => {
 			},
 			{
 				provide: getRepositoryToken(ConfirmationTokenEntity),
-				useValue: ConfirmationTokenMock.repository,
+				useValue: confirmationTokenMock.repository,
 			},
 		],
 	}).compile();

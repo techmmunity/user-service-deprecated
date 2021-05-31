@@ -2,7 +2,7 @@ import { isEmail, isBrazillianPhone } from "@techmmunity/easy-check";
 
 import { CreateParams } from ".";
 
-import { ErrorUtil } from "v1/utils/error";
+import { errorUtil } from "v1/utils/error";
 import { yup } from "v1/utils/yup";
 
 import { ContactTypeEnum, ContactTypeValues } from "core/enums/contact-type";
@@ -22,30 +22,32 @@ const schema = yup.object().shape({
 		),
 });
 
-const validateIfTypesAndValuesMatch = (contacts: CreateParams["contacts"]) =>
+const validateIfTypesAndValuesMatch = (contacts: CreateParams["contacts"]) => {
 	contacts.forEach((contact, index) => {
 		switch (contact.type) {
-			case ContactTypeEnum.EMAIL:
-				if (!isEmail(contact.value)) {
-					ErrorUtil.badRequest([
-						`contacts[${index}].value must be a valid email`,
+			case ContactTypeEnum.PHONE_NUMBER:
+				if (!isBrazillianPhone(contact.value)) {
+					return errorUtil.badRequest([
+						`contacts[${index}].value must be a valid phone number`,
 					]);
 				}
 				break;
-			case ContactTypeEnum.PHONE_NUMBER:
-				if (!isBrazillianPhone(contact.value)) {
-					ErrorUtil.badRequest([
-						`contacts[${index}].value must be a valid phone number`,
+			case ContactTypeEnum.EMAIL:
+			default:
+				if (!isEmail(contact.value)) {
+					return errorUtil.badRequest([
+						`contacts[${index}].value must be a valid email`,
 					]);
 				}
 				break;
 		}
 	});
+};
 
 export const validate = async (params: CreateParams) => {
 	const formattedParams = await schema
 		.validate(params)
-		.catch(err => ErrorUtil.badRequest(err.errors));
+		.catch(err => errorUtil.badRequest(err.errors));
 
 	validateIfTypesAndValuesMatch(params.contacts);
 

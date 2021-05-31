@@ -1,5 +1,5 @@
-import { ErrorUtil } from "v1/utils/error";
-import { PasswordUtil } from "v1/utils/password";
+import { errorUtil } from "v1/utils/error";
+import { passwordUtil } from "v1/utils/password";
 
 interface VerifyPasswordParams {
 	password: string;
@@ -10,9 +10,9 @@ export const verifyPassword = async ({
 	password,
 	passwordHash,
 }: VerifyPasswordParams) => {
-	const isValidPassword = await PasswordUtil.verify(password, passwordHash);
+	const isValidPassword = await passwordUtil.verify(password, passwordHash);
 
 	if (!isValidPassword) {
-		return ErrorUtil.badRequest(["Invalid username, email or password"]);
+		return errorUtil.badRequest(["Invalid username, email or password"]);
 	}
 };

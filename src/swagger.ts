@@ -1,7 +1,7 @@
 import { INestApplication } from "@nestjs/common";
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
 
-export const Swagger = (app: INestApplication) => {
+export const setSwagger = (app: INestApplication) => {
 	const config = new DocumentBuilder()
 		.setTitle("User Service")
 		.setDescription("")

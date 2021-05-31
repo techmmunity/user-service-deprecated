@@ -15,7 +15,7 @@ import {
 
 import { UserEntity } from "../user/user.entity";
 
-import { Limits } from "v1/config/limits";
+import { LIMITS } from "v1/config/limits";
 
 import { DefaultOmitEntityFields } from "types/entity";
 
@@ -29,7 +29,7 @@ export class DiscordEntity extends BaseEntity {
 
 	@Column({
 		name: "discord_user_id",
-		length: Limits.ids.discordSnowflake.length,
+		length: LIMITS.ids.discordSnowflake.length,
 		nullable: false,
 	})
 	public discordUserId: string;

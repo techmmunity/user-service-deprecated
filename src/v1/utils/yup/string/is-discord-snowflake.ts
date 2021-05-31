@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-invalid-this */
+
 import { Yup } from "..";
 
 export const isDiscordSnowflake = (yup: Yup) => {

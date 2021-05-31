@@ -2,7 +2,7 @@ import { LoginLocalParams } from "v1/api/user/service/login/local";
 
 import { validate } from "v1/api/user/service/login/local/validate";
 
-import { InvalidParamsErrorMessage } from "v1/utils/yup";
+import { invalidParamsErrorMessage } from "v1/utils/yup";
 
 describe("UserService > login > local > validate", () => {
 	const email = "foo@bar.com";
@@ -43,14 +43,14 @@ describe("UserService > login > local > validate", () => {
 		let result;
 
 		try {
-			await validate(("" as unknown) as LoginLocalParams);
+			await validate("" as unknown as LoginLocalParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: [InvalidParamsErrorMessage],
+			errors: [invalidParamsErrorMessage],
 		});
 	});
 

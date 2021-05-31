@@ -6,7 +6,7 @@ import { internal } from "./internal";
 import { notFound } from "./not-found";
 import { unauthorized } from "./unauthorized";
 
-export const ErrorUtil = {
+export const errorUtil = {
 	badGateway,
 	badRequest,
 	conflict,

@@ -1,7 +1,7 @@
 import { encrypt } from "./encrypt";
 import { verify } from "./verify";
 
-export const PasswordUtil = {
+export const passwordUtil = {
 	encrypt,
 	verify,
 };

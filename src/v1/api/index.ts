@@ -4,7 +4,7 @@ import { DiscordModule } from "./discord/discord.module";
 import { HealthModule } from "./health/health.module";
 import { UserModule } from "v1/api/user/user.module";
 
-export const Api = [
+export const API = [
 	ConfirmationTokenModule,
 	ContactModule,
 	DiscordModule,

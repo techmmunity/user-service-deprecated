@@ -1,10 +1,10 @@
 import * as moment from "moment";
 
-import { ConfirmationTokenEntity } from "v1/api/confirmation-token/confirmation-token.entity";
+import type { ConfirmationTokenEntity } from "v1/api/confirmation-token/confirmation-token.entity";
 
-import { ErrorUtil } from "v1/utils/error";
+import { errorUtil } from "v1/utils/error";
 
-import { ConfirmationTokenExpiration } from "v1/config/confirmation-token";
+import { CONFIRMATION_TOKEN_EXPIRATION } from "v1/config/confirmation-token";
 
 export const validateExpired = (confirmationToken: ConfirmationTokenEntity) => {
 	const type = confirmationToken.type;
@@ -12,11 +12,11 @@ export const validateExpired = (confirmationToken: ConfirmationTokenEntity) => {
 	const now = moment();
 
 	const expirationDateLimit = moment(confirmationToken.createdAt).add(
-		ConfirmationTokenExpiration[type].amount,
-		ConfirmationTokenExpiration[type].unit,
+		CONFIRMATION_TOKEN_EXPIRATION[type].amount,
+		CONFIRMATION_TOKEN_EXPIRATION[type].unit,
 	);
 
 	if (now.isAfter(expirationDateLimit)) {
-		return ErrorUtil.conflict(["Confirmation token is expired"]);
+		return errorUtil.conflict(["Confirmation token is expired"]);
 	}
 };

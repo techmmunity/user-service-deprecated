@@ -22,26 +22,26 @@ import { LinkedinEntity } from "../linkedin/linkedin.entity";
 
 import { HeadlineEnum, HeadlineValues } from "core/enums/headline";
 
-import { Limits } from "v1/config/limits";
+import { LIMITS } from "v1/config/limits";
 
 import { DefaultOmitEntityFields } from "types/entity";
 
 @Entity("users")
 export class UserEntity extends BaseEntity {
 	@PrimaryColumn({
-		length: Limits.ids.uuid.length,
+		length: LIMITS.ids.uuid.length,
 	})
 	public id: string;
 
 	@Column({
-		length: Limits.user.username.max,
+		length: LIMITS.user.username.max,
 		nullable: false,
 		unique: true,
 	})
 	public username: string;
 
 	@Column({
-		length: Limits.user.pin.length,
+		length: LIMITS.user.pin.length,
 		nullable: false,
 	})
 	public pin: string;
@@ -60,7 +60,7 @@ export class UserEntity extends BaseEntity {
 
 	@Column({
 		name: "full_name",
-		length: Limits.user.fullName.max,
+		length: LIMITS.user.fullName.max,
 		nullable: true,
 	})
 	public fullName?: string;
@@ -72,7 +72,7 @@ export class UserEntity extends BaseEntity {
 	public password?: string;
 
 	@Column({
-		length: Limits.user.avatar.max,
+		length: LIMITS.user.avatar.max,
 		nullable: true,
 	})
 	public avatar?: string;
@@ -130,13 +130,13 @@ export class UserEntity extends BaseEntity {
 export type UserType = Omit<
 	UserEntity,
 	| DefaultOmitEntityFields
-	| "verifyAccount"
+	| "confirmationTokens"
+	| "contacts"
 	| "discord"
 	| "github"
 	| "google"
 	| "linkedin"
-	| "contacts"
-	| "confirmationTokens"
+	| "verifyAccount"
 >;
 
 export type UserRepository = Repository<UserEntity>;

@@ -1,15 +1,15 @@
 export interface MockRepository {
-	find: jest.Mock<any, any>;
-	findOne: jest.Mock<any, any>;
-	findAndCount: jest.Mock<any, any>;
-	findByIds: jest.Mock<any, any>;
-	save: jest.Mock<any, any>;
-	insert: jest.Mock<any, any>;
-	update: jest.Mock<any, any>;
-	query: jest.Mock<any, any>;
-	delete: jest.Mock<any, any>;
-	count: jest.Mock<any, any>;
-	increment: jest.Mock<any, any>;
+	find: jest.Mock;
+	findOne: jest.Mock;
+	findAndCount: jest.Mock;
+	findByIds: jest.Mock;
+	save: jest.Mock;
+	insert: jest.Mock;
+	update: jest.Mock;
+	query: jest.Mock;
+	delete: jest.Mock;
+	count: jest.Mock;
+	increment: jest.Mock;
 }
 
 export const makeMockRepository = (): MockRepository => ({

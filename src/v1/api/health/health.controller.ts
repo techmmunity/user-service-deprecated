@@ -8,10 +8,10 @@ import {
 
 import { ApiHealthIndicator } from "./health.indicator";
 
-import { ApiConfig } from "v1/config";
+import { CONFIG } from "v1/config";
 
 @ApiTags("Health")
-@Controller(`${ApiConfig.version}/health`)
+@Controller(`${CONFIG.version}/health`)
 export class HealthController {
 	public constructor(
 		private readonly health: HealthCheckService,
@@ -24,7 +24,7 @@ export class HealthController {
 	public check() {
 		return this.health.check([
 			() => this.db.pingCheck("database"),
-			() => this.api.pingCheck(`api/${ApiConfig.version}`),
+			() => this.api.pingCheck(`api/${CONFIG.version}`),
 		]);
 	}
 }

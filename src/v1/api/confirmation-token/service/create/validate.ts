@@ -1,6 +1,6 @@
 import { CreateParams } from ".";
 
-import { ErrorUtil } from "v1/utils/error";
+import { errorUtil } from "v1/utils/error";
 import { yup } from "v1/utils/yup";
 
 import { ConfirmationTokenTypeValues } from "core/enums/confirmation-token-type";
@@ -14,15 +14,15 @@ const schema = yup.object().shape({
 export const validate = async (params: CreateParams) => {
 	const result = await schema
 		.validate(params)
-		.catch(err => ErrorUtil.badRequest(err.errors));
+		.catch(err => errorUtil.badRequest(err.errors));
 
 	const { userId, contactId } = params;
 
 	if (!userId && !contactId) {
-		return ErrorUtil.badRequest(["userId or contactId must be provided"]);
+		return errorUtil.badRequest(["userId or contactId must be provided"]);
 	}
 	if (userId && contactId) {
-		return ErrorUtil.badRequest([
+		return errorUtil.badRequest([
 			"Only userId OR contactId should be provided",
 		]);
 	}

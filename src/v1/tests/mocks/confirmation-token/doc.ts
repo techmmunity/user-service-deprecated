@@ -1,6 +1,6 @@
 import { v4 } from "uuid";
 
-import { PinUtil } from "v1/utils/pin";
+import { pinUtil } from "v1/utils/pin";
 
 import { ConfirmationTokenTypeEnum } from "core/enums/confirmation-token-type";
 
@@ -28,6 +28,6 @@ export const doc = ({
 	type,
 	usedAt,
 	id: id || v4(),
-	token: token || PinUtil.gen(6),
+	token: token || pinUtil.gen(6),
 	createdAt: createdAt || new Date(),
 });

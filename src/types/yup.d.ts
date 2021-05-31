@@ -5,16 +5,16 @@ import { AnyObject, Maybe, Optionals } from "yup/lib/types";
 
 declare module "yup" {
 	interface NumberSchema {
-		afterNow(): this;
+		afterNow: () => this;
 	}
 
 	interface StringSchema {
-		emailOrPhone(): this;
-		identifier(): this;
-		username(): this;
-		password(): this;
-		fullName(): this;
-		isDiscordSnowflake(): this;
+		emailOrPhone: () => this;
+		identifier: () => this;
+		username: () => this;
+		password: () => this;
+		fullName: () => this;
+		isDiscordSnowflake: () => this;
 	}
 
 	interface ObjectSchema<
@@ -23,8 +23,8 @@ declare module "yup" {
 		TIn extends Maybe<TypeOfShape<TShape>> = TypeOfShape<TShape>,
 		TOut extends Maybe<AssertsShape<TShape>> =
 			| AssertsShape<TShape>
-			| Optionals<TIn>
+			| Optionals<TIn>,
 	> extends BaseSchema<TIn, TContext, TOut> {
-		uniqueValues(fields: Array<string>): this;
+		uniqueValues: (fields: Array<string>) => this;
 	}
 }

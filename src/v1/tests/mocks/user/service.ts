@@ -1,8 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 
-import { ConfirmationTokenMock } from "../confirmation-token";
-import { ContactMock } from "../contact";
+import { confirmationTokenMock } from "../confirmation-token";
+import { contactMock } from "../contact";
 import { MockRepository } from "../repository";
 
 import { UserService } from "v1/api/user/user.service";
@@ -21,11 +21,11 @@ export const service = (mockRepository: MockRepository) => async () => {
 			},
 			{
 				provide: getRepositoryToken(ContactEntity),
-				useValue: ContactMock.repository,
+				useValue: contactMock.repository,
 			},
 			{
 				provide: getRepositoryToken(ConfirmationTokenEntity),
-				useValue: ConfirmationTokenMock.repository,
+				useValue: confirmationTokenMock.repository,
 			},
 		],
 	}).compile();

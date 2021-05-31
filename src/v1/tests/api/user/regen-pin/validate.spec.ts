@@ -2,7 +2,7 @@ import { v4 } from "uuid";
 import { RegenPinParams } from "v1/api/user/service/regen-pin";
 import { validate } from "v1/api/user/service/regen-pin/validate";
 
-import { InvalidParamsErrorMessage } from "v1/utils/yup";
+import { invalidParamsErrorMessage } from "v1/utils/yup";
 
 describe("UserService > regen-pin > validate", () => {
 	const userId = v4();
@@ -25,14 +25,14 @@ describe("UserService > regen-pin > validate", () => {
 		let result;
 
 		try {
-			await validate(("" as unknown) as RegenPinParams);
+			await validate("" as unknown as RegenPinParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: [InvalidParamsErrorMessage],
+			errors: [invalidParamsErrorMessage],
 		});
 	});
 

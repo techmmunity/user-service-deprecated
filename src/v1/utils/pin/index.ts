@@ -1,5 +1,5 @@
 import { gen } from "./gen";
 
-export const PinUtil = {
+export const pinUtil = {
 	gen,
 };

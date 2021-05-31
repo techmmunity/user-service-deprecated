@@ -1,11 +1,18 @@
 import { UserRepository } from "v1/api/user/user.entity";
 
-import { ErrorUtil } from "v1/utils/error";
+import { errorUtil } from "v1/utils/error";
 
 import { LoginLocalParams } from "..";
 
 interface GetUserParams extends LoginLocalParams {
-	UserRepository: UserRepository;
+	userRepository: UserRepository;
+}
+
+interface QueryReturn {
+	id: string;
+	pin: string;
+	password: string;
+	verified: boolean;
 }
 
 const getQuery = () => {
@@ -17,16 +24,18 @@ const getQuery = () => {
 };
 
 export const getUser = async ({
-	UserRepository,
+	userRepository,
 	identifier,
 }: GetUserParams) => {
 	const query = getQuery();
 
-	const user = await UserRepository.query(query, [identifier]);
+	const user = (await userRepository.query(query, [
+		identifier,
+	])) as Array<QueryReturn>;
 
 	if (user.length < 1) {
-		return ErrorUtil.notFound(["User not found"]);
+		return errorUtil.notFound(["User not found"]);
 	}
 
-	return user[0];
+	return user.shift();
 };

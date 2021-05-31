@@ -14,17 +14,17 @@ import { DiscordEntity, DiscordRepository } from "./discord.entity";
 export class DiscordService {
 	public constructor(
 		@InjectRepository(DiscordEntity)
-		private readonly DiscordRepository: DiscordRepository,
+		private readonly discordRepository: DiscordRepository,
 		@InjectRepository(ConfirmationTokenEntity)
-		private readonly ConfirmationTokenRepository: ConfirmationTokenRepository,
+		private readonly confirmationTokenRepository: ConfirmationTokenRepository,
 	) {}
 
 	@Transactional()
 	public createOrLogin(params: CreateOrLoginParams) {
 		return createOrLogin(
 			{
-				DiscordRepository: this.DiscordRepository,
-				ConfirmationTokenRepository: this.ConfirmationTokenRepository,
+				discordRepository: this.discordRepository,
+				confirmationTokenRepository: this.confirmationTokenRepository,
 			},
 			params,
 		);

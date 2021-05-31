@@ -9,7 +9,7 @@ import { validate } from "./validate";
 import { ConfirmationTokenRepository } from "v1/api/confirmation-token/confirmation-token.entity";
 
 interface Injectables {
-	ConfirmationTokenRepository: ConfirmationTokenRepository;
+	confirmationTokenRepository: ConfirmationTokenRepository;
 }
 
 export interface VerifyParams {
@@ -18,13 +18,13 @@ export interface VerifyParams {
 }
 
 export const verify = async (
-	{ ConfirmationTokenRepository }: Injectables,
+	{ confirmationTokenRepository }: Injectables,
 	params: VerifyParams,
 ) => {
 	await validate(params);
 
 	const confirmationToken = await getConfirmationToken({
-		ConfirmationTokenRepository,
+		confirmationTokenRepository,
 		...params,
 	});
 
@@ -32,7 +32,7 @@ export const verify = async (
 
 	validateExpired(confirmationToken);
 
-	await ConfirmationTokenRepository.update(confirmationToken.id, {
+	await confirmationTokenRepository.update(confirmationToken.id, {
 		usedAt: moment().toDate(),
 		contact: {
 			verified: true,

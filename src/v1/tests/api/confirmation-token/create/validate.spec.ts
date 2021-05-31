@@ -3,7 +3,7 @@ import { CreateParams } from "v1/api/confirmation-token/service/create";
 
 import { validate } from "v1/api/confirmation-token/service/create/validate";
 
-import { InvalidParamsErrorMessage } from "v1/utils/yup";
+import { invalidParamsErrorMessage } from "v1/utils/yup";
 
 import {
 	ConfirmationTokenTypeEnum,
@@ -48,14 +48,14 @@ describe("ConfirmationTokenService > create > validate", () => {
 		let result;
 
 		try {
-			await validate(("" as unknown) as CreateParams);
+			await validate("" as unknown as CreateParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: [InvalidParamsErrorMessage],
+			errors: [invalidParamsErrorMessage],
 		});
 	});
 

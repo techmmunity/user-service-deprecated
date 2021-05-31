@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-import { InvalidParamsErrorMessage } from "v1/utils/yup";
+import { invalidParamsErrorMessage } from "v1/utils/yup";
 
 import { ContactTypeValues } from "core/enums/contact-type";
 
@@ -8,7 +8,7 @@ export class CreateContactBadRequestSchema {
 	@ApiProperty({
 		description: "Errors",
 		example: [
-			InvalidParamsErrorMessage,
+			invalidParamsErrorMessage,
 			"userId is a required field",
 			"userId must be a valid UUID",
 			"userId must be a `string` type, but the final value was: `123`.",

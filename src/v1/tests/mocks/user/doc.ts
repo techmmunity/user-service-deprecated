@@ -1,5 +1,5 @@
-import { PasswordUtil } from "v1/utils/password";
-import { PinUtil } from "v1/utils/pin";
+import { passwordUtil } from "v1/utils/password";
+import { pinUtil } from "v1/utils/pin";
 
 import { HeadlineEnum } from "core/enums/headline";
 
@@ -36,10 +36,10 @@ export const doc = ({
 	birthday,
 	verifiedAt,
 	fullName,
-	password: password ? PasswordUtil.encrypt(password) : undefined,
+	password: password ? passwordUtil.encrypt(password) : undefined,
 	avatar,
 	youtube,
-	pin: PinUtil.gen(),
+	pin: pinUtil.gen(),
 	createdAt: createdAt || new Date(),
 	updatedAt: updatedAt || new Date(),
 });

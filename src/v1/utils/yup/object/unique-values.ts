@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-invalid-this */
+
 import { Yup } from "..";
 
 export const uniqueValues = (yup: Yup) => {
@@ -10,9 +12,7 @@ export const uniqueValues = (yup: Yup) => {
 			test: object => {
 				const values = fields.map(field => object[field]);
 
-				const uniqueValues = new Set(values);
-
-				return values.length === uniqueValues.size;
+				return values.length === new Set(values).size;
 			},
 		});
 	});

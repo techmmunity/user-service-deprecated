@@ -1,13 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-import { InvalidParamsErrorMessage } from "v1/utils/yup";
+import { invalidParamsErrorMessage } from "v1/utils/yup";
 
 export class LoginLocalBadRequestSchema {
 	@ApiProperty({
 		description: "Errors",
 		example: [
 			"Invalid username, email or password",
-			InvalidParamsErrorMessage,
+			invalidParamsErrorMessage,
 			"identifier is a required field",
 			"identifier must be a valid email or username",
 			"identifier must be a `string` type, but the final value was: `123`.",

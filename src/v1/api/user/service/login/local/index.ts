@@ -5,7 +5,7 @@ import { validate } from "./validate";
 
 import { UserRepository } from "v1/api/user/user.entity";
 
-import { ErrorUtil } from "v1/utils/error";
+import { errorUtil } from "v1/utils/error";
 
 export interface LoginLocalParams {
 	identifier: string;
@@ -13,17 +13,17 @@ export interface LoginLocalParams {
 }
 
 export interface Injectables {
-	UserRepository: UserRepository;
+	userRepository: UserRepository;
 }
 
 export const loginLocal = async (
-	{ UserRepository }: Injectables,
+	{ userRepository }: Injectables,
 	params: LoginLocalParams,
 ) => {
 	await validate(params);
 
 	const user = await getUser({
-		UserRepository,
+		userRepository,
 		...params,
 	});
 
@@ -37,7 +37,7 @@ export const loginLocal = async (
 	 * because of the raw query. USER DOESN'T HAVE A VERIFIED FIELD!
 	 */
 	if (!user.verified) {
-		return ErrorUtil.forbidden(["Contact unverified"]);
+		return errorUtil.forbidden(["Contact unverified"]);
 	}
 
 	return {

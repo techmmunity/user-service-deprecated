@@ -42,12 +42,12 @@ import { RegenPinBadRequestSchema } from "./service/regen-pin/schemas/bad-reques
 import { RegenPinNotFoundSchema } from "./service/regen-pin/schemas/not-found.schema";
 import { RegenPinOutputSchema } from "./service/regen-pin/schemas/output.schema";
 
-import { ApiConfig } from "v1/config";
+import { CONFIG } from "v1/config";
 
 @ApiTags("User")
-@Controller(`${ApiConfig.version}/user`)
+@Controller(`${CONFIG.version}/user`)
 export class UserController {
-	public constructor(private readonly UserService: UserService) {}
+	public constructor(private readonly userService: UserService) {}
 
 	@Post("/create/local")
 	@ApiCreatedResponse({
@@ -60,7 +60,7 @@ export class UserController {
 		type: CreateUserLocalBadRequestSchema,
 	})
 	public createLocal(@Body() data: CreateUserLocalInputSchema) {
-		return this.UserService.createLocal(data);
+		return this.userService.createLocal(data);
 	}
 
 	@HttpCode(200)
@@ -78,7 +78,7 @@ export class UserController {
 		type: LoginLocalNotFoundSchema,
 	})
 	public loginLocal(@Body() data: LoginLocalInputSchema) {
-		return this.UserService.loginLocal(data);
+		return this.userService.loginLocal(data);
 	}
 
 	@Patch("/regen-pin/:userId")
@@ -97,7 +97,7 @@ export class UserController {
 		type: RegenPinNotFoundSchema,
 	})
 	public regenPin(@Param("userId") userId: string) {
-		return this.UserService.regenPin({
+		return this.userService.regenPin({
 			userId,
 		});
 	}
@@ -118,7 +118,7 @@ export class UserController {
 		type: FindUserNotFoundSchema,
 	})
 	public find(@Param("identifier") identifier: string) {
-		return this.UserService.find({
+		return this.userService.find({
 			identifier,
 		});
 	}
@@ -138,6 +138,6 @@ export class UserController {
 		type: ChangePasswordConflictSchema,
 	})
 	public changePassword(@Body() params: ChangePasswordInputSchema) {
-		return this.UserService.changePassword(params);
+		return this.userService.changePassword(params);
 	}
 }

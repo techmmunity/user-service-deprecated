@@ -14,7 +14,7 @@ import {
 
 import { UserEntity } from "../user/user.entity";
 
-import { Limits } from "v1/config/limits";
+import { LIMITS } from "v1/config/limits";
 
 import { DefaultOmitEntityFields } from "types/entity";
 
@@ -27,7 +27,7 @@ export class LinkedinEntity extends BaseEntity {
 
 	@Column({
 		name: "linkedin_user_id",
-		length: Limits.ids.random.length,
+		length: LIMITS.ids.random.length,
 		nullable: false,
 		unique: true,
 	})
@@ -35,7 +35,7 @@ export class LinkedinEntity extends BaseEntity {
 
 	@Column({
 		name: "linkedin_username",
-		length: Limits.linkedin.username.max,
+		length: LIMITS.linkedin.username.max,
 		nullable: false,
 	})
 	public linkedinUsername: string;

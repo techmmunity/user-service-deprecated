@@ -14,17 +14,17 @@ import { ContactEntity, ContactRepository } from "./contact.entity";
 export class ContactService {
 	public constructor(
 		@InjectRepository(ConfirmationTokenEntity)
-		private readonly ConfirmationTokenRepository: ConfirmationTokenRepository,
+		private readonly confirmationTokenRepository: ConfirmationTokenRepository,
 		@InjectRepository(ContactEntity)
-		private readonly ContactRepository: ContactRepository,
+		private readonly contactRepository: ContactRepository,
 	) {}
 
 	@Transactional()
 	public create(params: CreateParams) {
 		return create(
 			{
-				ConfirmationTokenRepository: this.ConfirmationTokenRepository,
-				ContactRepository: this.ContactRepository,
+				confirmationTokenRepository: this.confirmationTokenRepository,
+				contactRepository: this.contactRepository,
 			},
 			params,
 		);

@@ -22,19 +22,19 @@ import { UserEntity, UserRepository } from "v1/api/user/user.entity";
 export class UserService {
 	public constructor(
 		@InjectRepository(ConfirmationTokenEntity)
-		private readonly ConfirmationTokenRepository: ConfirmationTokenRepository,
+		private readonly confirmationTokenRepository: ConfirmationTokenRepository,
 		@InjectRepository(ContactEntity)
-		private readonly ContactRepository: ContactRepository,
+		private readonly contactRepository: ContactRepository,
 		@InjectRepository(UserEntity)
-		private readonly UserRepository: UserRepository,
+		private readonly userRepository: UserRepository,
 	) {}
 
 	@Transactional()
 	public createLocal(params: CreateLocalParams) {
 		return createLocal(
 			{
-				ConfirmationTokenRepository: this.ConfirmationTokenRepository,
-				UserRepository: this.UserRepository,
+				confirmationTokenRepository: this.confirmationTokenRepository,
+				userRepository: this.userRepository,
 			},
 			params,
 		);
@@ -44,7 +44,7 @@ export class UserService {
 	public loginLocal(params: LoginLocalParams) {
 		return loginLocal(
 			{
-				UserRepository: this.UserRepository,
+				userRepository: this.userRepository,
 			},
 			params,
 		);
@@ -54,7 +54,7 @@ export class UserService {
 	public regenPin(params: RegenPinParams) {
 		return regenPin(
 			{
-				UserRepository: this.UserRepository,
+				userRepository: this.userRepository,
 			},
 			params,
 		);
@@ -64,8 +64,8 @@ export class UserService {
 	public find(params: FindParams) {
 		return find(
 			{
-				ContactRepository: this.ContactRepository,
-				UserRepository: this.UserRepository,
+				contactRepository: this.contactRepository,
+				userRepository: this.userRepository,
 			},
 			params,
 		);
@@ -75,8 +75,8 @@ export class UserService {
 	public changePassword(params: ChangePasswordParams) {
 		return changePassword(
 			{
-				ConfirmationTokenRepository: this.ConfirmationTokenRepository,
-				UserRepository: this.UserRepository,
+				confirmationTokenRepository: this.confirmationTokenRepository,
+				userRepository: this.userRepository,
 			},
 			params,
 		);

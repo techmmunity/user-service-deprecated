@@ -19,7 +19,7 @@ import { UserEntity } from "../user/user.entity";
 
 import { ContactTypeEnum, ContactTypeValues } from "core/enums/contact-type";
 
-import { Limits } from "v1/config/limits";
+import { LIMITS } from "v1/config/limits";
 
 import { DefaultOmitEntityFields } from "types/entity";
 
@@ -32,13 +32,13 @@ export class ContactEntity extends BaseEntity {
 	 * an error, but updates the record
 	 */
 	@PrimaryColumn({
-		length: Limits.ids.uuid.length,
+		length: LIMITS.ids.uuid.length,
 	})
 	public id: string;
 
 	@Column({
 		name: "user_id",
-		length: Limits.ids.uuid.length,
+		length: LIMITS.ids.uuid.length,
 		nullable: false,
 	})
 	public userId: string;

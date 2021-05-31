@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-invalid-this */
+
 import { isEmail, isBrazillianPhone } from "@techmmunity/easy-check";
 
 import { Yup } from "..";
@@ -7,9 +9,11 @@ export const emailOrPhone = (yup: Yup) => {
 		return this.test({
 			name: "emailOrPhone",
 			message: "${path} must be a valid email or phone number",
-			test: emailOrPhone =>
-				isBrazillianPhone(emailOrPhone as string) ||
-				isEmail(emailOrPhone as string),
+			test: value => {
+				if (!value) return true;
+
+				return isBrazillianPhone(value as string) || isEmail(value as string);
+			},
 		});
 	});
 };

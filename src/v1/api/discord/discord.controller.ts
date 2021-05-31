@@ -13,12 +13,12 @@ import { CreateOrLoginConflictSchema } from "./service/create-or-login/schemas/c
 import { CreateOrLoginInputSchema } from "./service/create-or-login/schemas/input.schema";
 import { CreateOrLoginOutputSchema } from "./service/create-or-login/schemas/output.schema";
 
-import { ApiConfig } from "v1/config";
+import { CONFIG } from "v1/config";
 
-@ApiTags(`${ApiConfig.version} - Discord`)
-@Controller(`${ApiConfig.version}/discord`)
+@ApiTags(`${CONFIG.version} - Discord`)
+@Controller(`${CONFIG.version}/discord`)
 export class DiscordController {
-	public constructor(private readonly DiscordService: DiscordService) {}
+	public constructor(private readonly discordService: DiscordService) {}
 
 	@Post()
 	@ApiCreatedResponse({
@@ -31,6 +31,6 @@ export class DiscordController {
 		type: CreateOrLoginConflictSchema,
 	})
 	public createOrLogin(@Body() data: CreateOrLoginInputSchema) {
-		return this.DiscordService.createOrLogin(data);
+		return this.discordService.createOrLogin(data);
 	}
 }

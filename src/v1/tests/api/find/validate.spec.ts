@@ -3,7 +3,7 @@ import { FindParams } from "v1/api/user/service/find";
 
 import { validate } from "v1/api/user/service/find/validate";
 
-import { InvalidParamsErrorMessage } from "v1/utils/yup";
+import { invalidParamsErrorMessage } from "v1/utils/yup";
 
 describe("UserService > find > validate", () => {
 	const id = v4();
@@ -71,14 +71,14 @@ describe("UserService > find > validate", () => {
 		let result;
 
 		try {
-			await validate(("" as unknown) as FindParams);
+			await validate("" as unknown as FindParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: [InvalidParamsErrorMessage],
+			errors: [invalidParamsErrorMessage],
 		});
 	});
 

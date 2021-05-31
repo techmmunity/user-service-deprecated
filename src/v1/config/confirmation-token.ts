@@ -9,7 +9,7 @@ type ConfirmationTokenConfigType = {
 	};
 };
 
-export const ConfirmationTokenExpiration: ConfirmationTokenConfigType = {
+export const CONFIRMATION_TOKEN_EXPIRATION: ConfirmationTokenConfigType = {
 	[ConfirmationTokenTypeEnum.VERIFY_CONTACT]: {
 		amount: 3,
 		unit: "hours",

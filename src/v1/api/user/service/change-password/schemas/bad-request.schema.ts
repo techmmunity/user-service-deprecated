@@ -1,13 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-import { InvalidParamsErrorMessage } from "v1/utils/yup";
+import { invalidParamsErrorMessage } from "v1/utils/yup";
 
 export class ChangePasswordBadRequestSchema {
 	@ApiProperty({
 		description: "Errors",
 		example: [
 			"Invalid confirmation token",
-			InvalidParamsErrorMessage,
+			invalidParamsErrorMessage,
 			"confirmationTokenId is a required field",
 			"confirmationTokenId must be a valid UUID",
 			"confirmationTokenId must be a `string` type, but the final value was: `123`.",

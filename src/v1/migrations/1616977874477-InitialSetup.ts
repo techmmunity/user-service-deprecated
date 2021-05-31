@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/quotes */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable filenames/match-regex */
+
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class InitialSetup1616977874477 implements MigrationInterface {

@@ -13,12 +13,12 @@ import { CreateContactConflictSchema } from "./service/create/schemas/conflict.s
 import { CreateContactInputSchema } from "./service/create/schemas/input.schema";
 import { CreateContactOutputSchema } from "./service/create/schemas/output.schema";
 
-import { ApiConfig } from "v1/config";
+import { CONFIG } from "v1/config";
 
 @ApiTags("Contact")
-@Controller(`${ApiConfig.version}/contact`)
+@Controller(`${CONFIG.version}/contact`)
 export class ContactController {
-	public constructor(private readonly ContactService: ContactService) {}
+	public constructor(private readonly contactService: ContactService) {}
 
 	@Post()
 	@ApiCreatedResponse({
@@ -32,6 +32,6 @@ export class ContactController {
 		type: CreateContactConflictSchema,
 	})
 	public create(@Body() data: CreateContactInputSchema) {
-		return this.ContactService.create(data);
+		return this.contactService.create(data);
 	}
 }
