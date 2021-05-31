@@ -3,7 +3,7 @@ import { CreateOrLoginParams } from "v1/api/discord/service/create-or-login";
 
 import { validate } from "v1/api/discord/service/create-or-login/validate";
 
-import { InvalidParamsErrorMessage } from "v1/utils/yup";
+import { invalidParamsErrorMessage } from "v1/utils/yup";
 
 describe("UserService > create > discord > validate", () => {
 	const email = "foo@bar.com";
@@ -36,14 +36,14 @@ describe("UserService > create > discord > validate", () => {
 		let result;
 
 		try {
-			await validate(("" as unknown) as CreateOrLoginParams);
+			await validate("" as unknown as CreateOrLoginParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: [InvalidParamsErrorMessage],
+			errors: [invalidParamsErrorMessage],
 		});
 	});
 
@@ -427,7 +427,7 @@ describe("UserService > create > discord > validate", () => {
 		});
 	});
 
-	it("should throw an error with invalid discordUserId type", async () => {
+	it("should throw an error with invalid discordExpirationDateMillis type", async () => {
 		let result;
 
 		try {

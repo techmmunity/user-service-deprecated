@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-invalid-this */
+
 import { Yup } from "..";
 
 export const fullName = (yup: Yup) => {
@@ -5,10 +7,10 @@ export const fullName = (yup: Yup) => {
 		return this.test({
 			name: "fullName",
 			message: "${path} must have at least two words",
-			test: fullName => {
-				if (!fullName) return true;
+			test: value => {
+				if (!value) return true;
 
-				const splited = fullName.split(" ");
+				const splited = value.split(" ");
 
 				if (splited.length < 2) return false;
 

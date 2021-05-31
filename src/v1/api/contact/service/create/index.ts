@@ -7,15 +7,15 @@ import { validate } from "./validate";
 import { ContactRepository } from "../../contact.entity";
 import { ConfirmationTokenRepository } from "v1/api/confirmation-token/confirmation-token.entity";
 
-import { DbHandler } from "v1/utils/db-handler";
-import { PinUtil } from "v1/utils/pin";
+import { dbHandler } from "v1/utils/db-handler";
+import { pinUtil } from "v1/utils/pin";
 
 import { ConfirmationTokenTypeEnum } from "core/enums/confirmation-token-type";
 import { ContactTypeEnum } from "core/enums/contact-type";
 
 interface Injectables {
-	ConfirmationTokenRepository: ConfirmationTokenRepository;
-	ContactRepository: ContactRepository;
+	confirmationTokenRepository: ConfirmationTokenRepository;
+	contactRepository: ContactRepository;
 }
 
 export interface CreateParams {
@@ -27,59 +27,61 @@ export interface CreateParams {
 }
 
 export const create = async (
-	{ ConfirmationTokenRepository, ContactRepository }: Injectables,
+	{ confirmationTokenRepository, contactRepository }: Injectables,
 	params: CreateParams,
 ) => {
 	await validate(params);
 
 	const { userId, contacts: contactsToCreate } = params;
 
-	const contacts = await ContactRepository.save(
-		contactsToCreate.map(({ type, value }) => ({
-			id: v4(),
-			userId,
-			type,
-			value,
-		})),
-	).catch(
-		DbHandler([
-			{
-				table: "contacts",
-				columns: ["user_id"],
-				error: PgErrorEnum.ForeignKeyViolation,
-				responseCode: HttpCodeEnum.Conflict,
-				makeError: ({ user_id }) => ({
-					errors: [`User with id "${user_id}" not found`],
-				}),
-			},
-			{
-				table: "contacts",
-				columns: ["value"],
-				error: PgErrorEnum.UniqueViolation,
-				responseCode: HttpCodeEnum.Conflict,
-				validate: ({ value }) => isEmail(value),
-				makeError: ({ value }) => ({
-					errors: [`Email "${value}" is already linked to an user`],
-				}),
-			},
-			{
-				table: "contacts",
-				columns: ["value"],
-				error: PgErrorEnum.UniqueViolation,
-				responseCode: HttpCodeEnum.Conflict,
-				validate: ({ value }) => isBrazillianPhone(value),
-				makeError: ({ value }) => ({
-					errors: [`Phone "${value}" is already linked to an user`],
-				}),
-			},
-		]),
-	);
+	const contacts = await contactRepository
+		.save(
+			contactsToCreate.map(({ type, value }) => ({
+				id: v4(),
+				userId,
+				type,
+				value,
+			})),
+		)
+		.catch(
+			dbHandler([
+				{
+					table: "contacts",
+					columns: ["user_id"],
+					error: PgErrorEnum.ForeignKeyViolation,
+					responseCode: HttpCodeEnum.Conflict,
+					makeError: ({ user_id: existantUserId }) => ({
+						errors: [`User with id "${existantUserId}" not found`],
+					}),
+				},
+				{
+					table: "contacts",
+					columns: ["value"],
+					error: PgErrorEnum.UniqueViolation,
+					responseCode: HttpCodeEnum.Conflict,
+					validate: ({ value }) => isEmail(value),
+					makeError: ({ value }) => ({
+						errors: [`Email "${value}" is already linked to an user`],
+					}),
+				},
+				{
+					table: "contacts",
+					columns: ["value"],
+					error: PgErrorEnum.UniqueViolation,
+					responseCode: HttpCodeEnum.Conflict,
+					validate: ({ value }) => isBrazillianPhone(value),
+					makeError: ({ value }) => ({
+						errors: [`Phone "${value}" is already linked to an user`],
+					}),
+				},
+			]),
+		);
 
-	const confirmationTokens = await ConfirmationTokenRepository.save(
+	const confirmationTokens = await confirmationTokenRepository.save(
 		contacts.map(({ id: contactId }) => ({
 			id: v4(),
 			contactId,
-			token: PinUtil.gen(6),
+			token: pinUtil.gen(6),
 			type: ConfirmationTokenTypeEnum.VERIFY_CONTACT,
 		})),
 	);

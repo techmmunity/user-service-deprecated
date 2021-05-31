@@ -5,8 +5,8 @@ import { UserService } from "v1/api/user/user.service";
 
 import { ConfirmationTokenTypeEnum } from "core/enums/confirmation-token-type";
 
-import { ConfirmationTokenMock } from "v1/tests/mocks/confirmation-token";
-import { UserMock } from "v1/tests/mocks/user";
+import { confirmationTokenMock } from "v1/tests/mocks/confirmation-token";
+import { userMock } from "v1/tests/mocks/user";
 
 describe("UserService > changePassword", () => {
 	let service: UserService;
@@ -15,7 +15,7 @@ describe("UserService > changePassword", () => {
 	const newPassword = "t6@CKCR";
 
 	beforeAll(async () => {
-		service = await UserMock.service();
+		service = await userMock.service();
 	});
 
 	it("should be defined", () => {
@@ -23,16 +23,16 @@ describe("UserService > changePassword", () => {
 	});
 
 	it("should update user password with valid params", async () => {
-		const confirmationTokenDoc = ConfirmationTokenMock.doc({
+		const confirmationTokenDoc = confirmationTokenMock.doc({
 			userId: v4(),
 			token: "123456",
 			type: ConfirmationTokenTypeEnum.CHANGE_PASSWORD,
 		});
 
-		ConfirmationTokenMock.repository.findOne.mockResolvedValue(
+		confirmationTokenMock.repository.findOne.mockResolvedValue(
 			confirmationTokenDoc,
 		);
-		UserMock.repository.update.mockResolvedValue({
+		userMock.repository.update.mockResolvedValue({
 			affected: 1,
 		});
 
@@ -47,15 +47,15 @@ describe("UserService > changePassword", () => {
 			result = e;
 		}
 
-		expect(ConfirmationTokenMock.repository.findOne).toBeCalledTimes(1);
-		expect(UserMock.repository.update).toBeCalledTimes(1);
+		expect(confirmationTokenMock.repository.findOne).toBeCalledTimes(1);
+		expect(userMock.repository.update).toBeCalledTimes(1);
 		expect(result).toStrictEqual({
 			userId: confirmationTokenDoc.userId,
 		});
 	});
 
 	it("should throw an error if confirmationToken not found", async () => {
-		ConfirmationTokenMock.repository.findOne.mockResolvedValue(undefined);
+		confirmationTokenMock.repository.findOne.mockResolvedValue(undefined);
 
 		let result;
 
@@ -68,8 +68,8 @@ describe("UserService > changePassword", () => {
 			result = e;
 		}
 
-		expect(ConfirmationTokenMock.repository.findOne).toBeCalledTimes(1);
-		expect(UserMock.repository.update).toBeCalledTimes(0);
+		expect(confirmationTokenMock.repository.findOne).toBeCalledTimes(1);
+		expect(userMock.repository.update).toBeCalledTimes(0);
 		expect(result.status).toBe(404);
 		expect(result.response).toStrictEqual({
 			errors: ["Confirmation token not found"],
@@ -77,13 +77,13 @@ describe("UserService > changePassword", () => {
 	});
 
 	it(`should throw an error if confirmationToken type !== ${ConfirmationTokenTypeEnum.CHANGE_PASSWORD}`, async () => {
-		const confirmationTokenDoc = ConfirmationTokenMock.doc({
+		const confirmationTokenDoc = confirmationTokenMock.doc({
 			userId: v4(),
 			token: "123456",
 			type: ConfirmationTokenTypeEnum.REMOVE_CONTACT,
 		});
 
-		ConfirmationTokenMock.repository.findOne.mockResolvedValue(
+		confirmationTokenMock.repository.findOne.mockResolvedValue(
 			confirmationTokenDoc,
 		);
 
@@ -98,8 +98,8 @@ describe("UserService > changePassword", () => {
 			result = e;
 		}
 
-		expect(ConfirmationTokenMock.repository.findOne).toBeCalledTimes(1);
-		expect(UserMock.repository.update).toBeCalledTimes(0);
+		expect(confirmationTokenMock.repository.findOne).toBeCalledTimes(1);
+		expect(userMock.repository.update).toBeCalledTimes(0);
 		expect(result.status).toBe(400);
 		expect(result.response).toStrictEqual({
 			errors: ["Invalid confirmation token"],
@@ -107,12 +107,12 @@ describe("UserService > changePassword", () => {
 	});
 
 	it("should throw an error if confirmationToken doesn't have an userId", async () => {
-		const confirmationTokenDoc = ConfirmationTokenMock.doc({
+		const confirmationTokenDoc = confirmationTokenMock.doc({
 			token: "123456",
 			type: ConfirmationTokenTypeEnum.CHANGE_PASSWORD,
 		});
 
-		ConfirmationTokenMock.repository.findOne.mockResolvedValue(
+		confirmationTokenMock.repository.findOne.mockResolvedValue(
 			confirmationTokenDoc,
 		);
 
@@ -127,8 +127,8 @@ describe("UserService > changePassword", () => {
 			result = e;
 		}
 
-		expect(ConfirmationTokenMock.repository.findOne).toBeCalledTimes(1);
-		expect(UserMock.repository.update).toBeCalledTimes(0);
+		expect(confirmationTokenMock.repository.findOne).toBeCalledTimes(1);
+		expect(userMock.repository.update).toBeCalledTimes(0);
 		expect(result.status).toBe(400);
 		expect(result.response).toStrictEqual({
 			errors: ["Invalid confirmation token"],
@@ -136,14 +136,14 @@ describe("UserService > changePassword", () => {
 	});
 
 	it("should throw an error if confirmationToken is already used", async () => {
-		const confirmationTokenDoc = ConfirmationTokenMock.doc({
+		const confirmationTokenDoc = confirmationTokenMock.doc({
 			userId: v4(),
 			token: "123456",
 			type: ConfirmationTokenTypeEnum.CHANGE_PASSWORD,
 			usedAt: new Date(),
 		});
 
-		ConfirmationTokenMock.repository.findOne.mockResolvedValue(
+		confirmationTokenMock.repository.findOne.mockResolvedValue(
 			confirmationTokenDoc,
 		);
 
@@ -158,8 +158,8 @@ describe("UserService > changePassword", () => {
 			result = e;
 		}
 
-		expect(ConfirmationTokenMock.repository.findOne).toBeCalledTimes(1);
-		expect(UserMock.repository.update).toBeCalledTimes(0);
+		expect(confirmationTokenMock.repository.findOne).toBeCalledTimes(1);
+		expect(userMock.repository.update).toBeCalledTimes(0);
 		expect(result.status).toBe(409);
 		expect(result.response).toStrictEqual({
 			errors: ["Confirmation token already used"],
@@ -167,14 +167,14 @@ describe("UserService > changePassword", () => {
 	});
 
 	it("should throw an error if confirmationToken is expired", async () => {
-		const confirmationTokenDoc = ConfirmationTokenMock.doc({
+		const confirmationTokenDoc = confirmationTokenMock.doc({
 			userId: v4(),
 			token: "123456",
 			type: ConfirmationTokenTypeEnum.CHANGE_PASSWORD,
 			createdAt: moment().add(-1, "month").toDate(),
 		});
 
-		ConfirmationTokenMock.repository.findOne.mockResolvedValue(
+		confirmationTokenMock.repository.findOne.mockResolvedValue(
 			confirmationTokenDoc,
 		);
 
@@ -189,8 +189,8 @@ describe("UserService > changePassword", () => {
 			result = e;
 		}
 
-		expect(ConfirmationTokenMock.repository.findOne).toBeCalledTimes(1);
-		expect(UserMock.repository.update).toBeCalledTimes(0);
+		expect(confirmationTokenMock.repository.findOne).toBeCalledTimes(1);
+		expect(userMock.repository.update).toBeCalledTimes(0);
 		expect(result.status).toBe(409);
 		expect(result.response).toStrictEqual({
 			errors: ["Confirmation token is expired"],
@@ -198,16 +198,16 @@ describe("UserService > changePassword", () => {
 	});
 
 	it("should throw an error if user not updated", async () => {
-		const confirmationTokenDoc = ConfirmationTokenMock.doc({
+		const confirmationTokenDoc = confirmationTokenMock.doc({
 			userId: v4(),
 			token: "123456",
 			type: ConfirmationTokenTypeEnum.CHANGE_PASSWORD,
 		});
 
-		ConfirmationTokenMock.repository.findOne.mockResolvedValue(
+		confirmationTokenMock.repository.findOne.mockResolvedValue(
 			confirmationTokenDoc,
 		);
-		UserMock.repository.update.mockResolvedValue({
+		userMock.repository.update.mockResolvedValue({
 			affected: 0,
 		});
 
@@ -222,8 +222,8 @@ describe("UserService > changePassword", () => {
 			result = e;
 		}
 
-		expect(ConfirmationTokenMock.repository.findOne).toBeCalledTimes(1);
-		expect(UserMock.repository.update).toBeCalledTimes(1);
+		expect(confirmationTokenMock.repository.findOne).toBeCalledTimes(1);
+		expect(userMock.repository.update).toBeCalledTimes(1);
 		expect(result.status).toBe(404);
 		expect(result.response).toStrictEqual({
 			errors: ["User not found"],

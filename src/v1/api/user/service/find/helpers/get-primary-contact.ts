@@ -1,24 +1,24 @@
 import { ContactRepository } from "v1/api/contact/contact.entity";
 
-import { ErrorUtil } from "v1/utils/error";
+import { errorUtil } from "v1/utils/error";
 
 interface GetPrimaryContact {
-	ContactRepository: ContactRepository;
+	contactRepository: ContactRepository;
 	userId: string;
 }
 
 export const getPrimaryContact = async ({
-	ContactRepository,
+	contactRepository,
 	userId,
 }: GetPrimaryContact) => {
-	const primaryContact = await ContactRepository.findOne({
+	const primaryContact = await contactRepository.findOne({
 		userId,
 		primary: true,
 		verified: true,
 	});
 
 	if (!primaryContact) {
-		return ErrorUtil.notFound(["User not found"]);
+		return errorUtil.notFound(["User not found"]);
 	}
 
 	return primaryContact;

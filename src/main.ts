@@ -1,6 +1,6 @@
 import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import { Swagger } from "swagger";
+import { setSwagger } from "swagger";
 import {
 	initializeTransactionalContext,
 	patchTypeORMRepositoryWithBaseRepository,
@@ -10,7 +10,7 @@ import { AppModule } from "./app.module";
 
 const { PORT } = process.env;
 
-async function server() {
+const server = async () => {
 	initializeTransactionalContext();
 	patchTypeORMRepositoryWithBaseRepository();
 
@@ -18,9 +18,9 @@ async function server() {
 
 	const app = await NestFactory.create(AppModule);
 
-	Swagger(app);
+	setSwagger(app);
 
 	app.listen(PORT, () => logger.log("Server Ready"));
-}
+};
 
 server();

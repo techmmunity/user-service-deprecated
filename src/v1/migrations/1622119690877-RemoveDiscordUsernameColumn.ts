@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/quotes */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable filenames/match-regex */
+
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class RemoveDiscordUsernameColumn1622119690877
-	implements MigrationInterface {
+	implements MigrationInterface
+{
 	public name = "RemoveDiscordUsernameColumn1622119690877";
 
 	public async up(queryRunner: QueryRunner): Promise<void> {

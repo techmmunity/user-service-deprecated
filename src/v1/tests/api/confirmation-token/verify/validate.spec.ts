@@ -3,12 +3,12 @@ import { VerifyParams } from "v1/api/confirmation-token/service/verify";
 
 import { validate } from "v1/api/confirmation-token/service/verify/validate";
 
-import { PinUtil } from "v1/utils/pin";
-import { InvalidParamsErrorMessage } from "v1/utils/yup";
+import { pinUtil } from "v1/utils/pin";
+import { invalidParamsErrorMessage } from "v1/utils/yup";
 
 describe("ConfirmationTokenService > verify > validate", () => {
 	const contactId = v4();
-	const verificationCode = PinUtil.gen(6);
+	const verificationCode = pinUtil.gen(6);
 
 	it("should do nothing with valid params", async () => {
 		let result;
@@ -29,14 +29,14 @@ describe("ConfirmationTokenService > verify > validate", () => {
 		let result;
 
 		try {
-			await validate(("" as unknown) as VerifyParams);
+			await validate("" as unknown as VerifyParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: [InvalidParamsErrorMessage],
+			errors: [invalidParamsErrorMessage],
 		});
 	});
 

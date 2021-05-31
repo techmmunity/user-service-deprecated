@@ -8,7 +8,7 @@ const {
 	POSTGRES_USER,
 } = process.env;
 
-export const PostgresConnect = TypeOrmModule.forRoot({
+export const POSTGRES_CONNECT = TypeOrmModule.forRoot({
 	type: "postgres",
 	host: POSTGRES_HOST,
 	username: POSTGRES_USER,

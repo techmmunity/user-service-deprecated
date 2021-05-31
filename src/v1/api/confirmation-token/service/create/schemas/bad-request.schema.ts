@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-import { InvalidParamsErrorMessage } from "v1/utils/yup";
+import { invalidParamsErrorMessage } from "v1/utils/yup";
 
 import { ConfirmationTokenTypeValues } from "core/enums/confirmation-token-type";
 
@@ -8,7 +8,7 @@ export class CreateConfirmationTokenBadRequestSchema {
 	@ApiProperty({
 		description: "Errors",
 		example: [
-			InvalidParamsErrorMessage,
+			invalidParamsErrorMessage,
 			"Only userId OR contactId should be provided",
 			"userId or contactId must be provided",
 			"userId must be a valid UUID",

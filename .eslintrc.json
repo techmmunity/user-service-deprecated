@@ -4,42 +4,17 @@
 		"project": "tsconfig.json",
 		"sourceType": "module"
 	},
-	"plugins": ["@typescript-eslint/eslint-plugin", "import-helpers"],
 	"extends": [
-		"plugin:@typescript-eslint/recommended",
-		"plugin:prettier/recommended"
+		"@techmmunity/eslint-config/common",
+		"@techmmunity/eslint-config/typescript",
+		"@techmmunity/eslint-config/jest"
 	],
+	"plugins": ["import-helpers"],
 	"root": true,
-	"env": {
-		"node": true,
-		"jest": true
-	},
-	"ignorePatterns": [".eslintrc.js"],
 	"rules": {
-		"@typescript-eslint/explicit-member-accessibility": ["error"],
-		"no-case-declarations": 0,
-		"accessor-pairs": ["warn", { "setWithoutGet": false }],
-		"no-param-reassign": "error",
-		"no-new": "off",
-		"no-prototype-builtins": "off",
-		"no-restricted-syntax": "off",
-		"max-classes-per-file": "off",
-		"no-underscore-dangle": "off",
-		"@typescript-eslint/camelcase": "off",
-		"prettier/prettier": "error",
-		"class-methods-use-this": "off",
-		"@typescript-eslint/no-unused-vars": 0,
-		"@typescript-eslint/interface-name-prefix": "off",
-		"@typescript-eslint/explicit-function-return-type": "off",
-		"@typescript-eslint/explicit-module-boundary-types": "off",
-		"@typescript-eslint/no-use-before-define": [
-			"error",
-			{ "functions": false }
-		],
 		"import-helpers/order-imports": [
 			"warn",
 			{
-				"newlinesBetween": "always",
 				"groups": [
 					"module",
 					["parent", "sibling", "index"],
@@ -59,8 +34,7 @@
 					"/assets/",
 					"/types/",
 					"/mocks/"
-				],
-				"alphabetize": { "order": "asc", "ignoreCase": true }
+				]
 			}
 		]
 	}

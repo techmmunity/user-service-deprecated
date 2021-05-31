@@ -1,17 +1,21 @@
 import { CreateLocalParams } from "v1/api/user/service/create/local";
 import { validate } from "v1/api/user/service/create/local/validate";
 
-import { InvalidParamsErrorMessage } from "v1/utils/yup";
+import { invalidParamsErrorMessage } from "v1/utils/yup";
 
 describe("UserService > create > local > validate", () => {
+	const email = "foo@bar.com";
+	const username = "example";
+	const password = "p7qV%Ews";
+
 	it("should do nothing with valid params", async () => {
 		let result;
 
 		try {
 			await validate({
-				email: "foo@bar.com",
-				username: "example",
-				password: "p7qV%Ews",
+				email,
+				username,
+				password,
 			});
 		} catch (e) {
 			result = e;
@@ -24,14 +28,14 @@ describe("UserService > create > local > validate", () => {
 		let result;
 
 		try {
-			await validate(("" as unknown) as CreateLocalParams);
+			await validate("" as unknown as CreateLocalParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: [InvalidParamsErrorMessage],
+			errors: [invalidParamsErrorMessage],
 		});
 	});
 
@@ -40,8 +44,8 @@ describe("UserService > create > local > validate", () => {
 
 		try {
 			await validate({
-				username: "example",
-				password: "p7qV%Ews",
+				username,
+				password,
 			} as CreateLocalParams);
 		} catch (e) {
 			result = e;
@@ -59,8 +63,8 @@ describe("UserService > create > local > validate", () => {
 		try {
 			await validate({
 				email: "invalid_email",
-				username: "example",
-				password: "p7qV%Ews",
+				username,
+				password,
 			});
 		} catch (e) {
 			result = e;
@@ -78,8 +82,8 @@ describe("UserService > create > local > validate", () => {
 		try {
 			await validate({
 				email: 123 as any,
-				username: "example",
-				password: "p7qV%Ews",
+				username,
+				password,
 			});
 		} catch (e) {
 			result = e;
@@ -98,8 +102,8 @@ describe("UserService > create > local > validate", () => {
 
 		try {
 			await validate({
-				email: "foo@bar.com",
-				password: "p7qV%Ews",
+				email,
+				password,
 			} as CreateLocalParams);
 		} catch (e) {
 			result = e;
@@ -116,9 +120,9 @@ describe("UserService > create > local > validate", () => {
 
 		try {
 			await validate({
-				email: "foo@bar.com",
+				email,
 				username: "foo@bar.com",
-				password: "p7qV%Ews",
+				password,
 			});
 		} catch (e) {
 			result = e;
@@ -135,9 +139,9 @@ describe("UserService > create > local > validate", () => {
 
 		try {
 			await validate({
-				email: "foo@bar.com",
+				email,
 				username: 123 as any,
-				password: "p7qV%Ews",
+				password,
 			});
 		} catch (e) {
 			result = e;
@@ -156,8 +160,8 @@ describe("UserService > create > local > validate", () => {
 
 		try {
 			await validate({
-				email: "foo@bar.com",
-				username: "example",
+				email,
+				username,
 			} as CreateLocalParams);
 		} catch (e) {
 			result = e;
@@ -174,8 +178,8 @@ describe("UserService > create > local > validate", () => {
 
 		try {
 			await validate({
-				email: "foo@bar.com",
-				username: "example",
+				email,
+				username,
 				password: "123",
 			});
 		} catch (e) {
@@ -195,8 +199,8 @@ describe("UserService > create > local > validate", () => {
 
 		try {
 			await validate({
-				email: "foo@bar.com",
-				username: "example",
+				email,
+				username,
 				password: 123 as any,
 			});
 		} catch (e) {

@@ -4,8 +4,8 @@ import { UserService } from "v1/api/user/user.service";
 
 import { ContactTypeEnum } from "core/enums/contact-type";
 
-import { ContactMock } from "v1/tests/mocks/contact";
-import { UserMock } from "v1/tests/mocks/user";
+import { contactMock } from "v1/tests/mocks/contact";
+import { userMock } from "v1/tests/mocks/user";
 
 describe("UserService > find", () => {
 	let service: UserService;
@@ -15,8 +15,10 @@ describe("UserService > find", () => {
 	const username = "foo_bar";
 	const phone = "+5519999904610";
 
+	const userNorFoundErrorMessage = "User not found";
+
 	beforeAll(async () => {
-		service = await UserMock.service();
+		service = await userMock.service();
 	});
 
 	it("should be defined", () => {
@@ -24,15 +26,15 @@ describe("UserService > find", () => {
 	});
 
 	it("should find user (with identifier=userId)", async () => {
-		UserMock.repository.find.mockResolvedValue([
-			UserMock.doc({
+		userMock.repository.find.mockResolvedValue([
+			userMock.doc({
 				id: userId,
 				username,
 			}),
 		]);
-		ContactMock.repository.find.mockResolvedValue([]);
-		ContactMock.repository.findOne.mockResolvedValue(
-			ContactMock.doc({
+		contactMock.repository.find.mockResolvedValue([]);
+		contactMock.repository.findOne.mockResolvedValue(
+			contactMock.doc({
 				userId,
 				type: ContactTypeEnum.EMAIL,
 				value: email,
@@ -50,9 +52,9 @@ describe("UserService > find", () => {
 			result = e;
 		}
 
-		expect(UserMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.findOne).toBeCalledTimes(1);
+		expect(userMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.findOne).toBeCalledTimes(1);
 		expect(result).toStrictEqual({
 			userId,
 			username,
@@ -62,15 +64,15 @@ describe("UserService > find", () => {
 	});
 
 	it("should find user (with identifier=username)", async () => {
-		UserMock.repository.find.mockResolvedValue([
-			UserMock.doc({
+		userMock.repository.find.mockResolvedValue([
+			userMock.doc({
 				id: userId,
 				username,
 			}),
 		]);
-		ContactMock.repository.find.mockResolvedValue([]);
-		ContactMock.repository.findOne.mockResolvedValue(
-			ContactMock.doc({
+		contactMock.repository.find.mockResolvedValue([]);
+		contactMock.repository.findOne.mockResolvedValue(
+			contactMock.doc({
 				userId,
 				type: ContactTypeEnum.EMAIL,
 				value: email,
@@ -88,9 +90,9 @@ describe("UserService > find", () => {
 			result = e;
 		}
 
-		expect(UserMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.findOne).toBeCalledTimes(1);
+		expect(userMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.findOne).toBeCalledTimes(1);
 		expect(result).toStrictEqual({
 			userId,
 			username,
@@ -100,22 +102,22 @@ describe("UserService > find", () => {
 	});
 
 	it("should find user (with identifier=email)", async () => {
-		UserMock.repository.find.mockResolvedValue([]);
-		ContactMock.repository.find.mockResolvedValue([
+		userMock.repository.find.mockResolvedValue([]);
+		contactMock.repository.find.mockResolvedValue([
 			{
-				...ContactMock.doc({
+				...contactMock.doc({
 					userId,
 					type: ContactTypeEnum.EMAIL,
 					value: email,
 				}),
-				user: UserMock.doc({
+				user: userMock.doc({
 					id: userId,
 					username,
 				}),
 			},
 		]);
-		ContactMock.repository.findOne.mockResolvedValue(
-			ContactMock.doc({
+		contactMock.repository.findOne.mockResolvedValue(
+			contactMock.doc({
 				userId,
 				type: ContactTypeEnum.EMAIL,
 				value: "foo1@bar.com",
@@ -133,9 +135,9 @@ describe("UserService > find", () => {
 			result = e;
 		}
 
-		expect(UserMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.findOne).toBeCalledTimes(1);
+		expect(userMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.findOne).toBeCalledTimes(1);
 		expect(result).toStrictEqual({
 			userId,
 			username,
@@ -145,22 +147,22 @@ describe("UserService > find", () => {
 	});
 
 	it("should find user (with identifier=phone)", async () => {
-		UserMock.repository.find.mockResolvedValue([]);
-		ContactMock.repository.find.mockResolvedValue([
+		userMock.repository.find.mockResolvedValue([]);
+		contactMock.repository.find.mockResolvedValue([
 			{
-				...ContactMock.doc({
+				...contactMock.doc({
 					userId,
 					type: ContactTypeEnum.PHONE_NUMBER,
 					value: phone,
 				}),
-				user: UserMock.doc({
+				user: userMock.doc({
 					id: userId,
 					username,
 				}),
 			},
 		]);
-		ContactMock.repository.findOne.mockResolvedValue(
-			ContactMock.doc({
+		contactMock.repository.findOne.mockResolvedValue(
+			contactMock.doc({
 				userId,
 				type: ContactTypeEnum.EMAIL,
 				value: email,
@@ -178,9 +180,9 @@ describe("UserService > find", () => {
 			result = e;
 		}
 
-		expect(UserMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.findOne).toBeCalledTimes(1);
+		expect(userMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.findOne).toBeCalledTimes(1);
 		expect(result).toStrictEqual({
 			userId,
 			username,
@@ -190,16 +192,16 @@ describe("UserService > find", () => {
 	});
 
 	it("should find user (contact beign primary contact)", async () => {
-		UserMock.repository.find.mockResolvedValue([]);
-		ContactMock.repository.find.mockResolvedValue([
+		userMock.repository.find.mockResolvedValue([]);
+		contactMock.repository.find.mockResolvedValue([
 			{
-				...ContactMock.doc({
+				...contactMock.doc({
 					userId,
 					type: ContactTypeEnum.PHONE_NUMBER,
 					value: phone,
 					primary: true,
 				}),
-				user: UserMock.doc({
+				user: userMock.doc({
 					id: userId,
 					username,
 				}),
@@ -216,9 +218,9 @@ describe("UserService > find", () => {
 			result = e;
 		}
 
-		expect(UserMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.findOne).toBeCalledTimes(0);
+		expect(userMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.findOne).toBeCalledTimes(0);
 		expect(result).toStrictEqual({
 			userId,
 			username,
@@ -228,21 +230,21 @@ describe("UserService > find", () => {
 	});
 
 	it("should throw an error (found contact but not primary contact)", async () => {
-		UserMock.repository.find.mockResolvedValue([]);
-		ContactMock.repository.find.mockResolvedValue([
+		userMock.repository.find.mockResolvedValue([]);
+		contactMock.repository.find.mockResolvedValue([
 			{
-				...ContactMock.doc({
+				...contactMock.doc({
 					userId,
 					type: ContactTypeEnum.EMAIL,
 					value: email,
 				}),
-				user: UserMock.doc({
+				user: userMock.doc({
 					id: userId,
 					username,
 				}),
 			},
 		]);
-		ContactMock.repository.findOne.mockResolvedValue(undefined);
+		contactMock.repository.findOne.mockResolvedValue(undefined);
 
 		let result;
 
@@ -254,24 +256,24 @@ describe("UserService > find", () => {
 			result = e;
 		}
 
-		expect(UserMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.findOne).toBeCalledTimes(1);
+		expect(userMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.findOne).toBeCalledTimes(1);
 		expect(result.status).toBe(404);
 		expect(result.response).toMatchObject({
-			errors: ["User not found"],
+			errors: [userNorFoundErrorMessage],
 		});
 	});
 
 	it("should throw an error (found user but not primary contact)", async () => {
-		UserMock.repository.find.mockResolvedValue([
-			UserMock.doc({
+		userMock.repository.find.mockResolvedValue([
+			userMock.doc({
 				id: userId,
 				username,
 			}),
 		]);
-		ContactMock.repository.find.mockResolvedValue([]);
-		ContactMock.repository.findOne.mockResolvedValueOnce(undefined);
+		contactMock.repository.find.mockResolvedValue([]);
+		contactMock.repository.findOne.mockResolvedValueOnce(undefined);
 
 		let result;
 
@@ -283,18 +285,18 @@ describe("UserService > find", () => {
 			result = e;
 		}
 
-		expect(UserMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.findOne).toBeCalledTimes(1);
+		expect(userMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.findOne).toBeCalledTimes(1);
 		expect(result.status).toBe(404);
 		expect(result.response).toMatchObject({
-			errors: ["User not found"],
+			errors: [userNorFoundErrorMessage],
 		});
 	});
 
 	it("should throw an error (not found anything)", async () => {
-		UserMock.repository.find.mockResolvedValue([]);
-		ContactMock.repository.find.mockResolvedValue([]);
+		userMock.repository.find.mockResolvedValue([]);
+		contactMock.repository.find.mockResolvedValue([]);
 
 		let result;
 
@@ -306,12 +308,12 @@ describe("UserService > find", () => {
 			result = e;
 		}
 
-		expect(UserMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.find).toBeCalledTimes(1);
-		expect(ContactMock.repository.findOne).toBeCalledTimes(0);
+		expect(userMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.find).toBeCalledTimes(1);
+		expect(contactMock.repository.findOne).toBeCalledTimes(0);
 		expect(result.status).toBe(404);
 		expect(result.response).toMatchObject({
-			errors: ["User not found"],
+			errors: [userNorFoundErrorMessage],
 		});
 	});
 });

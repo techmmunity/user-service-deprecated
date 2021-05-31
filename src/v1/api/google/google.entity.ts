@@ -14,7 +14,7 @@ import {
 
 import { UserEntity } from "../user/user.entity";
 
-import { Limits } from "v1/config/limits";
+import { LIMITS } from "v1/config/limits";
 
 import { DefaultOmitEntityFields } from "types/entity";
 
@@ -27,7 +27,7 @@ export class GoogleEntity extends BaseEntity {
 
 	@Column({
 		name: "google_user_id",
-		length: Limits.ids.random.length,
+		length: LIMITS.ids.random.length,
 		nullable: false,
 		unique: true,
 	})

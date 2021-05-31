@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { v4 } from "uuid";
 
-import { PinUtil } from "v1/utils/pin";
+import { pinUtil } from "v1/utils/pin";
 
 export class CreateOrLoginOutputSchema {
 	@ApiProperty({
@@ -12,7 +12,7 @@ export class CreateOrLoginOutputSchema {
 
 	@ApiProperty({
 		description: "User PIN",
-		example: PinUtil.gen(),
+		example: pinUtil.gen(),
 	})
 	public pin: string;
 }

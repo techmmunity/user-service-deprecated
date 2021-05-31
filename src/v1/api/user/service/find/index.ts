@@ -5,11 +5,11 @@ import { validate } from "./validate";
 import { ContactRepository } from "v1/api/contact/contact.entity";
 import { UserRepository } from "v1/api/user/user.entity";
 
-import { ErrorUtil } from "v1/utils/error";
+import { errorUtil } from "v1/utils/error";
 
 interface Injectables {
-	ContactRepository: ContactRepository;
-	UserRepository: UserRepository;
+	contactRepository: ContactRepository;
+	userRepository: UserRepository;
 }
 
 export interface FindParams {
@@ -17,7 +17,7 @@ export interface FindParams {
 }
 
 export const find = async (
-	{ ContactRepository, UserRepository }: Injectables,
+	{ contactRepository, userRepository }: Injectables,
 	params: FindParams,
 ) => {
 	await validate(params);
@@ -48,7 +48,7 @@ export const find = async (
 	 */
 
 	const [users, contacts] = await Promise.all([
-		UserRepository.find({
+		userRepository.find({
 			where: [
 				{
 					id: identifier,
@@ -59,7 +59,7 @@ export const find = async (
 			],
 			take: 1,
 		}),
-		ContactRepository.find({
+		contactRepository.find({
 			where: [
 				{
 					value: identifier,
@@ -78,7 +78,7 @@ export const find = async (
 	 * If this have found the contact and he is the primary contact, this
 	 * will already have all the necessary information to return
 	 */
-	if (contact && contact.primary) {
+	if (contact?.primary) {
 		return {
 			userId: contact.userId,
 			username: contact.user.username,
@@ -89,7 +89,7 @@ export const find = async (
 
 	if (user) {
 		const primaryContact = await getPrimaryContact({
-			ContactRepository,
+			contactRepository,
 			userId: user.id,
 		});
 
@@ -103,7 +103,7 @@ export const find = async (
 
 	if (contact) {
 		const primaryContact = await getPrimaryContact({
-			ContactRepository,
+			contactRepository,
 			userId: contact.userId,
 		});
 
@@ -115,5 +115,5 @@ export const find = async (
 		};
 	}
 
-	return ErrorUtil.notFound(["User not found"]);
+	return errorUtil.notFound(["User not found"]);
 };

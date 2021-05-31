@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/quotes */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable filenames/match-regex */
+
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class UpdateConfirmationTokenRelations1619744826025
-	implements MigrationInterface {
+	implements MigrationInterface
+{
 	public name = "UpdateConfirmationTokenRelations1619744826025";
 
 	public async up(queryRunner: QueryRunner): Promise<void> {

@@ -3,12 +3,13 @@ import { CreateParams } from "v1/api/contact/service/create";
 
 import { validate } from "v1/api/contact/service/create/validate";
 
-import { InvalidParamsErrorMessage } from "v1/utils/yup";
+import { invalidParamsErrorMessage } from "v1/utils/yup";
 
 import { ContactTypeEnum, ContactTypeValues } from "core/enums/contact-type";
 
 describe("ContactService > create > validate", () => {
 	const userId = v4();
+	const email = "foo@bar.com";
 
 	it("should do nothing with valid params", async () => {
 		let result;
@@ -19,7 +20,7 @@ describe("ContactService > create > validate", () => {
 				contacts: [
 					{
 						type: ContactTypeEnum.EMAIL,
-						value: "foo@bar.com",
+						value: email,
 					},
 				],
 			});
@@ -39,7 +40,7 @@ describe("ContactService > create > validate", () => {
 				contacts: [
 					{
 						type: ContactTypeEnum.EMAIL,
-						value: "foo@bar.com",
+						value: email,
 					},
 					{
 						type: ContactTypeEnum.PHONE_NUMBER,
@@ -63,7 +64,7 @@ describe("ContactService > create > validate", () => {
 				contacts: [
 					{
 						type: ContactTypeEnum.EMAIL,
-						value: "foo@bar.com",
+						value: email,
 					},
 					{
 						type: ContactTypeEnum.EMAIL,
@@ -106,14 +107,14 @@ describe("ContactService > create > validate", () => {
 		let result;
 
 		try {
-			await validate(("" as unknown) as CreateParams);
+			await validate("" as unknown as CreateParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: [InvalidParamsErrorMessage],
+			errors: [invalidParamsErrorMessage],
 		});
 	});
 
@@ -125,7 +126,7 @@ describe("ContactService > create > validate", () => {
 				contacts: [
 					{
 						type: ContactTypeEnum.EMAIL,
-						value: "foo@bar.com",
+						value: email,
 					},
 				],
 			} as CreateParams);
@@ -148,7 +149,7 @@ describe("ContactService > create > validate", () => {
 				contacts: [
 					{
 						type: ContactTypeEnum.EMAIL,
-						value: "foo@bar.com",
+						value: email,
 					},
 				],
 			} as CreateParams);
@@ -171,7 +172,7 @@ describe("ContactService > create > validate", () => {
 				contacts: [
 					{
 						type: ContactTypeEnum.EMAIL,
-						value: "foo@bar.com",
+						value: email,
 					},
 				],
 			} as CreateParams);
@@ -271,7 +272,7 @@ describe("ContactService > create > validate", () => {
 				contacts: [
 					{
 						type: "123" as any,
-						value: "foo@bar.com",
+						value: email,
 					},
 				],
 			});
@@ -298,7 +299,7 @@ describe("ContactService > create > validate", () => {
 				contacts: [
 					{
 						type: 123 as any,
-						value: "foo@bar.com",
+						value: email,
 					},
 				],
 			});
@@ -337,7 +338,7 @@ describe("ContactService > create > validate", () => {
 		});
 	});
 
-	it("should throw an error with an invalid contact.value type", async () => {
+	it("should throw an error with an invalid contact.value type (EMAIL)", async () => {
 		let result;
 
 		try {
@@ -362,32 +363,7 @@ describe("ContactService > create > validate", () => {
 		});
 	});
 
-	it("should throw an error with an invalid contact.value type", async () => {
-		let result;
-
-		try {
-			await validate({
-				userId,
-				contacts: [
-					{
-						type: ContactTypeEnum.EMAIL,
-						value: 123 as any,
-					},
-				],
-			});
-		} catch (e) {
-			result = e;
-		}
-
-		expect(result.status).toBe(400);
-		expect(result.response).toMatchObject({
-			errors: [
-				"contacts[0].value must be a `string` type, but the final value was: `123`.",
-			],
-		});
-	});
-
-	it("should throw error with unmatched contact.type and contact.value", async () => {
+	it("should throw an error with an invalid contact.value type (PHONE_NUMBER)", async () => {
 		let result;
 
 		try {
@@ -396,7 +372,7 @@ describe("ContactService > create > validate", () => {
 				contacts: [
 					{
 						type: ContactTypeEnum.PHONE_NUMBER,
-						value: "foo@bar.com",
+						value: 123 as any,
 					},
 				],
 			});
@@ -405,12 +381,14 @@ describe("ContactService > create > validate", () => {
 		}
 
 		expect(result.status).toBe(400);
-		expect(result.response).toStrictEqual({
-			errors: ["contacts[0].value must be a valid phone number"],
+		expect(result.response).toMatchObject({
+			errors: [
+				"contacts[0].value must be a `string` type, but the final value was: `123`.",
+			],
 		});
 	});
 
-	it("should throw error with unmatched contact.type and contact.value", async () => {
+	it("should throw error with unmatched contact.type and contact.value (EMAIL)", async () => {
 		let result;
 
 		try {
@@ -430,6 +408,29 @@ describe("ContactService > create > validate", () => {
 		expect(result.status).toBe(400);
 		expect(result.response).toStrictEqual({
 			errors: ["contacts[0].value must be a valid email"],
+		});
+	});
+
+	it("should throw error with unmatched contact.type and contact.value (PHONE_NUMBER)", async () => {
+		let result;
+
+		try {
+			await validate({
+				userId,
+				contacts: [
+					{
+						type: ContactTypeEnum.PHONE_NUMBER,
+						value: email,
+					},
+				],
+			});
+		} catch (e) {
+			result = e;
+		}
+
+		expect(result.status).toBe(400);
+		expect(result.response).toStrictEqual({
+			errors: ["contacts[0].value must be a valid phone number"],
 		});
 	});
 });

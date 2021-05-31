@@ -3,33 +3,33 @@ import { validateUsed } from "v1/api/confirmation-token/helpers/validate-used";
 
 import { ConfirmationTokenRepository } from "v1/api/confirmation-token/confirmation-token.entity";
 
-import { ErrorUtil } from "v1/utils/error";
+import { errorUtil } from "v1/utils/error";
 
 import { ConfirmationTokenTypeEnum } from "core/enums/confirmation-token-type";
 
 interface GetConfirmationTokenParams {
-	ConfirmationTokenRepository: ConfirmationTokenRepository;
+	confirmationTokenRepository: ConfirmationTokenRepository;
 	confirmationTokenId: string;
 }
 
 export const getConfirmationToken = async ({
-	ConfirmationTokenRepository,
+	confirmationTokenRepository,
 	confirmationTokenId,
 }: GetConfirmationTokenParams) => {
-	const confirmationToken = await ConfirmationTokenRepository.findOne(
+	const confirmationToken = await confirmationTokenRepository.findOne(
 		confirmationTokenId,
 	);
 
 	if (!confirmationToken) {
-		return ErrorUtil.notFound(["Confirmation token not found"]);
+		return errorUtil.notFound(["Confirmation token not found"]);
 	}
 
 	if (confirmationToken.type !== ConfirmationTokenTypeEnum.CHANGE_PASSWORD) {
-		return ErrorUtil.badRequest(["Invalid confirmation token"]);
+		return errorUtil.badRequest(["Invalid confirmation token"]);
 	}
 
 	if (!confirmationToken.userId) {
-		return ErrorUtil.badRequest(["Invalid confirmation token"]);
+		return errorUtil.badRequest(["Invalid confirmation token"]);
 	}
 
 	validateUsed(confirmationToken);

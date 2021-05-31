@@ -14,14 +14,14 @@ import {
 export class ConfirmationTokenService {
 	public constructor(
 		@InjectRepository(ConfirmationTokenEntity)
-		private readonly ConfirmationTokenRepository: ConfirmationTokenRepository,
+		private readonly confirmationTokenRepository: ConfirmationTokenRepository,
 	) {}
 
 	@Transactional()
 	public create(params: CreateParams) {
 		return create(
 			{
-				ConfirmationTokenRepository: this.ConfirmationTokenRepository,
+				confirmationTokenRepository: this.confirmationTokenRepository,
 			},
 			params,
 		);
@@ -31,7 +31,7 @@ export class ConfirmationTokenService {
 	public verify(params: VerifyParams) {
 		return verify(
 			{
-				ConfirmationTokenRepository: this.ConfirmationTokenRepository,
+				confirmationTokenRepository: this.confirmationTokenRepository,
 			},
 			params,
 		);

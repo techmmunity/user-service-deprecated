@@ -2,11 +2,11 @@ import { validate } from "./validate";
 
 import { UserRepository } from "v1/api/user/user.entity";
 
-import { ErrorUtil } from "v1/utils/error";
-import { PinUtil } from "v1/utils/pin";
+import { errorUtil } from "v1/utils/error";
+import { pinUtil } from "v1/utils/pin";
 
 interface Injectables {
-	UserRepository: UserRepository;
+	userRepository: UserRepository;
 }
 
 export interface RegenPinParams {
@@ -14,21 +14,21 @@ export interface RegenPinParams {
 }
 
 export const regenPin = async (
-	{ UserRepository }: Injectables,
+	{ userRepository }: Injectables,
 	params: RegenPinParams,
 ) => {
 	await validate(params);
 
 	const { userId } = params;
 
-	const newPin = PinUtil.gen();
+	const newPin = pinUtil.gen();
 
-	const result = await UserRepository.update(userId, {
+	const result = await userRepository.update(userId, {
 		pin: newPin,
 	});
 
 	if (result.affected !== 1) {
-		return ErrorUtil.notFound([`User with ID "${userId}" doesn't exist`]);
+		return errorUtil.notFound([`User with ID "${userId}" doesn't exist`]);
 	}
 
 	return {

@@ -5,12 +5,12 @@ import { validate } from "./validate";
 import { UserRepository } from "../../user.entity";
 import { ConfirmationTokenRepository } from "v1/api/confirmation-token/confirmation-token.entity";
 
-import { ErrorUtil } from "v1/utils/error";
-import { PinUtil } from "v1/utils/pin";
+import { errorUtil } from "v1/utils/error";
+import { pinUtil } from "v1/utils/pin";
 
 interface Injectables {
-	ConfirmationTokenRepository: ConfirmationTokenRepository;
-	UserRepository: UserRepository;
+	confirmationTokenRepository: ConfirmationTokenRepository;
+	userRepository: UserRepository;
 }
 
 export interface ChangePasswordParams {
@@ -19,7 +19,7 @@ export interface ChangePasswordParams {
 }
 
 export const changePassword = async (
-	{ ConfirmationTokenRepository, UserRepository }: Injectables,
+	{ confirmationTokenRepository, userRepository }: Injectables,
 	params: ChangePasswordParams,
 ) => {
 	await validate(params);
@@ -27,20 +27,20 @@ export const changePassword = async (
 	const { confirmationTokenId, newPassword } = params;
 
 	const confirmationToken = await getConfirmationToken({
-		ConfirmationTokenRepository,
+		confirmationTokenRepository,
 		confirmationTokenId,
 	});
 
-	const result = await UserRepository.update(
+	const result = await userRepository.update(
 		confirmationToken.userId as string,
 		{
 			password: newPassword,
-			pin: PinUtil.gen(),
+			pin: pinUtil.gen(),
 		},
 	);
 
 	if (result.affected !== 1) {
-		return ErrorUtil.notFound(["User not found"]);
+		return errorUtil.notFound(["User not found"]);
 	}
 
 	return {

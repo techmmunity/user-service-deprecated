@@ -1,4 +1,4 @@
-export const Limits = {
+export const LIMITS = {
 	ids: {
 		uuid: {
 			length: 36,

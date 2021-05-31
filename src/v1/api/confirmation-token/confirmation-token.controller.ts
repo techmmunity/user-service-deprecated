@@ -15,13 +15,13 @@ import { VerifyConfirmationTokenBadRequestSchema } from "./service/verify/schema
 import { VerifyConfirmationTokenInputSchema } from "./service/verify/schemas/input.schema";
 import { VerifyConfirmationTokenNotFoundSchema } from "./service/verify/schemas/not-found.schema";
 
-import { ApiConfig } from "v1/config";
+import { CONFIG } from "v1/config";
 
 @ApiTags("Confirmation Token")
-@Controller(`${ApiConfig.version}/confirmation-token`)
+@Controller(`${CONFIG.version}/confirmation-token`)
 export class ConfirmationTokenController {
 	public constructor(
-		private readonly ConfirmationTokenService: ConfirmationTokenService,
+		private readonly confirmationTokenService: ConfirmationTokenService,
 	) {}
 
 	@Post()
@@ -32,7 +32,7 @@ export class ConfirmationTokenController {
 		type: CreateConfirmationTokenBadRequestSchema,
 	})
 	public create(@Body() params: CreateConfirmationTokenInputSchema) {
-		return this.ConfirmationTokenService.create(params);
+		return this.confirmationTokenService.create(params);
 	}
 
 	@Patch("/verify")
@@ -44,6 +44,6 @@ export class ConfirmationTokenController {
 		type: VerifyConfirmationTokenNotFoundSchema,
 	})
 	public verify(@Body() params: VerifyConfirmationTokenInputSchema) {
-		return this.ConfirmationTokenService.verify(params);
+		return this.confirmationTokenService.verify(params);
 	}
 }

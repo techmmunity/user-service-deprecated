@@ -1,3 +1,3 @@
-export const ApiConfig = {
+export const CONFIG = {
 	version: "v1",
 };

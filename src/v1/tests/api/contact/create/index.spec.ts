@@ -3,21 +3,22 @@ import { v4 } from "uuid";
 
 import { ContactService } from "v1/api/contact/contact.service";
 
-import { PinUtil } from "v1/utils/pin";
+import { pinUtil } from "v1/utils/pin";
 
 import { ConfirmationTokenTypeEnum } from "core/enums/confirmation-token-type";
 import { ContactTypeEnum } from "core/enums/contact-type";
 
-import { ConfirmationTokenMock } from "v1/tests/mocks/confirmation-token";
-import { ContactMock } from "v1/tests/mocks/contact";
+import { confirmationTokenMock } from "v1/tests/mocks/confirmation-token";
+import { contactMock } from "v1/tests/mocks/contact";
 
 describe("ContactService > create", () => {
 	let service: ContactService;
 
 	const userId = v4();
+	const email = "foo@bar.com";
 
 	beforeAll(async () => {
-		service = await ContactMock.service();
+		service = await contactMock.service();
 	});
 
 	it("should be defined", () => {
@@ -25,20 +26,20 @@ describe("ContactService > create", () => {
 	});
 
 	it("should create contact with valid params (email)", async () => {
-		const contactDoc = ContactMock.doc({
+		const contactDoc = contactMock.doc({
 			userId,
 			type: ContactTypeEnum.EMAIL,
-			value: "foo@bar.com",
+			value: email,
 		});
-		const confirmationTokenDoc = ConfirmationTokenMock.doc({
+		const confirmationTokenDoc = confirmationTokenMock.doc({
 			contactId: contactDoc.id,
 			type: ConfirmationTokenTypeEnum.VERIFY_CONTACT,
-			token: PinUtil.gen(6),
+			token: pinUtil.gen(6),
 		});
 
-		ContactMock.repository.save.mockResolvedValue([contactDoc]);
+		contactMock.repository.save.mockResolvedValue([contactDoc]);
 
-		ConfirmationTokenMock.repository.save.mockResolvedValue([
+		confirmationTokenMock.repository.save.mockResolvedValue([
 			confirmationTokenDoc,
 		]);
 
@@ -47,13 +48,13 @@ describe("ContactService > create", () => {
 			contacts: [
 				{
 					type: ContactTypeEnum.EMAIL,
-					value: "foo@bar.com",
+					value: email,
 				},
 			],
 		});
 
-		expect(ContactMock.repository.save).toBeCalledTimes(1);
-		expect(ContactMock.repository.save).toBeCalledTimes(1);
+		expect(contactMock.repository.save).toBeCalledTimes(1);
+		expect(contactMock.repository.save).toBeCalledTimes(1);
 		expect(result).toStrictEqual([
 			{
 				...contactDoc,
@@ -63,20 +64,20 @@ describe("ContactService > create", () => {
 	});
 
 	it("should create contact with valid params (brazzilian cellphone)", async () => {
-		const contactDoc = ContactMock.doc({
+		const contactDoc = contactMock.doc({
 			userId,
 			type: ContactTypeEnum.PHONE_NUMBER,
 			value: "19999904610",
 		});
-		const confirmationTokenDoc = ConfirmationTokenMock.doc({
+		const confirmationTokenDoc = confirmationTokenMock.doc({
 			contactId: contactDoc.id,
 			type: ConfirmationTokenTypeEnum.VERIFY_CONTACT,
-			token: PinUtil.gen(6),
+			token: pinUtil.gen(6),
 		});
 
-		ContactMock.repository.save.mockResolvedValue([contactDoc]);
+		contactMock.repository.save.mockResolvedValue([contactDoc]);
 
-		ConfirmationTokenMock.repository.save.mockResolvedValue([
+		confirmationTokenMock.repository.save.mockResolvedValue([
 			confirmationTokenDoc,
 		]);
 
@@ -90,8 +91,8 @@ describe("ContactService > create", () => {
 			],
 		});
 
-		expect(ContactMock.repository.save).toBeCalledTimes(1);
-		expect(ContactMock.repository.save).toBeCalledTimes(1);
+		expect(contactMock.repository.save).toBeCalledTimes(1);
+		expect(contactMock.repository.save).toBeCalledTimes(1);
 		expect(result).toStrictEqual([
 			{
 				...contactDoc,
@@ -101,7 +102,7 @@ describe("ContactService > create", () => {
 	});
 
 	it("should fail because duplicated value (email)", async () => {
-		ContactMock.repository.save.mockRejectedValue({
+		contactMock.repository.save.mockRejectedValue({
 			code: PgErrorEnum.UniqueViolation,
 			detail: "Key (value)=(foo@bar.com) already exists.",
 			table: "contacts",
@@ -115,7 +116,7 @@ describe("ContactService > create", () => {
 				contacts: [
 					{
 						type: ContactTypeEnum.EMAIL,
-						value: "foo@bar.com",
+						value: email,
 					},
 				],
 			});
@@ -123,15 +124,15 @@ describe("ContactService > create", () => {
 			result = e;
 		}
 
-		expect(ContactMock.repository.save).toBeCalledTimes(1);
-		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(0);
+		expect(contactMock.repository.save).toBeCalledTimes(1);
+		expect(confirmationTokenMock.repository.save).toBeCalledTimes(0);
 		expect(result.response).toStrictEqual({
 			errors: ['Email "foo@bar.com" is already linked to an user'],
 		});
 	});
 
 	it("should fail because duplicated value (brazzilian cellphone)", async () => {
-		ContactMock.repository.save.mockRejectedValue({
+		contactMock.repository.save.mockRejectedValue({
 			code: PgErrorEnum.UniqueViolation,
 			detail: "Key (value)=(19999904610) already exists.",
 			table: "contacts",
@@ -153,15 +154,15 @@ describe("ContactService > create", () => {
 			result = e;
 		}
 
-		expect(ContactMock.repository.save).toBeCalledTimes(1);
-		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(0);
+		expect(contactMock.repository.save).toBeCalledTimes(1);
+		expect(confirmationTokenMock.repository.save).toBeCalledTimes(0);
 		expect(result.response).toStrictEqual({
 			errors: ['Phone "19999904610" is already linked to an user'],
 		});
 	});
 
 	it("should fail user not exists", async () => {
-		ContactMock.repository.save.mockRejectedValue({
+		contactMock.repository.save.mockRejectedValue({
 			code: PgErrorEnum.ForeignKeyViolation,
 			detail: `Key (user_id)=(${userId}) is not present in table "users".`,
 			table: "contacts",
@@ -183,8 +184,8 @@ describe("ContactService > create", () => {
 			result = e;
 		}
 
-		expect(ContactMock.repository.save).toBeCalledTimes(1);
-		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(0);
+		expect(contactMock.repository.save).toBeCalledTimes(1);
+		expect(confirmationTokenMock.repository.save).toBeCalledTimes(0);
 		expect(result.status).toBe(409);
 		expect(result.response).toStrictEqual({
 			errors: [`User with id "${userId}" not found`],

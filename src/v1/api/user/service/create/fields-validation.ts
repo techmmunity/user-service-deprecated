@@ -2,7 +2,7 @@ import { yup } from "v1/utils/yup";
 
 import { HeadlineValues } from "core/enums/headline";
 
-import { Limits } from "v1/config/limits";
+import { LIMITS } from "v1/config/limits";
 
 export const email = yup.string().required().strict().email();
 
@@ -10,8 +10,8 @@ export const username = yup
 	.string()
 	.required()
 	.strict()
-	.min(Limits.user.username.min)
-	.max(Limits.user.username.max)
+	.min(LIMITS.user.username.min)
+	.max(LIMITS.user.username.max)
 	.username();
 
 export const birthday = yup.date().required().strict().max(new Date());
@@ -20,14 +20,14 @@ export const fullName = yup
 	.string()
 	.required()
 	.strict()
-	.max(Limits.user.fullName.max)
+	.max(LIMITS.user.fullName.max)
 	.fullName();
 
 export const avatar = yup
 	.string()
 	.notRequired()
 	.strict()
-	.max(Limits.user.avatar.max)
+	.max(LIMITS.user.avatar.max)
 	.url();
 
 export const headline = yup
@@ -40,4 +40,4 @@ export const youtube = yup
 	.string()
 	.required()
 	.strict()
-	.max(Limits.user.youtube.max);
+	.max(LIMITS.user.youtube.max);

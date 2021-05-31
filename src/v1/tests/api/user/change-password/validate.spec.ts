@@ -3,7 +3,7 @@ import { ChangePasswordParams } from "v1/api/user/service/change-password";
 
 import { validate } from "v1/api/user/service/change-password/validate";
 
-import { InvalidParamsErrorMessage } from "v1/utils/yup";
+import { invalidParamsErrorMessage } from "v1/utils/yup";
 
 describe("UserService > change-password > validate", () => {
 	const confirmationTokenId = v4();
@@ -28,14 +28,14 @@ describe("UserService > change-password > validate", () => {
 		let result;
 
 		try {
-			await validate(("" as unknown) as ChangePasswordParams);
+			await validate("" as unknown as ChangePasswordParams);
 		} catch (e) {
 			result = e;
 		}
 
 		expect(result.status).toBe(400);
 		expect(result.response).toMatchObject({
-			errors: [InvalidParamsErrorMessage],
+			errors: [invalidParamsErrorMessage],
 		});
 	});
 

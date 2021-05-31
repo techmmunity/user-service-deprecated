@@ -1,27 +1,27 @@
 import { ConfirmationTokenRepository } from "v1/api/confirmation-token/confirmation-token.entity";
 
-import { ErrorUtil } from "v1/utils/error";
+import { errorUtil } from "v1/utils/error";
 
 interface GetConfirmationTokenParams {
-	ConfirmationTokenRepository: ConfirmationTokenRepository;
+	confirmationTokenRepository: ConfirmationTokenRepository;
 	contactId: string;
 	verificationCode: string;
 }
 
 export const getConfirmationToken = async ({
-	ConfirmationTokenRepository,
+	confirmationTokenRepository,
 	contactId,
 	verificationCode,
 }: GetConfirmationTokenParams) => {
-	const confirmationToken = await ConfirmationTokenRepository.findOne({
+	const confirmationToken = await confirmationTokenRepository.findOne({
 		where: {
-			contactId: contactId,
+			contactId,
 			token: verificationCode,
 		},
 	});
 
 	if (!confirmationToken) {
-		return ErrorUtil.notFound(["Invalid contactId or verificationCode"]);
+		return errorUtil.notFound(["Invalid contactId or verificationCode"]);
 	}
 
 	return confirmationToken;

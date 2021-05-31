@@ -20,7 +20,7 @@ import {
 	ConfirmationTokenTypeValues,
 } from "core/enums/confirmation-token-type";
 
-import { Limits } from "v1/config/limits";
+import { LIMITS } from "v1/config/limits";
 
 import { DefaultOmitEntityFields } from "types/entity";
 
@@ -31,20 +31,20 @@ export class ConfirmationTokenEntity extends BaseEntity {
 	 * because tokens can be duplicated
 	 */
 	@PrimaryColumn({
-		length: Limits.ids.uuid.length,
+		length: LIMITS.ids.uuid.length,
 	})
 	public id: string;
 
 	@Column({
 		name: "user_id",
-		length: Limits.ids.uuid.length,
+		length: LIMITS.ids.uuid.length,
 		nullable: true,
 	})
 	public userId?: string;
 
 	@Column({
 		name: "contact_id",
-		length: Limits.ids.uuid.length,
+		length: LIMITS.ids.uuid.length,
 		nullable: true,
 	})
 	public contactId?: string;
@@ -58,7 +58,7 @@ export class ConfirmationTokenEntity extends BaseEntity {
 	@Index()
 	@Column({
 		nullable: false,
-		length: Limits.confirmationToken.token.length,
+		length: LIMITS.confirmationToken.token.length,
 	})
 	public token: string;
 
@@ -98,6 +98,7 @@ export type ConfirmationTokenType = Omit<
 
 export type ConfirmationTokenRepository = Repository<ConfirmationTokenEntity>;
 
-export type ConfirmationTokenFindMany = FindManyOptions<ConfirmationTokenEntity>;
+export type ConfirmationTokenFindMany =
+	FindManyOptions<ConfirmationTokenEntity>;
 
 export type ConfirmationTokenFindOne = FindOneOptions<ConfirmationTokenEntity>;

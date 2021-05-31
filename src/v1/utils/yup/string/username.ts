@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-invalid-this */
+
 import { isSimpleUsername } from "@techmmunity/easy-check";
 
 import { Yup } from "..";
@@ -7,7 +9,7 @@ export const username = (yup: Yup) => {
 		return this.test({
 			name: "username",
 			message: "${path} must be a valid username",
-			test: username => (username ? isSimpleUsername(username) : true),
+			test: value => (value ? isSimpleUsername(value) : true),
 		});
 	});
 };

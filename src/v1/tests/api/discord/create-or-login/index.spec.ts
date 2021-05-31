@@ -6,10 +6,10 @@ import { DiscordService } from "v1/api/discord/discord.service";
 
 import { ContactTypeEnum } from "core/enums/contact-type";
 
-import { ConfirmationTokenMock } from "v1/tests/mocks/confirmation-token";
-import { ContactMock } from "v1/tests/mocks/contact";
-import { DiscordMock } from "v1/tests/mocks/discord";
-import { UserMock } from "v1/tests/mocks/user";
+import { confirmationTokenMock } from "v1/tests/mocks/confirmation-token";
+import { contactMock } from "v1/tests/mocks/contact";
+import { discordMock } from "v1/tests/mocks/discord";
+import { userMock } from "v1/tests/mocks/user";
 
 describe("DiscordService > create-or-login", () => {
 	let service: DiscordService;
@@ -23,7 +23,7 @@ describe("DiscordService > create-or-login", () => {
 	const discordExpirationDate = moment().add(3, "days");
 
 	beforeAll(async () => {
-		service = await DiscordMock.service();
+		service = await discordMock.service();
 	});
 
 	it("should be defined", () => {
@@ -31,17 +31,17 @@ describe("DiscordService > create-or-login", () => {
 	});
 
 	it("should create user with valid params", async () => {
-		const userDoc = UserMock.doc({
+		const userDoc = userMock.doc({
 			id: userId,
 			username,
 		});
-		const contactDoc = ContactMock.doc({
-			userId: userId,
+		const contactDoc = contactMock.doc({
+			userId,
 			type: ContactTypeEnum.EMAIL,
 			value: email,
 			primary: true,
 		});
-		const discordDoc = DiscordMock.doc({
+		const discordDoc = discordMock.doc({
 			userId,
 			discordUserId,
 			discordAccessToken,
@@ -49,9 +49,9 @@ describe("DiscordService > create-or-login", () => {
 			discordExpirationDate: discordExpirationDate.toDate(),
 		});
 
-		DiscordMock.repository.findOne.mockResolvedValue(undefined);
+		discordMock.repository.findOne.mockResolvedValue(undefined);
 
-		DiscordMock.repository.save.mockResolvedValue({
+		discordMock.repository.save.mockResolvedValue({
 			...discordDoc,
 			user: {
 				...userDoc,
@@ -74,24 +74,24 @@ describe("DiscordService > create-or-login", () => {
 			result = e;
 		}
 
-		expect(DiscordMock.repository.findOne).toBeCalledTimes(1);
-		expect(DiscordMock.repository.save).toBeCalledTimes(1);
-		expect(DiscordMock.repository.update).toBeCalledTimes(0);
-		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(1);
+		expect(discordMock.repository.findOne).toBeCalledTimes(1);
+		expect(discordMock.repository.save).toBeCalledTimes(1);
+		expect(discordMock.repository.update).toBeCalledTimes(0);
+		expect(confirmationTokenMock.repository.save).toBeCalledTimes(1);
 		expect(result).toHaveProperty("userId");
 		expect(result).toHaveProperty("pin");
 		expect(result.userId).toBe(userId);
 		expect(typeof result.pin).toBe("string");
-		expect(result.pin.length).toBe(4);
+		expect(result.pin).toHaveLength(4);
 		expect(/^\d+$/.test(result.pin)).toBeTruthy();
 	});
 
 	it("should login user with valid params", async () => {
-		const userDoc = UserMock.doc({
+		const userDoc = userMock.doc({
 			id: userId,
 			username,
 		});
-		const discordDoc = DiscordMock.doc({
+		const discordDoc = discordMock.doc({
 			userId,
 			discordUserId,
 			discordAccessToken,
@@ -101,7 +101,7 @@ describe("DiscordService > create-or-login", () => {
 
 		const save = jest.fn();
 
-		DiscordMock.repository.findOne.mockResolvedValue({
+		discordMock.repository.findOne.mockResolvedValue({
 			...discordDoc,
 			user: userDoc,
 			save,
@@ -122,21 +122,21 @@ describe("DiscordService > create-or-login", () => {
 			result = e;
 		}
 
-		expect(DiscordMock.repository.findOne).toBeCalledTimes(1);
-		expect(DiscordMock.repository.save).toBeCalledTimes(0);
-		expect(DiscordMock.repository.update).toBeCalledTimes(0);
-		expect(ConfirmationTokenMock.repository.save).toBeCalledTimes(0);
+		expect(discordMock.repository.findOne).toBeCalledTimes(1);
+		expect(discordMock.repository.save).toBeCalledTimes(0);
+		expect(discordMock.repository.update).toBeCalledTimes(0);
+		expect(confirmationTokenMock.repository.save).toBeCalledTimes(0);
 		expect(save).toBeCalledTimes(1);
 		expect(result).toHaveProperty("userId");
 		expect(result).toHaveProperty("pin");
 		expect(result.userId).toBe(userId);
 		expect(typeof result.pin).toBe("string");
-		expect(result.pin.length).toBe(4);
+		expect(result.pin).toHaveLength(4);
 		expect(/^\d+$/.test(result.pin)).toBeTruthy();
 	});
 
 	it("should fail because duplicated username", async () => {
-		DiscordMock.repository.save.mockRejectedValue({
+		discordMock.repository.save.mockRejectedValue({
 			code: PgErrorEnum.UniqueViolation,
 			detail: `Key (username)=(${username}) already exists.`,
 			table: "users",
@@ -157,14 +157,14 @@ describe("DiscordService > create-or-login", () => {
 			result = e;
 		}
 
-		expect(DiscordMock.repository.save).toBeCalledTimes(1);
+		expect(discordMock.repository.save).toBeCalledTimes(1);
 		expect(result.response).toStrictEqual({
 			errors: [`User with username "${username}" already exists`],
 		});
 	});
 
 	it("should fail because duplicated email", async () => {
-		DiscordMock.repository.save.mockRejectedValue({
+		discordMock.repository.save.mockRejectedValue({
 			code: PgErrorEnum.UniqueViolation,
 			detail: `Key (value)=(${email}) already exists.`,
 			table: "contacts",
@@ -185,14 +185,14 @@ describe("DiscordService > create-or-login", () => {
 			result = e;
 		}
 
-		expect(DiscordMock.repository.save).toBeCalledTimes(1);
+		expect(discordMock.repository.save).toBeCalledTimes(1);
 		expect(result.response).toStrictEqual({
 			errors: [`Email "${email}" is already linked to an user`],
 		});
 	});
 
 	it("should fail because duplicated discordUserId", async () => {
-		DiscordMock.repository.save.mockRejectedValue({
+		discordMock.repository.save.mockRejectedValue({
 			code: PgErrorEnum.UniqueViolation,
 			detail: `Key (discord_user_id)=(${discordUserId}) already exists.`,
 			table: "discords",
@@ -213,7 +213,7 @@ describe("DiscordService > create-or-login", () => {
 			result = e;
 		}
 
-		expect(DiscordMock.repository.save).toBeCalledTimes(1);
+		expect(discordMock.repository.save).toBeCalledTimes(1);
 		expect(result.response).toStrictEqual({
 			errors: [`Discord user with ID "${discordUserId}" is already registred`],
 		});
