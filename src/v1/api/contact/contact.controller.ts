@@ -15,7 +15,7 @@ import { CreateContactOutputSchema } from "./service/create/schemas/output.schem
 
 import { CONFIG } from "v1/config";
 
-@ApiTags("Contact")
+@ApiTags("Contact", `${CONFIG.version} - User`)
 @Controller(`${CONFIG.version}/contact`)
 export class ContactController {
 	public constructor(private readonly contactService: ContactService) {}

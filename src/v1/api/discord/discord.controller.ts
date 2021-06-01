@@ -15,7 +15,7 @@ import { CreateOrLoginOutputSchema } from "./service/create-or-login/schemas/out
 
 import { CONFIG } from "v1/config";
 
-@ApiTags(`${CONFIG.version} - Discord`)
+@ApiTags(`${CONFIG.version} - Discord`, `${CONFIG.version} - User`)
 @Controller(`${CONFIG.version}/discord`)
 export class DiscordController {
 	public constructor(private readonly discordService: DiscordService) {}

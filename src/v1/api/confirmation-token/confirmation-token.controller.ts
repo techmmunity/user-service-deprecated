@@ -17,7 +17,7 @@ import { VerifyConfirmationTokenNotFoundSchema } from "./service/verify/schemas/
 
 import { CONFIG } from "v1/config";
 
-@ApiTags("Confirmation Token")
+@ApiTags("Confirmation Token", `${CONFIG.version} - User`)
 @Controller(`${CONFIG.version}/confirmation-token`)
 export class ConfirmationTokenController {
 	public constructor(

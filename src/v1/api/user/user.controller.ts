@@ -44,7 +44,7 @@ import { RegenPinOutputSchema } from "./service/regen-pin/schemas/output.schema"
 
 import { CONFIG } from "v1/config";
 
-@ApiTags("User")
+@ApiTags("User", `${CONFIG.version} - User`)
 @Controller(`${CONFIG.version}/user`)
 export class UserController {
 	public constructor(private readonly userService: UserService) {}
